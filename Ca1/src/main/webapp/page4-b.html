@@ -10,15 +10,23 @@
 </head>
 
 <body>
-    <form>
-        <input id="number" type="number" placeholder="Type Number" min="1" max="10" style="width:100px">
-        <input id="getUser" type="submit" value="Get User">
-        <input id="getAll" type="submit" value="Get All">
-    </form>
     <div class="card">
-        <p id="data"></p>
+        <div class="card-header">
+            <form>
+                <input id="number" type="number" placeholder="Search number..." min="1" max="10" style="width: 200px">
+                <!-- <input id="getUser" type="submit" value="Get User"> -->
+                <input id="getAll" type="submit" value="Get All">
+            </form>
 
+        </div>
+        <div class="card-body">
+            <p id="data" style="min-height: 250px"></p>
+            
+        </div>
+    
+    
     </div>
+    <br>
 
     <table class="table table-hover">
         <thead>
@@ -28,7 +36,7 @@
             </tr>
         </thead>
         <tbody id="tbody">
-            
+
         </tbody>
     </table>
 

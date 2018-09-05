@@ -1,9 +1,11 @@
-var getUser = document.getElementById("getUser")
+// var getUser = document.getElementById("getUser")
 var getAll = document.getElementById("getAll")
+var number1 = document.getElementById("number")
 
-getUser.addEventListener("click", function (event) {
+number1.addEventListener("keyup", function (event) {
     event.preventDefault()
     var number = Number(document.getElementById("number").value)
+    var dataField = document.getElementById("data")
     console.log(number)
     var url = "https://jsonplaceholder.typicode.com/users/" + number
     console.log(url)
@@ -11,13 +13,13 @@ getUser.addEventListener("click", function (event) {
         .then(function (response) {
             if (response.status !== 200) {
                 console.error("Problem occured... Status Code: " + response.status)
+                dataField.innerHTML = ""
                 return
             }
 
             response.json().then(function (data) {
                 console.log(data.name)
                 console.log(data)
-                var dataField = document.getElementById("data")
                 dataField.innerHTML = "Name: " + data.name +
                     "<br>Phone: " + data.phone +
                     "<br><br><b>Address</b><br>Street: " +

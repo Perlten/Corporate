@@ -3,7 +3,6 @@ var getAll = document.getElementById("getAll")
 var number1 = document.getElementById("number")
 
 number1.addEventListener("keyup", function (event) {
-    event.preventDefault()
     var number = Number(document.getElementById("number").value)
     var dataField = document.getElementById("data")
     console.log(number)

@@ -1,4 +1,8 @@
 
+const TIMER = document.getElementById("timerId");
+const TEXTTOTYPE = document.getElementById("textToType");
+const RESET = document.getElementById("reset");
+const TEXTAREA = document.getElementById("test-area");
 
 var textToType = [
     "Jesper er dejlig, og sådan er det",
@@ -10,20 +14,20 @@ var textToType = [
     "Adam har flutes, de er on point"];
 
 var currentText;
-var running = false;
+var timeRunning = false;
 var time = 0;
 var refreshInterval;
 
 //Sets the text to e typed
 window.addEventListener("load", getSampleText);
-window.addEventListener("keyup", checkText);
-document.getElementById("reset").addEventListener("click", startOver);
+TEXTAREA.addEventListener("keyup", checkText);
+RESET.addEventListener("click", startOver);
 
 function getSampleText() {
     var index = Math.floor((Math.random() * textToType.length));
 
     var text = textToType[index];
-    document.getElementById("textToType").innerHTML = text;
+    TEXTTOTYPE.innerHTML = text;
     currentText = text;
 }
 function pad(n, width, z) {
@@ -42,25 +46,28 @@ function countUp() {
     s = (s - secs) / 60;
     var mins = s % 60;
 
-    document.getElementById("timerId").innerText = pad(mins, 2) + ":" + pad(secs, 2) + ":" + pad(ms / 10, 2);
+    TIMER.innerText = pad(mins, 2) + ":" + pad(secs, 2) + ":" + pad(ms / 10, 2);
 
 }
 function checkText() {
-    var typedText = document.getElementById("test-area").value;
-    if (!running) {
-        running = true;
+    var typedText = TEXTAREA.value;
+    if (!timeRunning) {
+        timeRunning = true;
         refreshInterval = setInterval(countUp, 10);
     }
 
     if (typedText === currentText) {
-        running = false;
+        console.log("win");
+        timeRunning = false;
         clearInterval(refreshInterval);
     }
 }
 function startOver(){
     time = 0;
+    timeRunning = false;
+    clearInterval(refreshInterval);
     getSampleText();
-    document.getElementById("test-area").value = "";
+    TEXTAREA.value = "";
 }
 
 

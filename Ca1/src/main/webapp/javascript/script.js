@@ -12,7 +12,7 @@ var texts = ["Adam is cool",
 "Believe me.",
 "I am crazy about her.",
 "What terrible weather!",
-"You’re lying.",
+"You're lying.",
 "Absolutely not.", ]
 
 window.onload = function () {

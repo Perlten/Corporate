@@ -46,7 +46,7 @@ function countUp() {
     s = (s - secs) / 60;
     var mins = s % 60;
 
-    TIMER.innerText = pad(mins, 2) + ":" + pad(secs, 2) + ":" + pad(ms / 10, 2);
+    TIMER.innerText = pad(mins, 2, 0) + ":" + pad(secs, 2, 0) + ":" + pad(ms / 10, 2, 0);
 
 }
 function checkText() {
@@ -62,7 +62,7 @@ function checkText() {
         clearInterval(refreshInterval);
     }
 }
-function startOver(){
+function startOver() {
     time = 0;
     timeRunning = false;
     clearInterval(refreshInterval);

@@ -4,62 +4,81 @@
 <head>
     <title>Start Page</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<style> h2 {color: steelblue;}
-  h3 {color: steelblue;
-      margin-top: 0px;
-      margin-bottom: 1em;}
-  .container {
-      font-family:sans-serif; 
-      margin:auto;width:60%;}
-  .lists {
-      border: 1px solid; 
-      border-color:
-      steelblue;
-      border-radius: 3px; 
-      float:left; width: 12em;
-      margin-right:2px;} 
-  .lists h4 {
-      text-align: center; 
-      color: steelblue} 
-  .lists div {
-      padding: 3px;text-align: center;} .inputs {
-      margin-bottom:12px;}
-  </style>
+    <style>
+        h2 {
+            color: steelblue;
+        }
+
+        h3 {
+            color: steelblue;
+            margin-top: 0px;
+            margin-bottom: 1em;
+        }
+
+        .container {
+            font-family: sans-serif;
+            margin: auto;
+            width: 60%;
+        }
+
+        .lists {
+            border: 1px solid;
+            border-color: steelblue;
+            border-radius: 3px;
+            float: left;
+            width: 12em;
+            margin-right: 2px;
+        }
+
+        .lists h4 {
+            text-align: center;
+            color: steelblue
+        }
+
+        .lists div {
+            padding: 3px;
+            text-align: center;
+        }
+
+        .inputs {
+            margin-bottom: 12px;
+        }
+    </style>
 </head>
 
 <body>
-  <div class="container">
-    <h2>DOM manipulation via plain JavaScript</h2>
-    <h3>And getting used to the JavaScript Array</h3>
-    <div class='inputs'>      
-    <input id="newboy" placeholder='Add boy' />
-    <button id='addboy'>Add Boy</button>
-    <input id="newgirl" placeholder='Add girl' />
-    <button id = 'addgirl'>Add Girl</button>
-    </div>
-    <div class='inputs'>
-    <button id='removeboy'>Remove boy</button>
-    <button id='removegirl'>Remove girl</button>
-    <Input type='radio' name='direction' id='first'/>  Remove first
-    <Input type='radio' name='direction' id='last'/> Remove last
-    <button id='reverse'>Reverse all</button>
-    <button id='sort'>Sort all</button>
-    </div>
-    <div class="lists">
-    <h4>Boys</h4>
-    <div id="boys"></div>
-    </div>
-    <div class="lists">
-    <h4 style="text-align: center">Girls</h4>
-    <div class="names" id="girls"></div>
-    </div>
-    <div class="lists">
-    <h4>All</h4>
-    <div id="all"></div>
-    </div>
+    <div class="container">
+        <h2>DOM manipulation via plain JavaScript</h2>
+        <h3>And getting used to the JavaScript Array</h3>
+        <div class='inputs'>
+            <input id="newboy" placeholder='Add boy' />
+            <button id='addboy'>Add Boy</button>
+            <input id="newgirl" placeholder='Add girl' />
+            <button id='addgirl'>Add Girl</button>
+        </div>
+        <div class='inputs'>
+            <button id='removeboy'>Remove boy</button>
+            <button id='removegirl'>Remove girl</button>
+            <Input type='radio' name='direction' id='first' /> Remove first
+            <Input type='radio' name='direction' id='last' /> Remove last
+            <button id='reverse'>Reverse all</button>
+            <button id='sort'>Sort all</button>
+        </div>
+        <div class="lists">
+            <h4>Boys</h4>
+            <div id="boys"></div>
+        </div>
+        <div class="lists">
+            <h4 style="text-align: center">Girls</h4>
+            <div class="names" id="girls"></div>
+        </div>
+        <div class="lists">
+            <h4>All</h4>
+            <div id="all"></div>
+        </div>
     </div>
 </body>
 
-<script src="page3.js"></script>
-</html>
+<script src="javascript/page3.js"></script>
 
+</html>

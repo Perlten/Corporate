@@ -6,7 +6,7 @@ const TEXTAREA = document.getElementById("test-area");
 
 var textToType = [
     "Jesper er dejlig, og sådan er det",
-    "Jørgen så en fugl flyve til de vame lande",
+    "Jeg kan godt li kagemand",
     "Der var en lille hund i en lille verden",
     "At være eller ikke at være datamatiker",
     "Du vil ikke vide hvad jeg lavede igår",

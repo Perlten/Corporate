@@ -1,4 +1,5 @@
 var buttons = document.getElementsByClassName("t1")
+var reset = false;
 
 for (var button of buttons) {
     button.addEventListener("click", function (event) {
@@ -9,24 +10,28 @@ for (var button of buttons) {
 }
 
 document.getElementById("calculate").addEventListener("click", function (event) {
+    var display = document.getElementById("display")
+    var innerText = display.innerText
     event.stopPropagation()
-    console.log("calculating")
     if (operator != null) {
-        var display = document.getElementById("display")
-        var result = eval(display.innerText)
-        display.innerText = result
-        operator = null
-        dotAfter = false
-        console.log(result % 1 == 0)
-        if (result % 1 == 0) {
-            console.log("reached")
-            dotBefore = false
-        } else {
-            dotBefore = true
+        if (innerText.charAt(innerText.length - 1) !== ".") {
+            var result = eval(display.innerText)
+            display.innerText = result
+            operator = null
+            dotAfter = false
+            console.log(result % 1 == 0)
+            if (result % 1 == 0) {
+                console.log("reached")
+                dotBefore = false
+            } else {
+                dotBefore = true
+            }
+            reset = true
         }
     }
 
 })
+
 
 var symbols = ["/", "*", "-", "+"]
 var operator = null;
@@ -34,34 +39,51 @@ var dotBefore = false;
 var dotAfter = false
 
 function coordinator(symbol) {
+    var display = document.getElementById("display")
+    var innerText = display.innerText
+
+    if (reset) {
+        display.innerText = ""
+        reset = false;
+    }
+
     console.log("operator: " + operator)
     console.log(".before: " + dotBefore)
     console.log(".after: " + dotAfter)
-    var display = document.getElementById("display")
 
     if (symbol === "=") {
         //do nothing
     } else {
         var append = true;
-        if (operator == null) {
-            if (symbolcheck(symbol)) {
-                operator = symbol;
-            }
+        if (symbolcheck(symbol)) {
+            if (display.innerText.length == 0) {
+                append = false
+            } else if (innerText.charAt(innerText.length - 1) === ".") {
+                append = false
 
-        } else {
-            if (symbolcheck(symbol)) {
-                append = false;
+
+            } else {
+                if (operator == null) {
+                    if (symbolcheck(symbol)) {
+                        operator = symbol;
+                    }
+
+                } else {
+                    if (symbolcheck(symbol)) {
+                        append = false;
+                    }
+                }
             }
         }
 
         if (symbol == ".") {
-            var innerText = display.innerText
             if (operator == null) {
                 if (dotBefore) {
                     append = false;
                 } else {
                     if (innerText.length == 0) {
-                        append = false
+                        display.innerText += "0"
+                        dotBefore = true
                     } else {
                         dotBefore = true
                     }
@@ -72,7 +94,8 @@ function coordinator(symbol) {
                     append = false;
                 } else {
                     if (innerText.charAt(innerText.length - 1) === operator) {
-                        append = false
+                        display.innerText += "0"
+                        dotAfter = true
                     } else {
                         dotAfter = true
                     }
@@ -80,6 +103,42 @@ function coordinator(symbol) {
             }
         }
 
+        if (symbol === "0") {
+            var beforeIsZero = false
+            try {
+                beforeIsZero = innerText[innerText.length - 1] === "0"
+            } catch (error) {
+                console.log(error)
+            }
+
+            if (beforeIsZero) {
+                if (operator == null) {
+                    if (!dotBefore) {
+                        append = false;
+                    }
+                } else {
+                    if (!dotAfter) {
+                        append = false;
+                    }
+                }
+            }
+        }
+
+        console.log(append)
+        if (symbol === "-") {
+            var otherSyms = ["/","*","+"]
+
+            var last = innerText.charAt(innerText.length - 1)
+            if (innerText.length == 0) {
+                append = true
+            } else if(last !== "-") {
+                append = true
+            } else {
+                append = false
+            }
+            console.log("op after: " + operator)
+
+        }
 
 
         if (append) {
@@ -93,5 +152,6 @@ function coordinator(symbol) {
 }
 
 function symbolcheck(symbol) {
-    return symbols.indexOf(symbol) != -1
+    return symbols.includes(symbol)
 }
+

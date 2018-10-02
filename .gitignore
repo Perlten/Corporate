@@ -88,7 +88,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-persistence.xml
+META-INF/
 
 ### VisualStudioCode ###
 .vscode/*

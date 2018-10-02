@@ -11,25 +11,27 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author Jesper
  */
 @Entity
-public class Hobby implements Serializable {
+public class CityInfo implements Serializable {
+
+    
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @ManyToMany
-   private List<Person> persons;
     
-    private String name;
-    private String description;
+    private int zip;
+    private String city;
+    
+    @OneToMany(mappedBy = "cityInfo")
+    private List<Address> addresss;
 
     public Integer getId() {
         return id;
@@ -39,20 +41,22 @@ public class Hobby implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public int getZip() {
+        return zip;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setZip(int zip) {
+        this.zip = zip;
     }
 
-    public String getDescription() {
-        return description;
+    public String getCity() {
+        return city;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCity(String city) {
+        this.city = city;
     }
 
+    
+    
 }

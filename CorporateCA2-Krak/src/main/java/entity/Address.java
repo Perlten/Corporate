@@ -21,20 +21,19 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Address implements Serializable {
 
-    @ManyToMany
-    private List<InfoEntity> infoEntitys;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
     private Integer id;
+
+    @ManyToMany
+    private List<InfoEntity> infoEntitys;
     private String street;
     private String additionalInfo;
-    
+
     @ManyToOne
     private CityInfo cityInfo;
-    
+
     public Integer getId() {
         return id;
     }
@@ -59,7 +58,4 @@ public class Address implements Serializable {
         this.additionalInfo = additionalInfo;
     }
 
-   
-    
-    
 }

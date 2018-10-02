@@ -125,4 +125,4 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/java,linux,maven,macos,windows,netbeans,visualstudiocode
 /CorporateCA2-Krak/nbproject/
-persistence.xml
+

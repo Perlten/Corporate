@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.PersonContactDTO;
 import dto.PersonDTO;
+import entity.Person;
 import facade.FacadeInterface;
 import facade.KrakException;
 import java.util.List;

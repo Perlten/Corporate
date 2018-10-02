@@ -5,40 +5,31 @@
  */
 package entity;
 
-import dto.HobbyDTO;
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author Jesper
  */
 @Entity
-public class Hobby implements Serializable {
+public class Phone implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToMany
-   private List<Person> persons;
-    
-    private String name;
+    private int number;
     private String description;
-
-    public Hobby() {
-    }
     
-    public Hobby(HobbyDTO hoobyDTO) {
-        
-    }
-
+    @ManyToOne
+    private InfoEntity infoEntity;
+    
     public Integer getId() {
         return id;
     }
@@ -47,12 +38,12 @@ public class Hobby implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public int getNumber() {
+        return number;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public String getDescription() {
@@ -63,4 +54,7 @@ public class Hobby implements Serializable {
         this.description = description;
     }
 
+    
+   
+    
 }

@@ -12,52 +12,49 @@ import java.util.List;
 public interface FacadeInterface {
 
     public PersonDTO getInformation(int phonenumber);
-    
+
     public List<PersonContactDTO> getContactInformation(int phonenumber);
-    
+
     public CompanyDTO companyInformationOnPhone(int phone);
 
     public CompanyDTO companyInformationOnCVR(int cvr);
-    
+
     // Hobbyname has to be unique
     public List<PersonDTO> getPersonsByHobby(String hobby);
 
-    public List<PersonDTO> getPersonsInCity(int zipcode);
+    public List<PersonDTO> getPersonsInCity(int zip);
 
     public int countOfPeopleByHobby(String hobby);
 
     public List<Integer> listOfAllZipcodes();
 
     public List<CompanyDTO> companyWithMoreThanXEmployees(int employeeCount);
-    
-    //Person CRUD
 
-    public PersonDTO findPersonById(int id);    
+    //Person CRUD
+    public PersonDTO findPersonById(int id);
 
     public PersonDTO addPerson(Person person);
 
     public PersonDTO editPerson(Person person);
 
     public PersonDTO deletePerson(int id);
-    
+
     //Company CRUD
-    
     public CompanyDTO findCompanyByID(int id);
-    
+
     public CompanyDTO addCompany(Company company);
-    
+
     public CompanyDTO editCompany(Company company);
-    
+
     public CompanyDTO deleteCompany(int id);
-    
+
     //Hobby CRUD
-    
     public HobbyDTO findHobbyByID(int id);
-    
+
     public HobbyDTO addHobby(Hobby hobby);
-    
+
     public HobbyDTO editHobby(Hobby hobby);
-    
+
     public HobbyDTO deleteHobby(int id);
 
 }

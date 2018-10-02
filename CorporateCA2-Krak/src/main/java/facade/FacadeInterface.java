@@ -10,11 +10,13 @@ import entity.Person;
 import java.util.List;
 
 public interface FacadeInterface {
+    
+    public List<PersonDTO> getAllPersons();
 
     public PersonDTO getInformation(int phonenumber);
-
-    public List<PersonContactDTO> getContactInformation(int phonenumber);
-
+    
+    public PersonContactDTO getContactInformation(int phonenumber);
+    
     public CompanyDTO companyInformationOnPhone(int phone);
 
     public CompanyDTO companyInformationOnCVR(int cvr);

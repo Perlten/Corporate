@@ -58,4 +58,8 @@ public class Address implements Serializable {
         this.additionalInfo = additionalInfo;
     }
 
+    public CityInfo getCityInfo() {
+        return cityInfo;
+    }
+
 }

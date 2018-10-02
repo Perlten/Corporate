@@ -54,4 +54,11 @@ public class InfoEntity implements Serializable {
         this.email = email;
     }
 
+    public List<Address> getAddress() {
+        return address;
+    }
+
+    public List<Phone> getPhones() {
+        return phones;
+    }
 }

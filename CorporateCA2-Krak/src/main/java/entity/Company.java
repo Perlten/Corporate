@@ -23,9 +23,8 @@ public class Company extends InfoEntity {
     }
 
     public Company(CompanyDTO companyDTO) {
+        
     }
-    
-    
 
     public String getName() {
         return name;

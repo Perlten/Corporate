@@ -8,7 +8,11 @@ import entity.Person;
 import facade.FacadeInterface;
 import facade.KrakException;
 import java.util.List;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
@@ -88,6 +92,37 @@ public class PersonRest {
             throw new KrakException("Could not find person", 404);
         }
         String json = gson.toJson(person);
+        return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addPerson(String json) {
+        PersonDTO personDTO = gson.fromJson(json, PersonDTO.class);
+        Person person = new Person(personDTO);
+        facade.addPerson(person);
+        String responseJson = gson.toJson(person);
+        return Response.ok().entity(responseJson).type(MediaType.APPLICATION_JSON).build();
+    }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editPerson(String json) {
+        PersonDTO personDTO = gson.fromJson(json, PersonDTO.class);
+        Person person = new Person(personDTO);
+        facade.editPerson(person);
+        String responseJson = gson.toJson(person);
+        return Response.ok().entity(responseJson).type(MediaType.APPLICATION_JSON).build();
+    }
+    
+    @DELETE
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deletePerson(@PathParam("id") int id){
+        PersonDTO personDTO = facade.deletePerson(id);
+        String json = gson.toJson(personDTO);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
 

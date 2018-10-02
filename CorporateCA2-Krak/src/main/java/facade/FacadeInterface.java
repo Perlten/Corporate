@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface FacadeInterface {
 
-    public List<PersonDTO> getInformation(int phonenumber);
+    public PersonDTO getInformation(int phonenumber);
     
     public List<PersonContactDTO> getContactInformation(int phonenumber);
     

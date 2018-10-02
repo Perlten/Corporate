@@ -5,55 +5,57 @@
  */
 package entity;
 
-import java.io.Serializable;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
-/**
- *
- * @author Jesper
- */
 @Entity
-public class Company implements Serializable {
+@DiscriminatorValue("C")
+public class Company extends InfoEntity {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String name;
+    private String description;
+    private int cvr;
+    private int numEmployees;
+    private int marketValue;
 
-    public Integer getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public String getDescription() {
+        return description;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Company)) {
-            return false;
-        }
-        Company other = (Company) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "entity.Company[ id=" + id + " ]";
+    public int getCvr() {
+        return cvr;
     }
-    
+
+    public void setCvr(int cvr) {
+        this.cvr = cvr;
+    }
+
+    public int getNumEmployees() {
+        return numEmployees;
+    }
+
+    public void setNumEmployees(int numEmployees) {
+        this.numEmployees = numEmployees;
+    }
+
+    public int getMarketValue() {
+        return marketValue;
+    }
+
+    public void setMarketValue(int marketValue) {
+        this.marketValue = marketValue;
+    }
+
 }

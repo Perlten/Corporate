@@ -7,29 +7,36 @@ package entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
-/**
- *
- * @author Jesper
- */
 @Entity
-public class Hobby implements Serializable {
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "TYPE")
+public class InfoEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @ManyToMany
-   private List<Person> persons;
     
-    private String name;
-    private String description;
+    @ManyToMany(mappedBy = "infoEntitys")
+    private List<Address> address;
+    
+    @OneToMany(mappedBy = "infoEntity")
+    private List<Phone> phones;
+
+    public InfoEntity() {
+    }
+
+    private String email;
 
     public Integer getId() {
         return id;
@@ -39,20 +46,12 @@ public class Hobby implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

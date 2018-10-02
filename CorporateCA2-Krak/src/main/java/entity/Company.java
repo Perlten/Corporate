@@ -5,6 +5,7 @@
  */
 package entity;
 
+import dto.CompanyDTO;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -17,6 +18,14 @@ public class Company extends InfoEntity {
     private int cvr;
     private int numEmployees;
     private int marketValue;
+
+    public Company() {
+    }
+
+    public Company(CompanyDTO companyDTO) {
+    }
+    
+    
 
     public String getName() {
         return name;

@@ -5,6 +5,7 @@
  */
 package entity;
 
+import dto.HobbyDTO;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
@@ -30,6 +31,13 @@ public class Hobby implements Serializable {
     
     private String name;
     private String description;
+
+    public Hobby() {
+    }
+    
+    public Hobby(HobbyDTO hoobyDTO) {
+        
+    }
 
     public Integer getId() {
         return id;

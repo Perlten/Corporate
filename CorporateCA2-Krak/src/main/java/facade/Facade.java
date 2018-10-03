@@ -45,9 +45,9 @@ public class Facade implements FacadeInterface {
         }
         
     }
-
+    
     @Override
-    public List<PersonContactDTO> getContactInformation(int phonenumber) {
+    public PersonContactDTO getContactInformation(int phonenumber) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -145,5 +145,9 @@ public class Facade implements FacadeInterface {
     public HobbyDTO deleteHobby(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    @Override
+    public List<PersonDTO> getAllPersons() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

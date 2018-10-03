@@ -5,6 +5,8 @@
  */
 package main;
 
+import dto.PersonDTO;
+import facade.Facade;
 import javax.persistence.Persistence;
 
 /**
@@ -14,5 +16,11 @@ import javax.persistence.Persistence;
 public class RunJPA {
     public static void main(String[] args) {
         Persistence.generateSchema("putest", null);
+        
+        Facade facade = new Facade(Persistence.createEntityManagerFactory("putest"));
+        PersonDTO p = facade.getInformation(20681825);
+        System.out.println(p);
+        System.out.println(facade.getPersonsByHobby("Chess"));
+        System.out.println(facade.getPersonsInCity(2400));
     }
 }

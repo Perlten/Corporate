@@ -17,7 +17,7 @@ public interface FacadeInterface {
     
     public PersonContactDTO getContactInformation(int phonenumber);
     
-    public CompanyDTO companyInformationOnPhone(int phone);
+    public CompanyDTO companyInformationOnPhone(int phonenumber);
 
     public CompanyDTO companyInformationOnCVR(int cvr);
 

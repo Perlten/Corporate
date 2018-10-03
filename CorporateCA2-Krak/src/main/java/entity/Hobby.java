@@ -41,7 +41,8 @@ public class Hobby implements Serializable {
         this.description = description;
     }
 
-    
+    public Hobby() {
+    }
 
     public Integer getId() {
         return id;

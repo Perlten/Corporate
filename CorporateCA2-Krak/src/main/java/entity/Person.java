@@ -36,7 +36,7 @@ public class Person extends InfoEntity {
         this.firstname = firstname;
         this.lastname = lastname;
     }
-    
+
     public String getFirstname() {
         return firstname;
     }

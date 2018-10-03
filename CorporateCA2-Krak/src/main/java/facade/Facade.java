@@ -12,6 +12,7 @@ import dto.PersonDTO;
 import entity.Company;
 import entity.Hobby;
 import entity.Person;
+import exception.KrakException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -62,11 +63,6 @@ public class Facade implements FacadeInterface {
         }
     }
     
-    public static void main(String[] args) {
-        Facade f = new Facade(Persistence.createEntityManagerFactory("putest"));
-        f.getContactInformation(123);
-    }
-
     @Override
     public CompanyDTO companyInformationOnPhone(int phonenumber) {
         EntityManager em = getEm();

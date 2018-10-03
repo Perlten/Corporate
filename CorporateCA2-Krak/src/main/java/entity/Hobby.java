@@ -41,6 +41,9 @@ public class Hobby implements Serializable {
         this.description = description;
     }
 
+    public Hobby(HobbyDTO hobbyDTO) {
+    }
+
     public Hobby() {
     }
 

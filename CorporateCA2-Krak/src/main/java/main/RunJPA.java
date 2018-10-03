@@ -6,8 +6,8 @@
 package main;
 
 import dto.PersonDTO;
+import exception.KrakException;
 import facade.Facade;
-import facade.KrakException;
 import javax.persistence.Persistence;
 
 /**
@@ -15,6 +15,7 @@ import javax.persistence.Persistence;
  * @author Jesper
  */
 public class RunJPA {
+    
     public static void main(String[] args) throws KrakException {
         Persistence.generateSchema("putest", null);
         

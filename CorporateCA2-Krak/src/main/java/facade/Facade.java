@@ -36,7 +36,7 @@ public class Facade implements FacadeInterface {
     public PersonDTO getInformation(int phonenumber) {
         EntityManager em = getEm();
         try {
-            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) From Person as p where :phonenumber = (select ph from Phone ph where )", PersonDTO.class);
+            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) From Person as p where :phonenumber MEMBER OF (SELECT p.number FROM Phone p)", PersonDTO.class);
             tq.setParameter("phonenumber", phonenumber);
             return tq.getSingleResult();
         }

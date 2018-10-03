@@ -5,7 +5,6 @@
  */
 package entity;
 
-import dto.PersonDTO;
 import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -26,10 +25,13 @@ public class Person extends InfoEntity {
 
     public Person() {
     }
-    
-    public Person(PersonDTO person) {
-    }
 
+    public Person(String firstname, String lastname, String email) {
+        super(email);
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+    
     public String getFirstname() {
         return firstname;
     }

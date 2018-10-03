@@ -29,7 +29,7 @@ public class InfoEntity implements Serializable {
     private Integer id;
     
     @ManyToMany(mappedBy = "infoEntitys")
-    private List<Address> address;
+    private List<Address> addresses;
     
     @OneToMany(mappedBy = "infoEntity")
     private List<Phone> phones;
@@ -37,6 +37,16 @@ public class InfoEntity implements Serializable {
     private String email;
 
     public InfoEntity() {
+    }
+
+    public InfoEntity(List<Address> addresses, List<Phone> phones, String email) {
+        this.addresses = addresses;
+        this.phones = phones;
+        this.email = email;
+    }
+
+    public InfoEntity(String email) {
+        this.email = email;
     }
 
     public Integer getId() {
@@ -55,8 +65,8 @@ public class InfoEntity implements Serializable {
         this.email = email;
     }
 
-    public List<Address> getAddress() {
-        return address;
+    public List<Address> getAddresses() {
+        return addresses;
     }
 
     public List<Phone> getPhones() {

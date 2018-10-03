@@ -12,6 +12,8 @@ import dto.PersonDTO;
 import entity.Company;
 import entity.Hobby;
 import entity.Person;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.Persistence;
 import org.junit.After;
@@ -26,27 +28,28 @@ import static org.junit.Assert.*;
  * @author adamlass
  */
 public class FacadeTest {
-    
+
     Facade facade;
-    
+    Person person1;
+
     public FacadeTest() {
         this.facade = new Facade(Persistence.createEntityManagerFactory("putest"));
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
-        
+
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         Persistence.generateSchema("putest", null);
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -56,9 +59,9 @@ public class FacadeTest {
      */
     @Test
     public void testGetInformation() {
-        int phonenumber = 20681825;
-        
-        
+        int expected = 20681825;
+        int actual = facade.getInformation(expected).getPhones().get(0).getNumber();
+        assertEquals(expected, actual);
     }
 
     /**
@@ -66,14 +69,9 @@ public class FacadeTest {
      */
     @Test
     public void testGetContactInformation() {
-        System.out.println("getContactInformation");
-        int phonenumber = 0;
-        Facade instance = null;
-        PersonContactDTO expResult = null;
-        PersonContactDTO result = instance.getContactInformation(phonenumber);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int expected = 20681825;
+        int actual = facade.getContactInformation(expected).phoneDTOList.get(0).getNumber();
+        assertEquals(expected, actual);
     }
 
     /**
@@ -81,14 +79,10 @@ public class FacadeTest {
      */
     @Test
     public void testCompanyInformationOnPhone() {
-        System.out.println("companyInformationOnPhone");
-        int phone = 0;
-        Facade instance = null;
-        CompanyDTO expResult = null;
-        CompanyDTO result = instance.companyInformationOnPhone(phone);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int expected = 2;
+        int phone = 32622145;
+        int actual = facade.companyInformationOnPhone(phone).id;
+        assertEquals(expected, actual);
     }
 
     /**
@@ -96,14 +90,10 @@ public class FacadeTest {
      */
     @Test
     public void testCompanyInformationOnCVR() {
-        System.out.println("companyInformationOnCVR");
-        int cvr = 0;
-        Facade instance = null;
-        CompanyDTO expResult = null;
-        CompanyDTO result = instance.companyInformationOnCVR(cvr);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int expected = 2;
+        int cvr = 39042110;
+        int actual = facade.companyInformationOnCVR(cvr).id;
+        assertEquals(expected, actual);
     }
 
     /**
@@ -111,14 +101,10 @@ public class FacadeTest {
      */
     @Test
     public void testGetPersonsByHobby() {
-        System.out.println("getPersonsByHobby");
-        String hobby = "";
-        Facade instance = null;
-        List<PersonDTO> expResult = null;
-        List<PersonDTO> result = instance.getPersonsByHobby(hobby);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int expected = 1;
+        String hobbyname = "Chess";
+        int actual = facade.getPersonsByHobby(hobbyname).get(0).id;
+        assertEquals(expected, actual);
     }
 
     /**
@@ -126,14 +112,10 @@ public class FacadeTest {
      */
     @Test
     public void testGetPersonsInCity() {
-        System.out.println("getPersonsInCity");
-        int zipcode = 0;
-        Facade instance = null;
-        List<PersonDTO> expResult = null;
-        List<PersonDTO> result = instance.getPersonsInCity(zipcode);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int expected = 1;
+        int zip = 2400;
+        int actual = facade.getPersonsInCity(zip).get(0).id;
+        assertEquals(expected, actual);
     }
 
     /**
@@ -141,14 +123,11 @@ public class FacadeTest {
      */
     @Test
     public void testCountOfPeopleByHobby() {
-        System.out.println("countOfPeopleByHobby");
-        String hobby = "";
-        Facade instance = null;
-        int expResult = 0;
-        int result = instance.countOfPeopleByHobby(hobby);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int expected = 1;
+
+        String hobbyname = "Chess";
+        int actual = facade.countOfPeopleByHobby(hobbyname);
+        assertEquals(expected, actual);
     }
 
     /**
@@ -156,13 +135,10 @@ public class FacadeTest {
      */
     @Test
     public void testListOfAllZipcodes() {
-        System.out.println("listOfAllZipcodes");
-        Facade instance = null;
-        List<Integer> expResult = null;
-        List<Integer> result = instance.listOfAllZipcodes();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Integer[] array = {2400, 2900};
+        List<Integer> expected = new ArrayList<>(Arrays.asList(array));
+        List<Integer> actual = facade.listOfAllZipcodes();
+        assertTrue(expected.equals(actual));
     }
 
     /**
@@ -170,14 +146,11 @@ public class FacadeTest {
      */
     @Test
     public void testCompanyWithMoreThanXEmployees() {
-        System.out.println("companyWithMoreThanXEmployees");
-        int employeeCount = 0;
-        Facade instance = null;
-        List<CompanyDTO> expResult = null;
-        List<CompanyDTO> result = instance.companyWithMoreThanXEmployees(employeeCount);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        List<CompanyDTO> actual1 = facade.companyWithMoreThanXEmployees(4);
+        assertTrue(actual1.size() == 1);
+
+        List<CompanyDTO> actual2 = facade.companyWithMoreThanXEmployees(5);
+        assertTrue(actual2.isEmpty());
     }
 
     /**
@@ -185,14 +158,13 @@ public class FacadeTest {
      */
     @Test
     public void testFindPersonById() {
-        System.out.println("findPersonById");
-        int id = 0;
-        Facade instance = null;
-        PersonDTO expResult = null;
-        PersonDTO result = instance.findPersonById(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String expected1 = "Adam";
+        String expected2 = "Lass";
+
+        int personId = 1;
+        PersonDTO object = facade.findPersonById(personId);
+        String actual1 = object.getFirstname();
+        String actual2 = object.getLastname();
     }
 
     /**
@@ -200,14 +172,12 @@ public class FacadeTest {
      */
     @Test
     public void testAddPerson() {
-        System.out.println("addPerson");
-        Person person = null;
-        Facade instance = null;
-        PersonDTO expResult = null;
-        PersonDTO result = instance.addPerson(person);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Person personCreate = new Person("Kurt", "Wonnegut", "kurt.wonne@gmail.com");
+        PersonDTO actual = facade.addPerson(personCreate);
+        
+        assertEquals("Kurt", actual.firstname);
+        assertEquals("Wonnegut", actual.lastname);
+        assertEquals("kurt.wonne@gmail.com", actual.email);
     }
 
     /**
@@ -215,14 +185,7 @@ public class FacadeTest {
      */
     @Test
     public void testEditPerson() {
-        System.out.println("editPerson");
-        Person person = null;
-        Facade instance = null;
-        PersonDTO expResult = null;
-        PersonDTO result = instance.editPerson(person);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+       
     }
 
     /**
@@ -373,5 +336,5 @@ public class FacadeTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }

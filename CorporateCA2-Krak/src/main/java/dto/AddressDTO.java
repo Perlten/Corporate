@@ -3,18 +3,21 @@ package dto;
 import entity.Address;
 
 public class AddressDTO {
+    
+    
 
     //Address
-    private String street, city, additionalInfo;
+    public String street, city, additionalInfo;
     //City
-    private int zip;
+    public int id, zip;
 
     public AddressDTO(Address address) {
+        this.id = address.getId();
         this.street = address.getStreet();
         this.additionalInfo = address.getAdditionalInfo();
         
         this.zip = address.getCityInfo().getZip();
         this.city = address.getCityInfo().getCity();
     }
-    
+
 }

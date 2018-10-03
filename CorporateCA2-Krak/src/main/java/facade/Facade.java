@@ -87,7 +87,7 @@ public class Facade implements FacadeInterface {
     public List<PersonDTO> getPersonsInCity(int zipcode) {
         EntityManager em = getEm();
         try {
-            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) From Person as p join p.address a where a.cityInfo.zip = :zipcode", PersonDTO.class);
+            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) From Person as p join p.addresses a where a.cityInfo.zip = :zipcode", PersonDTO.class);
             tq.setParameter("zipcode", zipcode);
             return tq.getResultList();
         }

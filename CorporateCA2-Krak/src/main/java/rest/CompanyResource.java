@@ -50,7 +50,7 @@ public class CompanyResource {
     @GET
     @Path("phone/{phonenumber}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCompanyInformationOnPhone(@PathParam("phonenumber") int phone) {
+    public Response getCompanyInformationOnPhone(@PathParam("phonenumber") int phone) throws KrakException {
         CompanyDTO companyDTO = facade.companyInformationOnPhone(phone);
         String json = gson.toJson(companyDTO);
 
@@ -60,7 +60,7 @@ public class CompanyResource {
     @GET
     @Path("cvr/{cvr}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response companyInformationOnCVR(@PathParam("cvr") int cvr) {
+    public Response companyInformationOnCVR(@PathParam("cvr") int cvr) throws KrakException {
         CompanyDTO companyDTO = facade.companyInformationOnCVR(cvr);
         String json = gson.toJson(companyDTO);
 
@@ -69,7 +69,7 @@ public class CompanyResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response companyWithMoreThanXEmployees(@QueryParam("employeeCount") int count) {
+    public Response companyWithMoreThanXEmployees(@QueryParam("employeeCount") int count) throws KrakException {
         List<CompanyDTO> list = facade.companyWithMoreThanXEmployees(count);
         String json = gson.toJson(list);
 
@@ -88,7 +88,7 @@ public class CompanyResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addCompany(String json) {
+    public Response addCompany(String json) throws KrakException {
         CompanyDTO companyDTO = gson.fromJson(json, CompanyDTO.class);
         Company company = new Company(companyDTO);
         facade.addCompany(company);
@@ -99,7 +99,7 @@ public class CompanyResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response editCompany(String json) {
+    public Response editCompany(String json) throws KrakException {
         CompanyDTO companyDTO = gson.fromJson(json, CompanyDTO.class);
         Company company = new Company(companyDTO);
         facade.editCompany(company);

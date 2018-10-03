@@ -58,7 +58,7 @@ public class FacadeTest {
      * Test of getInformation method, of class Facade.
      */
     @Test
-    public void testGetInformation() {
+    public void testGetInformation() throws KrakException {
         int expected = 20681825;
         int actual = facade.getInformation(expected).getPhones().get(0).getNumber();
         assertEquals(expected, actual);
@@ -68,7 +68,7 @@ public class FacadeTest {
      * Test of getContactInformation method, of class Facade.
      */
     @Test
-    public void testGetContactInformation() {
+    public void testGetContactInformation() throws KrakException {
         int expected = 20681825;
         int actual = facade.getContactInformation(expected).phoneDTOList.get(0).getNumber();
         assertEquals(expected, actual);
@@ -78,7 +78,7 @@ public class FacadeTest {
      * Test of companyInformationOnPhone method, of class Facade.
      */
     @Test
-    public void testCompanyInformationOnPhone() {
+    public void testCompanyInformationOnPhone() throws KrakException {
         int expected = 2;
         int phone = 32622145;
         int actual = facade.companyInformationOnPhone(phone).id;
@@ -89,7 +89,7 @@ public class FacadeTest {
      * Test of companyInformationOnCVR method, of class Facade.
      */
     @Test
-    public void testCompanyInformationOnCVR() {
+    public void testCompanyInformationOnCVR() throws KrakException {
         int expected = 2;
         int cvr = 39042110;
         int actual = facade.companyInformationOnCVR(cvr).id;
@@ -100,7 +100,7 @@ public class FacadeTest {
      * Test of getPersonsByHobby method, of class Facade.
      */
     @Test
-    public void testGetPersonsByHobby() {
+    public void testGetPersonsByHobby() throws KrakException {
         int expected = 1;
         String hobbyname = "Chess";
         int actual = facade.getPersonsByHobby(hobbyname).get(0).id;
@@ -111,7 +111,7 @@ public class FacadeTest {
      * Test of getPersonsInCity method, of class Facade.
      */
     @Test
-    public void testGetPersonsInCity() {
+    public void testGetPersonsInCity() throws KrakException {
         int expected = 1;
         int zip = 2400;
         int actual = facade.getPersonsInCity(zip).get(0).id;
@@ -122,7 +122,7 @@ public class FacadeTest {
      * Test of countOfPeopleByHobby method, of class Facade.
      */
     @Test
-    public void testCountOfPeopleByHobby() {
+    public void testCountOfPeopleByHobby() throws KrakException {
         int expected = 1;
 
         String hobbyname = "Chess";
@@ -145,7 +145,7 @@ public class FacadeTest {
      * Test of companyWithMoreThanXEmployees method, of class Facade.
      */
     @Test
-    public void testCompanyWithMoreThanXEmployees() {
+    public void testCompanyWithMoreThanXEmployees() throws KrakException {
         List<CompanyDTO> actual1 = facade.companyWithMoreThanXEmployees(4);
         assertTrue(actual1.size() == 1);
 
@@ -179,7 +179,7 @@ public class FacadeTest {
      * Test of addPerson method, of class Facade.
      */
     @Test
-    public void testAddPerson() {
+    public void testAddPerson() throws KrakException {
         Person personCreate = new Person("Kurt", "Wonnegut", "kurt.wonne@gmail.com");
         PersonDTO actual = facade.addPerson(personCreate);
 
@@ -229,7 +229,7 @@ public class FacadeTest {
      * Test of addCompany method, of class Facade.
      */
     @Test
-    public void testAddCompany() {
+    public void testAddCompany() throws KrakException {
         Company comp1 = new Company("TestCorp", "This is a test corp", 23154124, 1000, "testcorp@gmail.com");
         CompanyDTO comp2 = facade.addCompany(comp1);
         assertEquals(comp1.getName(), comp2.name);
@@ -277,7 +277,7 @@ public class FacadeTest {
      * Test of addHobby method, of class Facade.
      */
     @Test
-    public void testAddHobby() {
+    public void testAddHobby() throws KrakException {
         Hobby hobby1 = new Hobby("Football", "Not American...");
         HobbyDTO hobby2 = facade.addHobby(hobby1);
         assertEquals(hobby1.getName(), hobby2.name);

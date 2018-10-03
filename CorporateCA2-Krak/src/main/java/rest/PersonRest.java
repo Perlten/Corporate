@@ -47,7 +47,7 @@ public class PersonRest {
     @GET
     @Path("phone/{phoneNumber}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonByPhone(@PathParam("phoneNumber") int phoneNumber) {
+    public Response getPersonByPhone(@PathParam("phoneNumber") int phoneNumber) throws KrakException {
         PersonDTO person = facade.getInformation(phoneNumber);
         String json = gson.toJson(person);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
@@ -65,7 +65,7 @@ public class PersonRest {
     @GET
     @Path("hobby/{hobbyName}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonsByHobby(@PathParam("hobbyName") String hobby) {
+    public Response getPersonsByHobby(@PathParam("hobbyName") String hobby) throws KrakException {
         List<PersonDTO> persons = facade.getPersonsByHobby(hobby);
         String json = gson.toJson(persons);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
@@ -74,7 +74,7 @@ public class PersonRest {
     @GET
     @Path("hobby/count/{hobby}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response countOfPeopleByHobby(@PathParam("hobby") String hobby) {
+    public Response countOfPeopleByHobby(@PathParam("hobby") String hobby) throws KrakException {
         JsonObject jo = new JsonObject();
         jo.addProperty("count", facade.countOfPeopleByHobby(hobby));
         String json = gson.toJson(jo);
@@ -84,7 +84,7 @@ public class PersonRest {
     @GET
     @Path("zip/{zipcode}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonsInCity(@PathParam("zipcode") int zip) {
+    public Response getPersonsInCity(@PathParam("zipcode") int zip) throws KrakException {
         List<PersonDTO> persons = facade.getPersonsInCity(zip);
         String json = gson.toJson(persons);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
@@ -102,7 +102,7 @@ public class PersonRest {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addPerson(String json) {
+    public Response addPerson(String json) throws KrakException {
         PersonDTO personDTO = gson.fromJson(json, PersonDTO.class);
         Person person = new Person(personDTO);
         facade.addPerson(person);
@@ -113,7 +113,7 @@ public class PersonRest {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response editPerson(String json) {
+    public Response editPerson(String json) throws KrakException {
         PersonDTO personDTO = gson.fromJson(json, PersonDTO.class);
         Person person = new Person(personDTO);
         facade.editPerson(person);

@@ -17,12 +17,14 @@ import java.util.List;
  * @author Jesper
  */
 public class PersonDTO {
-    private String firstname, lastname, email;
-    private List<HobbyDTO> hobbies = new ArrayList();
-    private List<AddressDTO> addresses = new ArrayList();;
-    private List<PhoneDTO> phones = new ArrayList();;
+    public int id;
+    public String firstname, lastname, email;
+    public List<HobbyDTO> hobbies = new ArrayList();
+    public List<AddressDTO> addresses = new ArrayList();;
+    public List<PhoneDTO> phones = new ArrayList();;
 
     public PersonDTO(Person person) {
+        this.id = person.getId();
         this.firstname = person.getFirstname();
         this.lastname = person.getLastname();
         this.email = person.getEmail();
@@ -36,6 +38,29 @@ public class PersonDTO {
             phones.add(new PhoneDTO(phone));
         }
     }
-    
-    
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public List<HobbyDTO> getHobbies() {
+        return hobbies;
+    }
+
+    public List<AddressDTO> getAddresses() {
+        return addresses;
+    }
+
+    public List<PhoneDTO> getPhones() {
+        return phones;
+    }
+
 }

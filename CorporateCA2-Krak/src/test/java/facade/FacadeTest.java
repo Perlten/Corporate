@@ -56,9 +56,9 @@ public class FacadeTest {
      */
     @Test
     public void testGetInformation() {
-        int phonenumber = 20681825;
-        
-        
+        int expected = 20681825;
+        int actual = facade.getInformation(expected).getPhones().get(0).getNumber();
+        assertEquals(expected, actual);
     }
 
     /**
@@ -66,14 +66,9 @@ public class FacadeTest {
      */
     @Test
     public void testGetContactInformation() {
-        System.out.println("getContactInformation");
-        int phonenumber = 0;
-        Facade instance = null;
-        PersonContactDTO expResult = null;
-        PersonContactDTO result = instance.getContactInformation(phonenumber);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int expected = 20681825;
+        int actual = facade.getContactInformation(expected).getPhones().get(0).getNumber();
+        assertEquals(expected, actual);
     }
 
     /**

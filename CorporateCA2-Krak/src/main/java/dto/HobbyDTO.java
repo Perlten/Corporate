@@ -12,9 +12,11 @@ import entity.Hobby;
  * @author Jesper
  */
 public class HobbyDTO {
-    private String name, description;
+    public int id;
+    public String name, description;
 
     public HobbyDTO(Hobby hobby) {
+        this.id = hobby.getId();
         this.name = hobby.getName();
         this.description = hobby.getDescription();
     }

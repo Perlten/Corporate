@@ -33,7 +33,9 @@ public interface FacadeInterface {
     public List<CompanyDTO> companyWithMoreThanXEmployees(int employeeCount);
 
     //Person CRUD
-    public PersonDTO findPersonById(int id);
+    public Person findPersonById(int id);
+    
+    public PersonDTO findPersonDTOById(int id);
 
     public PersonDTO addPerson(Person person);
 
@@ -42,7 +44,9 @@ public interface FacadeInterface {
     public PersonDTO deletePerson(int id);
 
     //Company CRUD
-    public CompanyDTO findCompanyByID(int id);
+    public Company findCompanyByID(int id);
+    
+    public CompanyDTO findCompanyDTOByID(int id);
 
     public CompanyDTO addCompany(Company company);
 
@@ -51,7 +55,9 @@ public interface FacadeInterface {
     public CompanyDTO deleteCompany(int id);
 
     //Hobby CRUD
-    public HobbyDTO findHobbyByID(int id);
+    public Hobby findHobbyByID(int id);
+    
+    public HobbyDTO findHobbyDTOByID(int id);
 
     public HobbyDTO addHobby(Hobby hobby);
 

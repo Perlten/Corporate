@@ -8,7 +8,6 @@ package facade;
 import dto.CompanyDTO;
 import dto.HobbyDTO;
 import dto.PersonContactDTO;
-import dto.PersonCreateDTO;
 import dto.PersonDTO;
 import entity.Company;
 import entity.Hobby;
@@ -87,7 +86,7 @@ public class Facade implements FacadeInterface {
     }
 
     @Override
-    public PersonDTO findPersonById(int id) {
+    public Person findPersonById(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -148,6 +147,11 @@ public class Facade implements FacadeInterface {
 
     @Override
     public List<PersonDTO> getAllPersons() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public PersonDTO findPersonDTOById(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

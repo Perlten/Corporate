@@ -21,5 +21,6 @@ public class RunJPA {
         PersonDTO p = facade.getInformation(20681825);
         System.out.println(p);
         System.out.println(facade.getPersonsByHobby("Chess"));
+        System.out.println(facade.getPersonsInCity(2400));
     }
 }

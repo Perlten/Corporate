@@ -50,7 +50,8 @@ public class Facade implements FacadeInterface {
     public PersonContactDTO getContactInformation(int phonenumber) {
         EntityManager em = getEm();
         try {
-            TypedQuery<PersonContactDTO> tq = em.createQuery("select new dto.PersonContactDTO(p) From Person as p where p.id = (SELECT ph.infoEntity.id from Phone ph where ph.number = :phonenumber)", PersonContactDTO.class);
+//            TypedQuery<PersonContactDTO> tq = em.createQuery("select new dto.PersonContactDTO(p) From Person as p where p.id = (SELECT ph.infoEntity.id from Phone ph where ph.number = :phonenumber)", PersonContactDTO.class);
+            TypedQuery<PersonContactDTO> tq = em.createQuery("select new dto.PersonContactDTO(p) From Person as p join p.phones ph where ph.number = :phonenumber", PersonContactDTO.class);
             tq.setParameter("phonenumber", phonenumber);
             return tq.getSingleResult();
         }
@@ -84,7 +85,15 @@ public class Facade implements FacadeInterface {
 
     @Override
     public List<PersonDTO> getPersonsInCity(int zipcode) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEm();
+        try {
+            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) From Person as p join p.address a where a.cityInfo.zip = :zipcode", PersonDTO.class);
+            tq.setParameter("zipcode", zipcode);
+            return tq.getResultList();
+        }
+        finally {
+            em.close();
+        }
     }
 
     @Override

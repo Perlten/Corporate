@@ -8,7 +8,9 @@ import dto.PersonDTO;
 import entity.Person;
 import facade.FacadeInterface;
 import exception.KrakException;
+import facade.Facade;
 import java.util.List;
+import javax.persistence.Persistence;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -25,7 +27,7 @@ import javax.ws.rs.core.Response;
 @Path("person")
 public class PersonRest {
 
-    private FacadeInterface facade = null;
+    private FacadeInterface facade = new Facade(Persistence.createEntityManagerFactory("pu"));
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     @Context
@@ -37,19 +39,19 @@ public class PersonRest {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPersons() {
+        System.out.println("GOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!!!!!!");
         List<PersonDTO> personDtoList = facade.getAllPersons();
+        personDtoList.add(new PersonDTO("test", "test", "tst"));
         String json = gson.toJson(personDtoList);
+        
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
 
     @GET
-    @Path("{phoneNumber}")
+    @Path("phone/{phoneNumber}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPerson(@PathParam("phoneNumber") int phoneNumber) throws KrakException {
+    public Response getPersonByPhone(@PathParam("phoneNumber") int phoneNumber) {
         PersonDTO person = facade.getInformation(phoneNumber);
-        if (person == null) {
-            throw new KrakException("Could not find person", 404);
-        }
         String json = gson.toJson(person);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
@@ -67,16 +69,26 @@ public class PersonRest {
     }
 
     @GET
-    @Path("{hobbyName}")
+    @Path("hobby/{hobbyName}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPersonsByHobby(@PathParam("hobbyName") String hobby) {
         List<PersonDTO> persons = facade.getPersonsByHobby(hobby);
         String json = gson.toJson(persons);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
+   
+    @GET
+    @Path("hobby/count/{hobby}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response countOfPeopleByHobby(@PathParam("hobby") String hobby) {
+        JsonObject jo = new JsonObject();
+        jo.addProperty("count", facade.countOfPeopleByHobby(hobby));
+        String json = gson.toJson(jo);
+        return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
+    }
 
     @GET
-    @Path("{zipcode}")
+    @Path("zip/{zipcode}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPersonsInCity(@PathParam("zipcode") int zip) {
         List<PersonDTO> persons = facade.getPersonsInCity(zip);
@@ -124,13 +136,4 @@ public class PersonRest {
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
 
-    @GET
-    @Path("{hobby}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response countOfPeopleByHobby(@PathParam("hobby") String hobby) {
-        JsonObject jo = new JsonObject();
-        jo.addProperty("count", facade.countOfPeopleByHobby(hobby));
-        String json = gson.toJson(jo);
-        return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
-    }
 }

@@ -12,7 +12,9 @@ import dto.PersonDTO;
 import entity.Hobby;
 import entity.Person;
 import exception.KrakException;
+import facade.Facade;
 import facade.FacadeInterface;
+import javax.persistence.Persistence;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -29,7 +31,7 @@ import javax.ws.rs.core.Response;
 @Path("hobby")
 public class HobbyResource {
 
-    private FacadeInterface facade;
+    private FacadeInterface facade = new Facade(Persistence.createEntityManagerFactory("pu"));
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     
     @Context

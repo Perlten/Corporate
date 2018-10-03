@@ -11,6 +11,7 @@ import dto.PersonDTO;
 import entity.Company;
 import entity.Hobby;
 import entity.Person;
+import exception.KrakException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

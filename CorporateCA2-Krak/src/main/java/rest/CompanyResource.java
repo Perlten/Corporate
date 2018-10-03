@@ -12,8 +12,10 @@ import dto.PersonDTO;
 import entity.Company;
 import entity.Person;
 import exception.KrakException;
+import facade.Facade;
 import facade.FacadeInterface;
 import java.util.List;
+import javax.persistence.Persistence;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.core.Context;
@@ -35,8 +37,8 @@ import javax.ws.rs.core.Response;
  */
 @Path("company")
 public class CompanyResource {
-    
-    private FacadeInterface facade = null;
+
+    private FacadeInterface facade = new Facade(Persistence.createEntityManagerFactory("pu"));
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     @Context
@@ -45,37 +47,36 @@ public class CompanyResource {
     public CompanyResource() {
     }
 
-    
     @GET
-    @Path("{phonenumber}")
+    @Path("phone/{phonenumber}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCompanyInformationOnPhone(@PathParam("phonenumber") int phone){
+    public Response getCompanyInformationOnPhone(@PathParam("phonenumber") int phone) {
         CompanyDTO companyDTO = facade.companyInformationOnPhone(phone);
         String json = gson.toJson(companyDTO);
-        
+
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
-   
+
     @GET
-    @Path("{cvr}")
+    @Path("cvr/{cvr}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response companyInformationOnCVR(@PathParam("cvr") int cvr){
+    public Response companyInformationOnCVR(@PathParam("cvr") int cvr) {
         CompanyDTO companyDTO = facade.companyInformationOnCVR(cvr);
         String json = gson.toJson(companyDTO);
-        
+
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-     public Response companyWithMoreThanXEmployees(@QueryParam("employeeCount") int count){
+    public Response companyWithMoreThanXEmployees(@QueryParam("employeeCount") int count) {
         List<CompanyDTO> list = facade.companyWithMoreThanXEmployees(count);
         String json = gson.toJson(list);
-        
+
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
-     
-      @GET
+
+    @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findCompanyById(@PathParam("id") int id) throws KrakException {
@@ -105,14 +106,14 @@ public class CompanyResource {
         String responseJson = gson.toJson(company);
         return Response.ok().entity(responseJson).type(MediaType.APPLICATION_JSON).build();
     }
-    
+
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteCompany(@PathParam("id") int id){
+    public Response deleteCompany(@PathParam("id") int id) {
         CompanyDTO companyDTO = facade.deleteCompany(id);
         String json = gson.toJson(companyDTO);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
-    
+
 }

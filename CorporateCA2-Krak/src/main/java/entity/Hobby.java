@@ -34,6 +34,9 @@ public class Hobby implements Serializable {
     private String name;
     private String description;
 
+    public Hobby() {
+    }
+
     public Hobby(Integer id, List<Person> persons, String name, String description) {
         this.id = id;
         this.persons = persons;
@@ -42,9 +45,6 @@ public class Hobby implements Serializable {
     }
 
     public Hobby(HobbyDTO hobbyDTO) {
-    }
-
-    public Hobby() {
     }
 
     public Hobby(String name, String description) {

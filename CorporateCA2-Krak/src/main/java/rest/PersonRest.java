@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import dto.PersonContactDTO;
 import dto.PersonDTO;
 import entity.Person;
-import facade.FacadeInterface;
 import exception.KrakException;
 import facade.Facade;
 import java.util.List;
@@ -39,11 +38,10 @@ public class PersonRest {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPersons() {
-        System.out.println("GOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!!!!!!");
         List<PersonDTO> personDtoList = facade.getAllPersons();
         personDtoList.add(new PersonDTO("test", "test", "tst"));
         String json = gson.toJson(personDtoList);
-        
+
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
 
@@ -73,7 +71,7 @@ public class PersonRest {
         String json = gson.toJson(persons);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
-   
+
     @GET
     @Path("hobby/count/{hobby}")
     @Produces(MediaType.APPLICATION_JSON)

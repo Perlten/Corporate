@@ -30,7 +30,7 @@ public class Person extends InfoEntity {
     public Person(PersonDTO personDTO){
         
     }
-    
+   
     public Person(String firstname, String lastname, String email) {
         super(email);
         this.firstname = firstname;

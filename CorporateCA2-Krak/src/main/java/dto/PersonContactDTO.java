@@ -20,7 +20,7 @@ public class PersonContactDTO {
         this.id = person.getId();
         this.firstName = person.getFirstname();
         this.lastName = person.getLastname();
-        for(Address address : person.getAddress()){
+        for(Address address : person.getAddresses()){
             addressDTOList.add(new AddressDTO(address));
         }
         

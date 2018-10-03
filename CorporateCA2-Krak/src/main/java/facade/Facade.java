@@ -8,6 +8,7 @@ package facade;
 import dto.CompanyDTO;
 import dto.HobbyDTO;
 import dto.PersonContactDTO;
+import dto.PersonCreateDTO;
 import dto.PersonDTO;
 import entity.Company;
 import entity.Hobby;

@@ -31,12 +31,18 @@ public class PersonDTO {
         for (Hobby hobby : person.getHobbies()) {
             hobbies.add(new HobbyDTO(hobby));
         }
-        for (Address address : person.getAddress()) {
+        for (Address address : person.getAddresses()) {
             addresses.add(new AddressDTO(address));
         }
         for (Phone phone : person.getPhones()) {
             phones.add(new PhoneDTO(phone));
         }
+    }
+
+    public PersonDTO(String firstname, String lastname, String email) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
     }
 
     public String getFirstname() {

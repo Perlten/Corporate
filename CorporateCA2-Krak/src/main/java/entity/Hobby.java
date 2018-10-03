@@ -34,12 +34,14 @@ public class Hobby implements Serializable {
     private String name;
     private String description;
 
-    public Hobby() {
+    public Hobby(Integer id, List<Person> persons, String name, String description) {
+        this.id = id;
+        this.persons = persons;
+        this.name = name;
+        this.description = description;
     }
 
-    public Hobby(HobbyDTO hoobyDTO) {
-
-    }
+    
 
     public Integer getId() {
         return id;

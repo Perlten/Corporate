@@ -58,6 +58,8 @@ public class ApplicationConfig extends Application {
         resources.add(org.eclipse.persistence.jpa.rs.resources.unversioned.SingleResultQueryResource.class);
         resources.add(org.glassfish.jersey.jsonb.internal.JsonBindingProvider.class);
         resources.add(org.glassfish.jersey.server.wadl.internal.WadlResource.class);
+        resources.add(rest.CompanyResource.class);
+        resources.add(rest.HobbyResource.class);
         resources.add(rest.PersonRest.class);
     }
 

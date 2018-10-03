@@ -2,11 +2,12 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import dto.PersonContactDTO;
 import dto.PersonDTO;
 import entity.Person;
 import facade.FacadeInterface;
-import facade.KrakException;
+import exception.KrakException;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -88,9 +89,6 @@ public class PersonRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Response findPersonById(@PathParam("id") int id) throws KrakException {
         PersonDTO person = facade.findPersonById(id);
-        if (person == null) {
-            throw new KrakException("Could not find person", 404);
-        }
         String json = gson.toJson(person);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
@@ -116,14 +114,23 @@ public class PersonRest {
         String responseJson = gson.toJson(person);
         return Response.ok().entity(responseJson).type(MediaType.APPLICATION_JSON).build();
     }
-    
+
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deletePerson(@PathParam("id") int id){
+    public Response deletePerson(@PathParam("id") int id) {
         PersonDTO personDTO = facade.deletePerson(id);
         String json = gson.toJson(personDTO);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
 
+    @GET
+    @Path("{hobby}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response countOfPeopleByHobby(@PathParam("hobby") String hobby) {
+        JsonObject jo = new JsonObject();
+        jo.addProperty("count", facade.countOfPeopleByHobby(hobby));
+        String json = gson.toJson(jo);
+        return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
+    }
 }

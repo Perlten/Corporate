@@ -1,4 +1,4 @@
-package facade;
+package exception;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

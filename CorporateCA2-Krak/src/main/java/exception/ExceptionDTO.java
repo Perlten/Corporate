@@ -1,4 +1,4 @@
-package facade;
+package exception;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

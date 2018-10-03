@@ -5,6 +5,7 @@
  */
 package entity;
 
+import dto.AddressDTO;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
@@ -33,6 +34,20 @@ public class CityInfo implements Serializable {
     @OneToMany(mappedBy = "cityInfo")
     private List<Address> addresss;
 
+    public CityInfo(){
+        
+    }
+    
+    public CityInfo(Integer id, int zip, String city) {
+        this.id = id;
+        this.zip = zip;
+        this.city = city;
+    }
+    public CityInfo(AddressDTO addressDTO){
+        this.zip = addressDTO.zip;
+        this.city = addressDTO.city;
+    }
+    
     public Integer getId() {
         return id;
     }

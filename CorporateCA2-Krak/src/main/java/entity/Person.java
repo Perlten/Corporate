@@ -5,7 +5,11 @@
  */
 package entity;
 
+import dto.AddressDTO;
+import dto.HobbyDTO;
 import dto.PersonDTO;
+import dto.PhoneDTO;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -17,7 +21,7 @@ import javax.validation.constraints.NotNull;
 public class Person extends InfoEntity {
 
     @ManyToMany(mappedBy = "persons")
-    private List<Hobby> hobbies;
+    private List<Hobby> hobbies = new ArrayList<>();
 
     @NotNull
     private String firstname;
@@ -27,10 +31,29 @@ public class Person extends InfoEntity {
     public Person() {
     }
 
-    public Person(PersonDTO personDTO){
+    public Person(PersonDTO personDTO) {
+        super(personDTO.id, personDTO.email);
+        this.firstname = personDTO.firstname;
+        this.lastname = personDTO.lastname;
         
+        if (personDTO.hobbies != null) {
+            for (HobbyDTO hobby : personDTO.hobbies) {
+                hobbies.add(new Hobby(hobby));
+            }
+        }
+        if (personDTO.phones != null) {
+            for (PhoneDTO phone : personDTO.phones) {
+                phones.add(new Phone(phone));
+            }
+        }
+        if (personDTO.addresses != null) {
+            for (AddressDTO address : personDTO.addresses) {
+                addresses.add(new Address(address));
+            }
+        }
+
     }
-    
+
     public Person(String firstname, String lastname, String email) {
         super(email);
         this.firstname = firstname;
@@ -60,7 +83,7 @@ public class Person extends InfoEntity {
     public void setHobbies(List<Hobby> hobbies) {
         this.hobbies = hobbies;
     }
-    
+
     public void addHobbies(Hobby hobby) {
         this.hobbies.add(hobby);
     }

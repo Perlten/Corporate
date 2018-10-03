@@ -23,9 +23,15 @@ public class Company extends InfoEntity {
     }
 
     public Company(CompanyDTO companyDTO) {
-        
+        this.name = companyDTO.name;
+        this.email = companyDTO.email;
+        this.description = companyDTO.description;
+        this.cvr = companyDTO.cvr;
+        this.numEmployees = companyDTO.numEmployees;
+        this.marketValue = companyDTO.marketValue;
+        this.id = companyDTO.id;
     }
-
+    
     public Company(String name, String description, int cvr, int marketValue, String email) {
         super(email);
         this.name = name;

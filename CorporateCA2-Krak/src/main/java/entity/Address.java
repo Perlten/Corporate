@@ -5,6 +5,7 @@
  */
 package entity;
 
+import dto.AddressDTO;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
@@ -37,6 +38,18 @@ public class Address implements Serializable {
     @ManyToOne
     @NotNull
     private CityInfo cityInfo;
+
+    public Address() {
+    }
+
+    public Address(AddressDTO addressDTO) {
+        this.street = addressDTO.street;
+        this.additionalInfo = addressDTO.additionalInfo;
+        this.id = addressDTO.id;
+        this.cityInfo = new CityInfo(addressDTO);
+    }
+    
+    
 
     public Integer getId() {
         return id;

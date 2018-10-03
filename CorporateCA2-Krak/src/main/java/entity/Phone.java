@@ -5,6 +5,7 @@
  */
 package entity;
 
+import dto.PhoneDTO;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,6 +29,15 @@ public class Phone implements Serializable {
     @NotNull
     private int number;
     private String description;
+
+    public Phone() {
+    }
+
+    public Phone(PhoneDTO phoneDTO) {
+        this.number = phoneDTO.number;
+        this.description = phoneDTO.description;
+        this.id = phoneDTO.id;
+    }
     
     @ManyToOne
     private InfoEntity infoEntity;

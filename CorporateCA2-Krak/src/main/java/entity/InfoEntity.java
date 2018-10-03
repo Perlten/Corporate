@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -26,15 +27,15 @@ public class InfoEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    protected Integer id;
     
     @ManyToMany(mappedBy = "infoEntitys")
-    private List<Address> addresses;
+    protected List<Address> addresses = new ArrayList<>();
     
     @OneToMany(mappedBy = "infoEntity")
-    private List<Phone> phones;
+    protected List<Phone> phones = new ArrayList<>();
     @NotNull
-    private String email;
+    protected String email;
 
     public InfoEntity() {
     }
@@ -49,6 +50,11 @@ public class InfoEntity implements Serializable {
         this.email = email;
     }
 
+    public InfoEntity(Integer id, String email) {
+        this.id = id;
+        this.email = email;
+    }
+    
     public Integer getId() {
         return id;
     }

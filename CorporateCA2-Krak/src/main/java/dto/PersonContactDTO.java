@@ -9,7 +9,7 @@ import java.util.List;
 public class PersonContactDTO {
     
     public int id;
-    public String firstName, lastName;
+    public String firstName, lastName, email;
     
     //Address
     public List<AddressDTO> addressDTOList = new ArrayList<>();
@@ -20,6 +20,7 @@ public class PersonContactDTO {
         this.id = person.getId();
         this.firstName = person.getFirstname();
         this.lastName = person.getLastname();
+        this.email = person.getEmail();
         for(Address address : person.getAddresses()){
             addressDTOList.add(new AddressDTO(address));
         }
@@ -44,8 +45,4 @@ public class PersonContactDTO {
     public List<PhoneDTO> getPhoneDTOList() {
         return phoneDTOList;
     }
-    
-    
-
- 
 }

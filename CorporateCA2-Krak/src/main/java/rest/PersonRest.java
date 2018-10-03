@@ -87,7 +87,7 @@ public class PersonRest {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findPersonById(@PathParam("id") int id) throws KrakException {
-        PersonDTO person = facade.findPersonById(id);
+        Person person = facade.findPersonById(id);
         if (person == null) {
             throw new KrakException("Could not find person", 404);
         }
@@ -120,7 +120,7 @@ public class PersonRest {
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deletePerson(@PathParam("id") int id){
+    public Response deletePerson(@PathParam("id") int id) throws KrakException{
         PersonDTO personDTO = facade.deletePerson(id);
         String json = gson.toJson(personDTO);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();

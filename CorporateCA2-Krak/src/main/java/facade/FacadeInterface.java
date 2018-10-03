@@ -17,7 +17,7 @@ public interface FacadeInterface {
     
     public PersonContactDTO getContactInformation(int phonenumber);
     
-    public CompanyDTO companyInformationOnPhone(int phone);
+    public CompanyDTO companyInformationOnPhone(int phonenumber);
 
     public CompanyDTO companyInformationOnCVR(int cvr);
 
@@ -33,36 +33,35 @@ public interface FacadeInterface {
     public List<CompanyDTO> companyWithMoreThanXEmployees(int employeeCount);
 
     //Person CRUD
-    public Person findPersonById(int id);
+    public Person findPersonById(int id) throws KrakException;
     
-    public PersonDTO findPersonDTOById(int id);
+    public PersonDTO findPersonDTOById(int id) throws KrakException;
 
     public PersonDTO addPerson(Person person);
 
     public PersonDTO editPerson(Person person);
 
-    public PersonDTO deletePerson(int id);
+    public PersonDTO deletePerson(int id) throws KrakException;
 
     //Company CRUD
-    public Company findCompanyByID(int id);
+    public Company findCompanyByID(int id) throws KrakException;
     
-    public CompanyDTO findCompanyDTOByID(int id);
+    public CompanyDTO findCompanyDTOByID(int id) throws KrakException;
 
     public CompanyDTO addCompany(Company company);
 
     public CompanyDTO editCompany(Company company);
 
-    public CompanyDTO deleteCompany(int id);
+    public CompanyDTO deleteCompany(int id) throws KrakException;
 
     //Hobby CRUD
-    public Hobby findHobbyByID(int id);
+    public Hobby findHobbyByID(int id) throws KrakException;
     
-    public HobbyDTO findHobbyDTOByID(int id);
+    public HobbyDTO findHobbyDTOByID(int id) throws KrakException;
 
     public HobbyDTO addHobby(Hobby hobby);
 
     public HobbyDTO editHobby(Hobby hobby);
 
-    public HobbyDTO deleteHobby(int id);
-
+    public HobbyDTO deleteHobby(int id) throws KrakException;
 }

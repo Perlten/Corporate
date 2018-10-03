@@ -7,6 +7,7 @@ package main;
 
 import dto.PersonDTO;
 import facade.Facade;
+import facade.KrakException;
 import javax.persistence.Persistence;
 
 /**
@@ -14,7 +15,7 @@ import javax.persistence.Persistence;
  * @author Jesper
  */
 public class RunJPA {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws KrakException {
         Persistence.generateSchema("putest", null);
         
         Facade facade = new Facade(Persistence.createEntityManagerFactory("putest"));

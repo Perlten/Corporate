@@ -173,7 +173,7 @@ public class Facade implements FacadeInterface {
             em.getTransaction().begin();
             p = em.find(Person.class, id);
             if (p == null) {
-                throw new KrakException("Could not find that person", id);
+                throw new KrakException("Could not find that person", 404);
             }
             em.getTransaction().commit();
         }

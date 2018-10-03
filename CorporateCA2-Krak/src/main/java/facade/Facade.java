@@ -36,7 +36,8 @@ public class Facade implements FacadeInterface {
     public PersonDTO getInformation(int phonenumber) {
         EntityManager em = getEm();
         try {
-            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) From Person as p where :phonenumber MEMBER OF (SELECT p.number FROM Phone p)", PersonDTO.class);
+//            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) From Person as p where p.id = (SELECT ph.infoEntity.id from Phone ph where ph.number = :phonenumber)", PersonDTO.class);
+            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) From Person as p join p.phones ph where ph.number = :phonenumber", PersonDTO.class);
             tq.setParameter("phonenumber", phonenumber);
             return tq.getSingleResult();
         }
@@ -47,7 +48,15 @@ public class Facade implements FacadeInterface {
     
     @Override
     public PersonContactDTO getContactInformation(int phonenumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEm();
+        try {
+            TypedQuery<PersonContactDTO> tq = em.createQuery("select new dto.PersonContactDTO(p) From Person as p where p.id = (SELECT ph.infoEntity.id from Phone ph where ph.number = :phonenumber)", PersonContactDTO.class);
+            tq.setParameter("phonenumber", phonenumber);
+            return tq.getSingleResult();
+        }
+        finally {
+            em.close();
+        }
     }
 
     @Override
@@ -62,7 +71,15 @@ public class Facade implements FacadeInterface {
 
     @Override
     public List<PersonDTO> getPersonsByHobby(String hobby) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEm();
+        try {
+            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) From Person as p join p.hobbies h where h.name = :hobby", PersonDTO.class);
+            tq.setParameter("hobby", hobby);
+            return tq.getResultList();
+        }
+        finally {
+            em.close();
+        }
     }
 
     @Override

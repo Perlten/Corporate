@@ -8,7 +8,7 @@ import java.util.List;
 
 public class PersonContactDTO {
     
-    public String firstName, lastName;
+    public String firstName, lastName, email;
     
     //Address
     public List<AddressDTO> addressDTOList = new ArrayList<>();
@@ -18,6 +18,7 @@ public class PersonContactDTO {
     public PersonContactDTO(Person person){
         this.firstName = person.getFirstname();
         this.lastName = person.getLastname();
+        this.email = person.getEmail();
         for(Address address : person.getAddress()){
             addressDTOList.add(new AddressDTO(address));
         }

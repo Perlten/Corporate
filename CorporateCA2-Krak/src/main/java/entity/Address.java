@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -28,10 +29,13 @@ public class Address implements Serializable {
 
     @ManyToMany
     private List<InfoEntity> infoEntitys;
+    @NotNull
     private String street;
     private String additionalInfo;
 
+    
     @ManyToOne
+    @NotNull
     private CityInfo cityInfo;
 
     public Integer getId() {

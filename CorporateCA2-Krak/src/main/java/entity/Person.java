@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @DiscriminatorValue("P")
@@ -18,7 +19,9 @@ public class Person extends InfoEntity {
     @ManyToMany(mappedBy = "persons")
     private List<Hobby> hobbys;
 
+    @NotNull
     private String firstname;
+    @NotNull
     private String lastname;
 
     public Person() {

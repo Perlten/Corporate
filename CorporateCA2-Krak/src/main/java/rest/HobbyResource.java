@@ -49,7 +49,7 @@ public class HobbyResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addHobby(String json) {
+    public Response addHobby(String json) throws KrakException {
         HobbyDTO hobbyDTO = gson.fromJson(json, HobbyDTO.class);
         Hobby hobby = new Hobby(hobbyDTO);
         facade.addHobby(hobby);
@@ -60,7 +60,7 @@ public class HobbyResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response editHobby(String json) {
+    public Response editHobby(String json) throws KrakException {
         HobbyDTO hobbyDTO = gson.fromJson(json, HobbyDTO.class);
         Hobby hobby = new Hobby(hobbyDTO);
         facade.editHobby(hobby);

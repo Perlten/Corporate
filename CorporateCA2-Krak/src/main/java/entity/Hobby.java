@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -27,17 +28,20 @@ public class Hobby implements Serializable {
     private Integer id;
 
     @ManyToMany
-   private List<Person> persons;
-    
+    private List<Person> persons;
+
+    @NotNull
     private String name;
     private String description;
 
-    public Hobby() {
+    public Hobby(Integer id, List<Person> persons, String name, String description) {
+        this.id = id;
+        this.persons = persons;
+        this.name = name;
+        this.description = description;
     }
+
     
-    public Hobby(HobbyDTO hoobyDTO) {
-        
-    }
 
     public Integer getId() {
         return id;

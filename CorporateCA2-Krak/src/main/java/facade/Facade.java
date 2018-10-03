@@ -8,6 +8,7 @@ package facade;
 import dto.CompanyDTO;
 import dto.HobbyDTO;
 import dto.PersonContactDTO;
+import dto.PersonCreateDTO;
 import dto.PersonDTO;
 import entity.Company;
 import entity.Hobby;
@@ -36,14 +37,13 @@ public class Facade implements FacadeInterface {
     public PersonDTO getInformation(int phonenumber) {
         EntityManager em = getEm();
         try {
-            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO() From Person as p where p.phonenumber =: phonenumber", PersonDTO.class);
+            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) From Person as p where :phonenumber MEMBER OF (SELECT p.number FROM Phone p)", PersonDTO.class);
             tq.setParameter("phonenumber", phonenumber);
             return tq.getSingleResult();
         }
         finally {
             em.close();
         }
-        
     }
     
     @Override

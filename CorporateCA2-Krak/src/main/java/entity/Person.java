@@ -5,26 +5,28 @@
  */
 package entity;
 
-import dto.PersonDTO;
 import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @DiscriminatorValue("P")
 public class Person extends InfoEntity {
 
     @ManyToMany(mappedBy = "persons")
-    private List<Hobby> hobbys;
+    private List<Hobby> hobbies;
 
+    @NotNull
     private String firstname;
+    @NotNull
     private String lastname;
 
-    public Person() {
-    }
-    
-    public Person(PersonDTO person) {
+    public Person(String firstname, String lastname, String email) {
+        super(email);
+        this.firstname = firstname;
+        this.lastname = lastname;
     }
 
     public String getFirstname() {
@@ -43,4 +45,15 @@ public class Person extends InfoEntity {
         this.lastname = lastname;
     }
 
+    public List<Hobby> getHobbies() {
+        return hobbies;
+    }
+
+    public void setHobbies(List<Hobby> hobbies) {
+        this.hobbies = hobbies;
+    }
+    
+    public void addHobbies(Hobby hobby) {
+        this.hobbies.add(hobby);
+    }
 }

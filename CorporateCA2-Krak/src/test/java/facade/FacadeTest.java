@@ -13,6 +13,7 @@ import entity.Company;
 import entity.Hobby;
 import entity.Person;
 import java.util.List;
+import javax.persistence.Persistence;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -26,11 +27,15 @@ import static org.junit.Assert.*;
  */
 public class FacadeTest {
     
+    Facade facade;
+    
     public FacadeTest() {
+        this.facade = new Facade(Persistence.createEntityManagerFactory("putest"));
     }
     
     @BeforeClass
     public static void setUpClass() {
+        
     }
     
     @AfterClass
@@ -39,7 +44,7 @@ public class FacadeTest {
     
     @Before
     public void setUp() {
-        
+        Persistence.generateSchema("putest", null);
     }
     
     @After
@@ -52,6 +57,7 @@ public class FacadeTest {
     @Test
     public void testGetInformation() {
         int phonenumber = 20681825;
+        
         
     }
 

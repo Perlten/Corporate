@@ -16,6 +16,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -36,6 +37,7 @@ public class InfoEntity implements Serializable {
     public InfoEntity() {
     }
 
+    @NotNull
     private String email;
 
     public Integer getId() {

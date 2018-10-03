@@ -53,8 +53,7 @@ public class Facade implements FacadeInterface {
 //            TypedQuery<PersonContactDTO> tq = em.createQuery("select new dto.PersonContactDTO(p) From Person as p where p.id = (SELECT ph.infoEntity.id from Phone ph where ph.number = :phonenumber)", PersonContactDTO.class);
             TypedQuery<PersonContactDTO> tq = em.createQuery("select new dto.PersonContactDTO(p) From Person as p join p.phones ph where ph.number = :phonenumber", PersonContactDTO.class);
             tq.setParameter("phonenumber", phonenumber);
-            PersonContactDTO person = tq.getSingleResult();
-            return person;
+            return tq.getSingleResult();
         }
         finally {
             em.close();

@@ -110,7 +110,7 @@ public class CompanyResource {
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteCompany(@PathParam("id") int id) {
+    public Response deleteCompany(@PathParam("id") int id) throws KrakException {
         CompanyDTO companyDTO = facade.deleteCompany(id);
         String json = gson.toJson(companyDTO);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();

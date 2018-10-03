@@ -27,13 +27,14 @@ public class Person extends InfoEntity {
     public Person() {
     }
 
+    public Person(PersonDTO personDTO){
+        
+    }
+    
     public Person(String firstname, String lastname, String email) {
         super(email);
         this.firstname = firstname;
         this.lastname = lastname;
-    }
-
-    public Person(PersonDTO person) {
     }
 
     public String getFirstname() {

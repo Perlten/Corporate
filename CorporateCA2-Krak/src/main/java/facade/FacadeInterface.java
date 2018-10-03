@@ -7,62 +7,62 @@ import dto.PersonDTO;
 import entity.Company;
 import entity.Hobby;
 import entity.Person;
+import exception.KrakException;
 import java.util.List;
 
 public interface FacadeInterface {
-    
-    public List<PersonDTO> getAllPersons();
 
-    public PersonDTO getInformation(int phonenumber);
-    
-    public PersonContactDTO getContactInformation(int phonenumber);
-    
-    public CompanyDTO companyInformationOnPhone(int phonenumber);
+    public List<PersonDTO> getAllPersons() throws KrakException;
 
-    public CompanyDTO companyInformationOnCVR(int cvr);
+    public PersonDTO getInformation(int phonenumber) throws KrakException;
+
+    public PersonContactDTO getContactInformation(int phonenumber) throws KrakException;
+
+    public CompanyDTO companyInformationOnPhone(int phonenumber) throws KrakException;
+
+    public CompanyDTO companyInformationOnCVR(int cvr) throws KrakException;
 
     // Hobbyname has to be unique
-    public List<PersonDTO> getPersonsByHobby(String hobby);
+    public List<PersonDTO> getPersonsByHobby(String hobby) throws KrakException;
 
-    public List<PersonDTO> getPersonsInCity(int zip);
+    public List<PersonDTO> getPersonsInCity(int zip) throws KrakException;
 
-    public int countOfPeopleByHobby(String hobby);
+    public int countOfPeopleByHobby(String hobby) throws KrakException;
 
-    public List<Integer> listOfAllZipcodes();
+    public List<Integer> listOfAllZipcodes() throws KrakException;
 
-    public List<CompanyDTO> companyWithMoreThanXEmployees(int employeeCount);
+    public List<CompanyDTO> companyWithMoreThanXEmployees(int employeeCount) throws KrakException;
 
     //Person CRUD
-    public Person findPersonById(int id);
-    
-    public PersonDTO findPersonDTOById(int id);
+    public Person findPersonById(int id) throws KrakException;
 
-    public PersonDTO addPerson(Person person);
+    public PersonDTO findPersonDTOById(int id) throws KrakException;
 
-    public PersonDTO editPerson(Person person);
+    public PersonDTO addPerson(Person person) throws KrakException;
 
-    public PersonDTO deletePerson(int id);
+    public PersonDTO editPerson(Person person) throws KrakException;
+
+    public PersonDTO deletePerson(int id) throws KrakException;
 
     //Company CRUD
-    public Company findCompanyByID(int id);
-    
-    public CompanyDTO findCompanyDTOByID(int id);
+    public Company findCompanyByID(int id) throws KrakException;
 
-    public CompanyDTO addCompany(Company company);
+    public CompanyDTO findCompanyDTOByID(int id) throws KrakException;
 
-    public CompanyDTO editCompany(Company company);
+    public CompanyDTO addCompany(Company company) throws KrakException;
 
-    public CompanyDTO deleteCompany(int id);
+    public CompanyDTO editCompany(Company company) throws KrakException;
+
+    public CompanyDTO deleteCompany(int id) throws KrakException;
 
     //Hobby CRUD
-    public Hobby findHobbyByID(int id);
-    
-    public HobbyDTO findHobbyDTOByID(int id);
+    public Hobby findHobbyByID(int id) throws KrakException;
 
-    public HobbyDTO addHobby(Hobby hobby);
+    public HobbyDTO findHobbyDTOByID(int id) throws KrakException;
 
-    public HobbyDTO editHobby(Hobby hobby);
+    public HobbyDTO addHobby(Hobby hobby) throws KrakException;
 
-    public HobbyDTO deleteHobby(int id);
+    public HobbyDTO editHobby(Hobby hobby) throws KrakException;
 
+    public HobbyDTO deleteHobby(int id) throws KrakException;
 }

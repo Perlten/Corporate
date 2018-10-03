@@ -71,7 +71,7 @@ public class HobbyResource {
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deletePerson(@PathParam("id") int id) {
+    public Response deletePerson(@PathParam("id") int id) throws KrakException {
         HobbyDTO hobbyDTO = facade.deleteHobby(id);
         String json = gson.toJson(hobbyDTO);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();

@@ -44,6 +44,8 @@ public class Hobby implements Serializable {
     public Hobby(HobbyDTO hobbyDTO) {
     }
 
+    public Hobby() {
+    }
 
     public Integer getId() {
         return id;

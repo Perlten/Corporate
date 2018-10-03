@@ -39,7 +39,7 @@ public class HobbyResource {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findHobbyById(@PathParam("id") int id) throws KrakException {
-        HobbyDTO hobby = facade.findHobbyByID(id);
+        HobbyDTO hobby = facade.findHobbyDTOByID(id);
         String json = gson.toJson(hobby);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }

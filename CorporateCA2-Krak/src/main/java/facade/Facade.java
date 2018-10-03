@@ -8,7 +8,6 @@ package facade;
 import dto.CompanyDTO;
 import dto.HobbyDTO;
 import dto.PersonContactDTO;
-import dto.PersonCreateDTO;
 import dto.PersonDTO;
 import entity.Company;
 import entity.Hobby;
@@ -37,7 +36,8 @@ public class Facade implements FacadeInterface {
     public PersonDTO getInformation(int phonenumber) {
         EntityManager em = getEm();
         try {
-            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) From Person as p where :phonenumber MEMBER OF (SELECT p.number FROM Phone p)", PersonDTO.class);
+//            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) From Person as p where p.id = (SELECT ph.infoEntity.id from Phone ph where ph.number = :phonenumber)", PersonDTO.class);
+            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) From Person as p join p.phones ph where ph.number = :phonenumber", PersonDTO.class);
             tq.setParameter("phonenumber", phonenumber);
             return tq.getSingleResult();
         }
@@ -48,7 +48,16 @@ public class Facade implements FacadeInterface {
     
     @Override
     public PersonContactDTO getContactInformation(int phonenumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEm();
+        try {
+//            TypedQuery<PersonContactDTO> tq = em.createQuery("select new dto.PersonContactDTO(p) From Person as p where p.id = (SELECT ph.infoEntity.id from Phone ph where ph.number = :phonenumber)", PersonContactDTO.class);
+            TypedQuery<PersonContactDTO> tq = em.createQuery("select new dto.PersonContactDTO(p) From Person as p join p.phones ph where ph.number = :phonenumber", PersonContactDTO.class);
+            tq.setParameter("phonenumber", phonenumber);
+            return tq.getSingleResult();
+        }
+        finally {
+            em.close();
+        }
     }
 
     @Override
@@ -63,12 +72,28 @@ public class Facade implements FacadeInterface {
 
     @Override
     public List<PersonDTO> getPersonsByHobby(String hobby) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEm();
+        try {
+            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) From Person as p join p.hobbies h where h.name = :hobby", PersonDTO.class);
+            tq.setParameter("hobby", hobby);
+            return tq.getResultList();
+        }
+        finally {
+            em.close();
+        }
     }
 
     @Override
     public List<PersonDTO> getPersonsInCity(int zipcode) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEm();
+        try {
+            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) From Person as p join p.addresses a where a.cityInfo.zip = :zipcode", PersonDTO.class);
+            tq.setParameter("zipcode", zipcode);
+            return tq.getResultList();
+        }
+        finally {
+            em.close();
+        }
     }
 
     @Override
@@ -87,7 +112,7 @@ public class Facade implements FacadeInterface {
     }
 
     @Override
-    public PersonDTO findPersonById(int id) {
+    public Person findPersonById(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -107,7 +132,12 @@ public class Facade implements FacadeInterface {
     }
 
     @Override
-    public CompanyDTO findCompanyByID(int id) {
+    public CompanyDTO findCompanyDTOByID(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public Company findCompanyByID(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -127,7 +157,12 @@ public class Facade implements FacadeInterface {
     }
 
     @Override
-    public HobbyDTO findHobbyByID(int id) {
+    public HobbyDTO findHobbyDTOByID(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public Hobby findHobbyByID(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -148,6 +183,11 @@ public class Facade implements FacadeInterface {
 
     @Override
     public List<PersonDTO> getAllPersons() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public PersonDTO findPersonDTOById(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

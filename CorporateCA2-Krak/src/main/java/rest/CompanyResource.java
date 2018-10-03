@@ -79,7 +79,7 @@ public class CompanyResource {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findCompanyById(@PathParam("id") int id) throws KrakException {
-        CompanyDTO company = facade.findCompanyByID(id);
+        CompanyDTO company = facade.findCompanyDTOByID(id);
         String json = gson.toJson(company);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }

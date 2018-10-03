@@ -88,7 +88,7 @@ public class PersonRest {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findPersonById(@PathParam("id") int id) throws KrakException {
-        PersonDTO person = facade.findPersonById(id);
+        PersonDTO person = facade.findPersonDTOById(id);
         String json = gson.toJson(person);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }

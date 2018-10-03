@@ -5,6 +5,8 @@
  */
 package main;
 
+import dto.PersonDTO;
+import facade.Facade;
 import javax.persistence.Persistence;
 
 /**
@@ -13,6 +15,5 @@ import javax.persistence.Persistence;
  */
 public class RunJPA {
     public static void main(String[] args) {
-        Persistence.generateSchema("pu", null);
     }
 }

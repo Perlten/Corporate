@@ -156,7 +156,7 @@ public class FacadeTest {
      * Test of findPersonById method, of class Facade.
      */
     @Test
-    public void testFindPersonById() {
+    public void testFindPersonById() throws KrakException {
         String expected1 = "Adam";
         String expected2 = "Lass";
 
@@ -170,7 +170,7 @@ public class FacadeTest {
     }
 
     @Test(expected = KrakException.class)
-    public void testFindPersonByIdThrowsKrakException() {
+    public void testFindPersonByIdThrowsKrakException() throws KrakException {
         facade.findPersonById(2);
     }
 
@@ -191,7 +191,7 @@ public class FacadeTest {
      * Test of editPerson method, of class Facade.
      */
     @Test
-    public void testEditPerson() {
+    public void testEditPerson() throws KrakException {
         Person person1 = facade.findPersonById(1);
         person1.setLastname("Lars");
         String actual = facade.editPerson(person1).getLastname();
@@ -203,7 +203,7 @@ public class FacadeTest {
      * Test of deletePerson method, of class Facade.
      */
     @Test(expected = KrakException.class)
-    public void testDeletePerson() {
+    public void testDeletePerson() throws KrakException {
         int id = 1;
         facade.deletePerson(id);
         facade.findPersonById(id);
@@ -213,14 +213,14 @@ public class FacadeTest {
      * Test of findCompanyByID method, of class Facade.
      */
     @Test
-    public void testFindCompanyByID() {
+    public void testFindCompanyByID() throws KrakException {
         String expected = "Corporate";
         String actual = facade.findCompanyByID(2).getName();
         assertEquals(expected, actual);
     }
 
     @Test(expected = KrakException.class)
-    public void testFindCompanyByIdThrowKrakException() {
+    public void testFindCompanyByIdThrowKrakException() throws KrakException {
         facade.findCompanyDTOByID(1);
     }
 
@@ -243,12 +243,11 @@ public class FacadeTest {
      * Test of editCompany method, of class Facade.
      */
     @Test
-    public void testEditCompany() {
-        System.out.println("editCompany");
-        Company company = facade.findCompanyByID(1);
+    public void testEditCompany() throws KrakException {
+        Company company = facade.findCompanyByID(2);
         company.setCvr(42343);
         facade.editCompany(company);
-        Company edited = facade.findCompanyByID(1);
+        Company edited = facade.findCompanyByID(2);
         assertEquals(42343, edited.getCvr());
 
     }
@@ -257,7 +256,7 @@ public class FacadeTest {
      * Test of deleteCompany method, of class Facade.
      */
     @Test(expected = KrakException.class)
-    public void testDeleteCompany() {
+    public void testDeleteCompany() throws KrakException {
         int id = 2;
         facade.deleteCompany(id);
         facade.findCompanyByID(id);
@@ -267,9 +266,9 @@ public class FacadeTest {
      * Test of findHobbyByID method, of class Facade.
      */
     @Test
-    public void testFindHobbyByID() {
+    public void testFindHobbyByID() throws KrakException {
         String expected = "Chess";
-        String actual = facade.findCompanyByID(1).getName();
+        String actual = facade.findCompanyByID(2).getName();
         assertEquals(expected, actual);
     }
 
@@ -288,7 +287,7 @@ public class FacadeTest {
      * Test of editHobby method, of class Facade.
      */
     @Test
-    public void testEditHobby() {
+    public void testEditHobby() throws KrakException {
         Hobby hobby1 = facade.findHobbyByID(1);
         hobby1.setName("Hockey");
         HobbyDTO hobby2 = facade.editHobby(hobby1);
@@ -299,7 +298,7 @@ public class FacadeTest {
      * Test of deleteHobby method, of class Facade.
      */
     @Test(expected = KrakException.class)
-    public void testDeleteHobby() {
+    public void testDeleteHobby() throws KrakException {
         int id = 1;
         facade.deleteHobby(id);
         facade.findHobbyByID(id);
@@ -319,7 +318,7 @@ public class FacadeTest {
      * Test of findCompanyDTOByID method, of class Facade.
      */
     @Test
-    public void testFindCompanyDTOByID() {
+    public void testFindCompanyDTOByID() throws KrakException {
        String expected = "Corporate";
         String actual = facade.findCompanyDTOByID(2).name;
         assertEquals(expected, actual);
@@ -329,7 +328,7 @@ public class FacadeTest {
      * Test of findHobbyDTOByID method, of class Facade.
      */
     @Test
-    public void testFindHobbyDTOByID() {
+    public void testFindHobbyDTOByID() throws KrakException {
         String expected = "Chess";
         String actual = facade.findCompanyDTOByID(1).name;
         assertEquals(expected, actual);
@@ -339,7 +338,7 @@ public class FacadeTest {
      * Test of findPersonDTOById method, of class Facade.
      */
     @Test
-    public void testFindPersonDTOById() {
+    public void testFindPersonDTOById() throws KrakException {
         String expected1 = "Adam";
         String expected2 = "Lass";
 

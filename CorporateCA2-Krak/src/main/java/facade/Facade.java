@@ -15,6 +15,7 @@ import entity.Person;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 /**
@@ -59,6 +60,11 @@ public class Facade implements FacadeInterface {
         finally {
             em.close();
         }
+    }
+    
+    public static void main(String[] args) {
+        Facade f = new Facade(Persistence.createEntityManagerFactory("putest"));
+        f.getContactInformation(123);
     }
 
     @Override

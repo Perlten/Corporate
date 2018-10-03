@@ -41,6 +41,10 @@ public class Hobby implements Serializable {
         this.description = description;
     }
 
+    public Hobby(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
     
 
     public Integer getId() {

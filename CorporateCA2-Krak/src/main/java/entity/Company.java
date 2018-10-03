@@ -26,6 +26,14 @@ public class Company extends InfoEntity {
         
     }
 
+    public Company(String name, String description, int cvr, int marketValue, String email) {
+        super(email);
+        this.name = name;
+        this.description = description;
+        this.cvr = cvr;
+        this.marketValue = marketValue;
+    }
+
     public String getName() {
         return name;
     }

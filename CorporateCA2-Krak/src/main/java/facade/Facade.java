@@ -106,7 +106,12 @@ public class Facade implements FacadeInterface {
     }
 
     @Override
-    public CompanyDTO findCompanyByID(int id) {
+    public CompanyDTO findCompanyDTOByID(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public Company findCompanyByID(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -126,7 +131,12 @@ public class Facade implements FacadeInterface {
     }
 
     @Override
-    public HobbyDTO findHobbyByID(int id) {
+    public HobbyDTO findHobbyDTOByID(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public Hobby findHobbyByID(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -7,7 +7,6 @@ package facade;
 
 import dto.CompanyDTO;
 import dto.HobbyDTO;
-import dto.PersonContactDTO;
 import dto.PersonDTO;
 import entity.Company;
 import entity.Hobby;
@@ -162,9 +161,14 @@ public class FacadeTest {
         String expected2 = "Lass";
 
         int personId = 1;
-        PersonDTO object = facade.findPersonById(personId);
+        Person object = facade.findPersonById(personId);
         String actual1 = object.getFirstname();
         String actual2 = object.getLastname();
+    }
+    
+    @Test(expected = KrakException.class)
+    public void testFindPersonByIdThrowsKrakException(){
+        facade.findPersonById(2);
     }
 
     /**
@@ -185,37 +189,35 @@ public class FacadeTest {
      */
     @Test
     public void testEditPerson() {
+       String expected = "Lars";
+       
+       Person person1 = facade.findPersonById(1);
+       person1.setLastname(expected);
+       String actual = facade.editPerson(person1).getLastname();
+       assertEquals(expected, actual);
        
     }
 
     /**
      * Test of deletePerson method, of class Facade.
      */
-    @Test
+    @Test(expected = KrakException.class)
     public void testDeletePerson() {
-        System.out.println("deletePerson");
-        int id = 0;
-        Facade instance = null;
-        PersonDTO expResult = null;
-        PersonDTO result = instance.deletePerson(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int id = 1;
+        facade.deletePerson(id);
+        facade.findPersonById(id);
     }
 
     /**
      * Test of findCompanyByID method, of class Facade.
      */
-    @Test
+    @Test(expected = KrakException.class)
     public void testFindCompanyByID() {
-        System.out.println("findCompanyByID");
-        int id = 0;
-        Facade instance = null;
-        CompanyDTO expResult = null;
-        CompanyDTO result = instance.findCompanyByID(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String expected = "Corporate";
+        String actual = facade.findCompanyDTOByID(2).name;
+        assertEquals(expected, actual);
+        
+        
     }
 
     /**
@@ -268,14 +270,7 @@ public class FacadeTest {
      */
     @Test
     public void testFindHobbyByID() {
-        System.out.println("findHobbyByID");
-        int id = 0;
-        Facade instance = null;
-        HobbyDTO expResult = null;
-        HobbyDTO result = instance.findHobbyByID(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**

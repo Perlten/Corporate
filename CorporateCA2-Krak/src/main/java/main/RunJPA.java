@@ -22,5 +22,7 @@ public class RunJPA {
         System.out.println(p);
         System.out.println(facade.getPersonsByHobby("Chess"));
         System.out.println(facade.getPersonsInCity(2400));
+        System.out.println(facade.companyInformationOnPhone(32622145));
+        System.out.println(facade.companyInformationOnCVR(39042110));
     }
 }

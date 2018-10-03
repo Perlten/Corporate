@@ -22,6 +22,7 @@ import javax.persistence.TypedQuery;
  * @author Rasmus
  */
 public class Facade implements FacadeInterface {
+
     EntityManagerFactory emf;
 
     public Facade(EntityManagerFactory emf) {
@@ -32,6 +33,7 @@ public class Facade implements FacadeInterface {
         return emf.createEntityManager();
     }
 //Edit constructor
+
     @Override
     public PersonDTO getInformation(int phonenumber) {
         EntityManager em = getEm();
@@ -45,7 +47,7 @@ public class Facade implements FacadeInterface {
             em.close();
         }
     }
-    
+
     @Override
     public PersonContactDTO getContactInformation(int phonenumber) {
         EntityManager em = getEm();
@@ -61,13 +63,29 @@ public class Facade implements FacadeInterface {
     }
 
     @Override
-    public CompanyDTO companyInformationOnPhone(int phone) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public CompanyDTO companyInformationOnPhone(int phonenumber) {
+        EntityManager em = getEm();
+        try {
+            TypedQuery<CompanyDTO> tq = em.createQuery("select new dto.CompanyDTO(c) From Company as c join c.phones ph where ph.number = :phonenumber", CompanyDTO.class);
+            tq.setParameter("phonenumber", phonenumber);
+            return tq.getSingleResult();
+        }
+        finally {
+            em.close();
+        }
     }
 
     @Override
     public CompanyDTO companyInformationOnCVR(int cvr) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEm();
+        try {
+            TypedQuery<CompanyDTO> tq = em.createQuery("select new dto.CompanyDTO(c) From Company as c where c.cvr = :cvr", CompanyDTO.class);
+            tq.setParameter("cvr", cvr);
+            return tq.getSingleResult();
+        }
+        finally {
+            em.close();
+        }
     }
 
     @Override

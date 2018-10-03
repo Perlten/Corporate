@@ -17,7 +17,7 @@ import javax.persistence.Persistence;
 public class RunJPA {
     
     public static void main(String[] args) throws KrakException {
-        Persistence.generateSchema("putest", null);
+        Persistence.generateSchema("pu", null);
         
         Facade facade = new Facade(Persistence.createEntityManagerFactory("putest"));
         PersonDTO p = facade.getInformation(20681825);

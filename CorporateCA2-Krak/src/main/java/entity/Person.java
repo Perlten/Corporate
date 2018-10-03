@@ -11,6 +11,7 @@ import dto.PersonDTO;
 import dto.PhoneDTO;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -20,7 +21,7 @@ import javax.validation.constraints.NotNull;
 @DiscriminatorValue("P")
 public class Person extends InfoEntity {
 
-    @ManyToMany(mappedBy = "persons")
+    @ManyToMany(mappedBy = "persons", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Hobby> hobbies = new ArrayList<>();
 
     @NotNull

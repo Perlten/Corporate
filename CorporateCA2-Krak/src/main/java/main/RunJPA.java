@@ -24,5 +24,9 @@ public class RunJPA {
         System.out.println(facade.getPersonsInCity(2400));
         System.out.println(facade.companyInformationOnPhone(32622145));
         System.out.println(facade.companyInformationOnCVR(39042110));
+        System.out.println(facade.countOfPeopleByHobby("Chess"));
+        System.out.println(facade.listOfAllZipcodes().size());
+        System.out.println(facade.companyWithMoreThanXEmployees(4));
+        System.out.println(facade.findPersonById(1).getFirstname());
     }
 }

@@ -15,6 +15,7 @@ import entity.Person;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -32,7 +33,6 @@ public class Facade implements FacadeInterface {
     private EntityManager getEm() {
         return emf.createEntityManager();
     }
-//Edit constructor
 
     @Override
     public PersonDTO getInformation(int phonenumber) {
@@ -116,96 +116,302 @@ public class Facade implements FacadeInterface {
 
     @Override
     public int countOfPeopleByHobby(String hobby) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEm();
+        try {
+            TypedQuery<Integer> tq = em.createQuery("select size(h.persons) from Hobby h where h.name = :hobby", Integer.class);
+            tq.setParameter("hobby", hobby);
+            return tq.getSingleResult();
+        }
+        finally {
+            em.close();
+        }
     }
 
     @Override
     public List<Integer> listOfAllZipcodes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEm();
+        try {
+            TypedQuery<Integer> tq = em.createQuery("select c.zip FROM CityInfo c", Integer.class);
+            return tq.getResultList();
+        }
+        finally {
+            em.close();
+        }
     }
 
     @Override
     public List<CompanyDTO> companyWithMoreThanXEmployees(int employeeCount) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Person findPersonById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public PersonDTO addPerson(Person person) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public PersonDTO editPerson(Person person) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public PersonDTO deletePerson(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public CompanyDTO findCompanyDTOByID(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    @Override
-    public Company findCompanyByID(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public CompanyDTO addCompany(Company company) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public CompanyDTO editCompany(Company company) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public CompanyDTO deleteCompany(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public HobbyDTO findHobbyDTOByID(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    @Override
-    public Hobby findHobbyByID(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public HobbyDTO addHobby(Hobby hobby) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public HobbyDTO editHobby(Hobby hobby) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public HobbyDTO deleteHobby(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEm();
+        try {
+            TypedQuery<CompanyDTO> tq = em.createQuery("select new dto.CompanyDTO(c) FROM Company as c where c.numEmployees = :employeeCount", CompanyDTO.class);
+            tq.setParameter("employeeCount", employeeCount);
+            return tq.getResultList();
+        }
+        finally {
+            em.close();
+        }
     }
 
     @Override
     public List<PersonDTO> getAllPersons() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEm();
+        try {
+            TypedQuery<PersonDTO> tq = em.createQuery("SELECT new dto.PersonDTO(p) from Person p", PersonDTO.class);
+            return tq.getResultList();
+        }
+        finally {
+            em.close();
+        }
     }
 
     @Override
-    public PersonDTO findPersonDTOById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public PersonDTO findPersonDTOById(int id) throws KrakException {
+        EntityManager em = getEm();
+        Person p = null;
+        try {
+            em.getTransaction().begin();
+            p = em.find(Person.class, id);
+            if (p == null) {
+                throw new KrakException("Could not find that person", id);
+            }
+            em.getTransaction().commit();
+        }
+        finally {
+            em.close();
+        }
+        return new PersonDTO(p);
     }
+
+    @Override
+    public Person findPersonById(int id) throws KrakException {
+        EntityManager em = getEm();
+        Person res = null;
+        try {
+            em.getTransaction().begin();
+            res = em.find(Person.class, id);
+            em.getTransaction().commit();
+        }
+        finally {
+            em.close();
+        }
+        if (res == null) {
+            throw new KrakException("The person was not found!", id);
+        }
+        return res;
+    }
+
+    @Override
+    public PersonDTO addPerson(Person person) {
+        EntityManager em = getEm();
+        try {
+            em.getTransaction().begin();
+            em.persist(person);
+            em.getTransaction().commit();
+        }
+        finally {
+            em.close();
+        }
+        return new PersonDTO(person);
+    }
+
+    @Override
+    public PersonDTO editPerson(Person person) {
+        EntityManager em = getEm();
+        try {
+            em.getTransaction().begin();
+            em.merge(person);
+            em.getTransaction().commit();
+        }
+        finally {
+            em.close();
+        }
+        return new PersonDTO(person);
+    }
+
+    @Override
+    public PersonDTO deletePerson(int id) throws KrakException {
+        EntityManager em = getEm();
+        Person person = null;
+        try {
+            em.getTransaction().begin();
+            person = em.find(Person.class, id);
+            if (person == null) {
+                throw new KrakException("Person does not exist!", id);
+            }
+            em.remove(person);
+            em.getTransaction().commit();
+        }
+        finally {
+            em.close();
+        }
+        return new PersonDTO(person);
+    }
+
+    @Override
+    public CompanyDTO findCompanyDTOByID(int id) throws KrakException {
+        EntityManager em = getEm();
+        CompanyDTO res = null;
+        try {
+            em.getTransaction().begin();
+            res = em.find(CompanyDTO.class, id);
+            em.getTransaction().commit();
+        }
+        finally {
+            em.close();
+        }
+        if (res == null) {
+            throw new KrakException("The company was not found!", id);
+        }
+        return res;
+    }
+
+    @Override
+    public Company findCompanyByID(int id) throws KrakException {
+        EntityManager em = getEm();
+        Company res = null;
+        try {
+            em.getTransaction().begin();
+            res = em.find(Company.class, id);
+            em.getTransaction().commit();
+        }
+        finally {
+            em.close();
+        }
+        if (res == null) {
+            throw new KrakException("The company was not found!", id);
+        }
+        return res;
+    }
+
+    @Override
+    public CompanyDTO addCompany(Company company) {
+        EntityManager em = getEm();
+        try {
+            em.getTransaction().begin();
+            em.persist(company);
+            em.getTransaction().commit();
+        }
+        finally {
+            em.close();
+        }
+        return new CompanyDTO(company);
+    }
+
+    @Override
+    public CompanyDTO editCompany(Company company) {
+        EntityManager em = getEm();
+        try {
+            em.getTransaction().begin();
+            em.merge(company);
+            em.getTransaction().commit();
+        }
+        finally {
+            em.close();
+        }
+        return new CompanyDTO(company);
+    }
+
+    @Override
+    public CompanyDTO deleteCompany(int id) throws KrakException {
+        EntityManager em = getEm();
+        Company company = null;
+        try {
+            em.getTransaction().begin();
+            company = em.find(Company.class, id);
+            if (company == null) {
+                throw new KrakException("The company does not exist", id);
+            }
+            em.getTransaction().commit();
+        }
+        finally {
+            em.close();
+        }
+        return new CompanyDTO(company);
+    }
+
+    @Override
+    public HobbyDTO findHobbyDTOByID(int id) throws KrakException {
+        EntityManager em = getEm();
+        Hobby res = null;
+        try {
+            em.getTransaction().begin();
+            res = em.find(Hobby.class, id);
+            if (res == null) {
+                throw new KrakException("Hobby not found", id);
+            }
+            em.getTransaction().commit();
+        }
+        finally {
+            em.close();
+        }
+        return new HobbyDTO(res);
+    }
+
+    @Override
+    public Hobby findHobbyByID(int id) throws KrakException {
+        EntityManager em = getEm();
+        Hobby res = null;
+        try {
+            em.getTransaction().begin();
+            res = em.find(Hobby.class, id);
+            if (res == null) {
+                throw new KrakException("Hobby not found", id);
+            }
+            em.getTransaction().commit();
+        }
+        finally {
+            em.close();
+        }
+        return res;
+    }
+
+    @Override
+    public HobbyDTO addHobby(Hobby hobby) {
+        EntityManager em = getEm();
+        try {
+            em.getTransaction().begin();
+            em.persist(hobby);
+            em.getTransaction().commit();
+        }
+        finally {
+            em.close();
+        }
+        return new HobbyDTO(hobby);
+    }
+
+    @Override
+    public HobbyDTO editHobby(Hobby hobby) {
+        EntityManager em = getEm();
+        try {
+            em.getTransaction().begin();
+            em.merge(hobby);
+            em.getTransaction().commit();
+        }
+        finally {
+            em.close();
+        }
+        return new HobbyDTO(hobby);
+
+    }
+
+    @Override
+    public HobbyDTO deleteHobby(int id) throws KrakException {
+        EntityManager em = getEm();
+        Hobby res = null;
+        try {
+            em.getTransaction().begin();
+            res = em.find(Hobby.class, id);
+            if (res == null) {
+                throw new KrakException("Could not find Hobby", id);
+            }
+            em.remove(res);
+            em.getTransaction().commit();
+        }
+        finally {
+            em.close();
+        }
+        return new HobbyDTO(res);
+
+    }
+
 }

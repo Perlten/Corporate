@@ -16,7 +16,7 @@ import javax.persistence.ManyToMany;
 public class Person extends InfoEntity {
 
     @ManyToMany(mappedBy = "persons")
-    private List<Hobby> hobbys;
+    private List<Hobby> hobbies;
 
     private String firstname;
     private String lastname;
@@ -43,4 +43,15 @@ public class Person extends InfoEntity {
         this.lastname = lastname;
     }
 
+    public List<Hobby> getHobbies() {
+        return hobbies;
+    }
+
+    public void setHobbies(List<Hobby> hobbies) {
+        this.hobbies = hobbies;
+    }
+    
+    public void addHobbies(Hobby hobby) {
+        this.hobbies.add(hobby);
+    }
 }

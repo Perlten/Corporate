@@ -32,11 +32,10 @@ public class InfoEntity implements Serializable {
     
     @OneToMany(mappedBy = "infoEntity")
     private List<Phone> phones;
+    private String email;
 
     public InfoEntity() {
     }
-
-    private String email;
 
     public Integer getId() {
         return id;

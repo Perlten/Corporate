@@ -5,10 +5,9 @@ import entity.Address;
 public class AddressDTO {
 
     //Address
-    public String street, additionalInfo;
+    private String street, city, additionalInfo;
     //City
-    public int zip;
-    public String city;
+    private int zip;
 
     public AddressDTO(Address address) {
         this.street = address.getStreet();

@@ -5,10 +5,17 @@
  */
 package dto;
 
+import entity.Hobby;
+
 /**
  *
  * @author Jesper
  */
 public class HobbyDTO {
-    
+    private String name, description;
+
+    public HobbyDTO(Hobby hobby) {
+        this.name = hobby.getName();
+        this.description = hobby.getDescription();
+    }
 }

@@ -164,6 +164,9 @@ public class FacadeTest {
         Person object = facade.findPersonById(personId);
         String actual1 = object.getFirstname();
         String actual2 = object.getLastname();
+        
+        assertEquals(expected1, actual1);
+        assertEquals(expected2, actual2);
     }
 
     @Test(expected = KrakException.class)
@@ -212,7 +215,7 @@ public class FacadeTest {
     @Test
     public void testFindCompanyByID() {
         String expected = "Corporate";
-        String actual = facade.findCompanyDTOByID(2).name;
+        String actual = facade.findCompanyByID(2).getName();
         assertEquals(expected, actual);
     }
 
@@ -310,6 +313,43 @@ public class FacadeTest {
         int expected = 1;
         int actual = facade.getAllPersons().size();
         assertEquals(expected, actual);
+    }
+
+    /**
+     * Test of findCompanyDTOByID method, of class Facade.
+     */
+    @Test
+    public void testFindCompanyDTOByID() {
+       String expected = "Corporate";
+        String actual = facade.findCompanyDTOByID(2).name;
+        assertEquals(expected, actual);
+    }
+
+    /**
+     * Test of findHobbyDTOByID method, of class Facade.
+     */
+    @Test
+    public void testFindHobbyDTOByID() {
+        String expected = "Chess";
+        String actual = facade.findCompanyDTOByID(1).name;
+        assertEquals(expected, actual);
+    }
+
+    /**
+     * Test of findPersonDTOById method, of class Facade.
+     */
+    @Test
+    public void testFindPersonDTOById() {
+        String expected1 = "Adam";
+        String expected2 = "Lass";
+
+        int personId = 1;
+        PersonDTO object = facade.findPersonDTOById(personId);
+        String actual1 = object.firstname;
+        String actual2 = object.lastname;
+        
+        assertEquals(expected1, actual1);
+        assertEquals(expected2, actual2);
     }
     
     

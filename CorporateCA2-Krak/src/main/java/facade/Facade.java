@@ -53,13 +53,14 @@ public class Facade implements FacadeInterface {
 //            TypedQuery<PersonContactDTO> tq = em.createQuery("select new dto.PersonContactDTO(p) From Person as p where p.id = (SELECT ph.infoEntity.id from Phone ph where ph.number = :phonenumber)", PersonContactDTO.class);
             TypedQuery<PersonContactDTO> tq = em.createQuery("select new dto.PersonContactDTO(p) From Person as p join p.phones ph where ph.number = :phonenumber", PersonContactDTO.class);
             tq.setParameter("phonenumber", phonenumber);
-            return tq.getSingleResult();
+            PersonContactDTO person = tq.getSingleResult();
+            return person;
         }
         finally {
             em.close();
         }
     }
-
+    
     @Override
     public CompanyDTO companyInformationOnPhone(int phone) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

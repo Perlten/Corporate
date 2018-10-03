@@ -27,7 +27,7 @@ import javax.ws.rs.core.Response;
 @Path("person")
 public class PersonRest {
 
-    private FacadeInterface facade = new Facade(Persistence.createEntityManagerFactory("pu"));
+    private Facade facade = new Facade(Persistence.createEntityManagerFactory("pu"));
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     @Context
@@ -61,9 +61,6 @@ public class PersonRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getContactInformation(@PathParam("phoneNumber") int phoneNumber) throws KrakException {
         PersonContactDTO person = facade.getContactInformation(phoneNumber);
-        if (person == null) {
-            throw new KrakException("Could not find person", 404);
-        }
         String json = gson.toJson(person);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }

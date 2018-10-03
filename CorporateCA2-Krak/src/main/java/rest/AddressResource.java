@@ -27,7 +27,7 @@ import javax.ws.rs.core.Response;
 @Path("address")
 public class AddressResource {
 
-    private FacadeInterface facade = new Facade(Persistence.createEntityManagerFactory("pu"));
+    private Facade facade = new Facade(Persistence.createEntityManagerFactory("pu"));
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     
     @Context

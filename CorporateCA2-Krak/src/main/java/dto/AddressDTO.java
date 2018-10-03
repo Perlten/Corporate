@@ -9,7 +9,7 @@ public class AddressDTO {
     //Address
     public String street, city, additionalInfo;
     //City
-    public int id, zip;
+    public int id, zip, cityId;
 
     public AddressDTO(Address address) {
         this.id = address.getId();
@@ -18,6 +18,7 @@ public class AddressDTO {
         
         this.zip = address.getCityInfo().getZip();
         this.city = address.getCityInfo().getCity();
+        this.cityId = address.getCityInfo().getId();
     }
 
 }

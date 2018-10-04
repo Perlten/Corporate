@@ -23,9 +23,9 @@ function companyConverter(data){
     var entity ={
         name: data.name,
         email: data.email,
-        phones: data.phones,
+        phones: data.phoneList,
         img: "pics/img_avatar3.png",
-        addresses: data.addresses
+        addresses: data.addressList
     }
     return entity
 }
@@ -57,6 +57,20 @@ function entityLoader(data, converter) {
 
 }
 
+function isArray(what) {
+    return Object.prototype.toString.call(what) === '[object Array]';
+}
+
+function listLoader(data, converter){
+    if(isArray(data)){
+        for(element of data){
+            entityLoader(element, converter)
+        }
+    } else {
+        entityLoader(data, converter)
+    }
+}
+
 search.addEventListener("keyup", function (event) {
     event.preventDefault()
     results.innerHTML = ""
@@ -66,10 +80,10 @@ search.addEventListener("keyup", function (event) {
     //if is a number
     if (!isNaN(value) && value.length == 8) {
         //make rest call on person phone numbers
-        REST(URLPERS + "phone/" + value, entityLoader, personConverter)
+        REST(URLPERS + "phone/" + value, listLoader, personConverter)
 
         //company
-        REST(URLCOMP + "phone/" + value, entityLoader,companyConverter)
+        REST(URLCOMP + "phone/" + value, listLoader,companyConverter)
     }
 
 

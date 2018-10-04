@@ -14,6 +14,23 @@ var infoEntities = []
 
 var startTime = 0
 
+var placeholder = "Søg firma, person, telefon, hobby, postnummer"
+var chars = placeholder.split("")
+
+var timer
+
+var paddingTop = "4.3%"
+
+function loadChar() {
+    search.placeholder += chars.shift()
+    if (chars.length < 1) {
+        clearInterval(timer)
+    }
+}
+
+this.onload = function () {
+    timer = setInterval(loadChar, 40)
+}
 
 function personConverter(data) {
     //get a picture id
@@ -25,7 +42,8 @@ function personConverter(data) {
         email: data.email,
         phones: data.phones,
         img: "pics/man" + picid + ".png",
-        addresses: data.addresses
+        addresses: data.addresses,
+        hobbies: data.hobbies
     }
     return entity
 }
@@ -43,6 +61,19 @@ function companyConverter(data) {
     return entity
 }
 
+function show(id){
+    console.log("showing " + id)
+    var info = document.getElementById("info_" + id)
+    var h4 = document.getElementById("h4_" + id)
+    if(info.style.display == "none"){
+        info.style.display = "block"
+        h4.style.paddingTop = "0px"
+    } else{
+        info.style.display = "none" 
+        h4.style.paddingTop = paddingTop
+    }
+}
+
 function entityLoader(data, converter) {
     var e = converter(data)
     //if the id of the data is not already displayed
@@ -57,25 +88,39 @@ function entityLoader(data, converter) {
         document.getElementById("seconds").innerHTML = deltaTime
 
         //setting html
-        var html = '<div class="media border p-3" style="background-color: white">'
+        var html = '<div onclick="show(' + e.id + ')" class="media border p-3" style="background-color: white">'
         html += '<img src="' + e.img + '" alt="type" class="mr-3 mt-3 rounded-circle" style="width:60px;">'
         html += '<div class="media-body">'
-        html += "<h4>" + e.name + " <small><i>" + e.email + "</i></small></h4>"
+        
+        html += "<h4 id='h4_" + e.id + "' style='padding-top: " + paddingTop + "'>" + e.name + " <small><i>" + e.email + "</i></small></h4>"
+        html += "<div style='display: none' id='info_" + e.id + "'>"
         if (e.cvr) {
             html += "<i>CVR: " + e.cvr + "</i><br>"
         }
-
+        
         for (address of e.addresses) {
             html += '<p href="#" data-toggle="tooltip" title="' + address.additionalInfo + '">'
             html += address.street + "<br>"
             html += address.zip + ", " + address.city
             html += '</p>'
         }
-
-
+        
+        
         for (phone of e.phones) {
             html += "<b>Tlf: </b>" + "<a href='tel:+45" + phone.number + "'>" + phone.number + "</a> - " + phone.description + "<br>"
         }
+        
+        if (e.hobbies) {
+            if(e.hobbies.length > 0){
+                html += "<b>Hobbies: <b>"
+                for (hobby of e.hobbies) {
+                    html += '<span class="badge badge-secondary">' + hobby.name + '</span> '
+                }
+            }
+        }
+        html += "</div>"
+
+
 
         html += '</div>'
         html += "</div><br>"

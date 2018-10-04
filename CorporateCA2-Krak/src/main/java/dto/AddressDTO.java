@@ -19,6 +19,6 @@ public class AddressDTO {
         this.zip = address.getCityInfo().getZip();
         this.city = address.getCityInfo().getCity();
         this.cityId = address.getCityInfo().getId();
-    }
+        }
 
 }

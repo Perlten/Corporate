@@ -50,4 +50,8 @@ public class CompanyDTO {
         this.email = email;
     }
     
+    public CompanyDTO(String name, String description, int cvr, int numEmployees, int marketValue, String email){
+        this(-1, name, description, cvr, numEmployees, marketValue, email);
+    }
+    
 }

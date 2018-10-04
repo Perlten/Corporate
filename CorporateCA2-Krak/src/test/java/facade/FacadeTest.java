@@ -45,7 +45,6 @@ public class FacadeTest {
 
     @BeforeClass
     public static void setUpClass() {
-
     }
 
     @AfterClass
@@ -245,7 +244,7 @@ public class FacadeTest {
         Person object = facade.findPersonById(personId);
         String actual1 = object.getFirstname();
         String actual2 = object.getLastname();
-        
+
         assertEquals(expected1, actual1);
         assertEquals(expected2, actual2);
     }
@@ -411,7 +410,7 @@ public class FacadeTest {
      */
     @Test
     public void testFindCompanyDTOByID() throws KrakException {
-       String expected = "Corporate";
+        String expected = "Corporate";
         String actual = facade.findCompanyDTOByID(2).name;
         assertEquals(expected, actual);
     }
@@ -430,12 +429,10 @@ public class FacadeTest {
         PersonDTO object = facade.findPersonDTOById(personId);
         String actual1 = object.firstname;
         String actual2 = object.lastname;
-        
+
         assertEquals(expected1, actual1);
         assertEquals(expected2, actual2);
     }
-    
-    
 
 }
   /* HOW TO CREATE THE TEST TABLES

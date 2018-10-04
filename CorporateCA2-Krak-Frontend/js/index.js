@@ -33,6 +33,7 @@ this.onload = function () {
 }
 
 function personConverter(data) {
+    // console.log(data)
     //get a picture id
     var picid = (data.id % 2) + 1
 
@@ -112,6 +113,7 @@ function entityLoader(data, converter) {
         
         if (e.hobbies) {
             if(e.hobbies.length > 0){
+                console.log(e.hobbies)
                 html += "<b>Hobbies: <b>"
                 for (hobby of e.hobbies) {
                     html += '<span class="badge badge-secondary">' + hobby.name + '</span> '

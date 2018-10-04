@@ -36,11 +36,12 @@ public class DataGenerator {
     //Phone
     private final String[] phoneDesc = {"Good camera", "Long lasting battery", "10/10 quality", "4K videos", "Very fast", "Wireless charging", "Sends secret info to Google", "Beautiful looking", "No buttons.. All touch"};
 
+    private final int TESTDATA = 500;
+
     public String generateData() {
         String res = "";
         res += generateInfoEntity();
         res += generatePerson();
-//        res += generateCompany();
         res += generateCityInfo();
         res += generateAddress();
         res += generateAddressCityInfo();
@@ -53,7 +54,7 @@ public class DataGenerator {
     private String generatePhone() {
         String res = "";
         int phone = 12345678;
-        for (int i = 1; i <= 500; i++) {
+        for (int i = 1; i <= TESTDATA; i++) {
             int descIndex = random.nextInt(9);
             res += "INSERT INTO `PHONE` VALUES (" + i + ",'" + phoneDesc[descIndex] + "'," + phone + "," + i + ");\n";
             phone += 123456;
@@ -66,7 +67,7 @@ public class DataGenerator {
         int marketValue = 100000000;
         int empCount = 10;
         String res = "";
-        for (int i = 1; i <= 1000; i++) {
+        for (int i = 1; i <= TESTDATA * 2; i++) {
             if (i % 2 != 0) {
                 int fNameIndex = random.nextInt(9);
                 int lNameIndex = random.nextInt(9);
@@ -85,7 +86,7 @@ public class DataGenerator {
 
     private String generateInfoEntity() {
         String res = "";
-        for (int i = 1; i <= 1000; i++) {
+        for (int i = 1; i <= TESTDATA * 2; i++) {
             int nameIndex = random.nextInt(9);
             res += "INSERT INTO `INFOENTITY` VALUES (" + i + ",'P','" + fnames[nameIndex] + i + "@gmail.com" + "');\n";
             res += "INSERT INTO `INFOENTITY` VALUES (" + ++i + ",'C','" + companyName[nameIndex] + i + "@" + companyName[nameIndex] + ".dk');\n";
@@ -95,15 +96,20 @@ public class DataGenerator {
 
     private String generateHobbyPerson() {
         String res = "";
-        for (int i = 1; i <= 500; i++) {
-            res += "INSERT INTO `HOBBY_PERSON` VALUES (" + i + "," + i + ");\n";
+        int hobbyCounter = 1;
+        for (int i = 1; i <= TESTDATA * 2; i += 2) {
+            if (hobbyCounter == 0 || hobbyCounter == 21) {
+                hobbyCounter = 1;
+            }
+            res += "INSERT INTO `HOBBY_PERSON` VALUES (" + (hobbyCounter) + "," + i + ");\n";
+            hobbyCounter++;
         }
         return res;
     }
 
     private String generateHobby() {
         String res = "";
-        for (int i = 1; i <= 500; i++) {
+        for (int i = 1; i <= 20; i++) {
             int hobbyNameIndex = random.nextInt(9);
             int hobbyDescIndex = random.nextInt(9);
             res += "INSERT INTO `HOBBY` VALUES (" + i + ",'" + hobbydesc[hobbyDescIndex] + "','" + hobbyName[hobbyNameIndex] + "');\n";
@@ -111,26 +117,10 @@ public class DataGenerator {
         return res;
     }
 
-    private String generateCompany() {
-        String res = "";
-        int cvr = 10000000;
-        int marketValue = 100000000;
-        int empCount = 10;
-        for (int i = 1; i <= 500; i++) {
-            int companyNameIndex = random.nextInt(9);
-            int companyDescIndex = random.nextInt(9);
-            res += "INSERT INTO `COMPANY` VALUES (" + i + "," + cvr + ",'" + companydesc[companyDescIndex] + "'," + marketValue + ",'" + companyName[companyNameIndex] + "'," + empCount + ");\n";
-            cvr += 123456;
-            marketValue += 125000;
-            empCount += 15;
-        }
-        return res;
-    }
-
     private String generateCityInfo() {
         String res = "";
         int zip = 1000;
-        for (int i = 1; i <= 500; i++) {
+        for (int i = 1; i <= 20; i++) {
             int cityIndex = random.nextInt(9);
             res += "INSERT INTO `CITYINFO` VALUES (" + i + ",'" + city[cityIndex] + "'," + zip++ + ");\n";
         }
@@ -139,26 +129,37 @@ public class DataGenerator {
 
     private String generateAddressCityInfo() {
         String res = "";
-        for (int i = 1; i <= 500; i++) {
-            res += "INSERT INTO `ADDRESS_INFOENTITY` VALUES (" + i + "," + i + ");\n";
+        int addressCounter = 1;
+        for (int i = 1; i <= TESTDATA; i++) {
+            if (addressCounter == 0 || addressCounter == 101) {
+                addressCounter = 1;
+            }
+            res += "INSERT INTO `ADDRESS_INFOENTITY` VALUES (" + addressCounter + "," + i + ");\n";
+            addressCounter++;
         }
         return res;
     }
 
     private String generateAddress() {
         String res = "";
-        for (int i = 1; i <= 500; i++) {
+        int cityCounter = 1;
+        for (int i = 1; i <= 100; i++) {
             int streetIndex = random.nextInt(9);
             int infoIndex = random.nextInt(9);
-            res += "INSERT INTO `ADDRESS` VALUES (" + i + ",'" + addressInfo[infoIndex] + "','" + addressStreet[streetIndex] + i + "'," + i + ");\n";
+
+            if (cityCounter == 0 || cityCounter == 21) {
+                cityCounter = 1;
+            }
+            res += "INSERT INTO `ADDRESS` VALUES (" + i + ",'" + addressInfo[infoIndex] + "','" + addressStreet[streetIndex] + i + "'," + cityCounter + ");\n";
+            cityCounter++;
         }
         return res;
     }
 
     public static void main(String[] args) throws KrakException {
         Persistence.createEntityManagerFactory("pu");
-        DataGenerator dg = new DataGenerator();
-        System.out.println(dg.generateData());
+//        DataGenerator dg = new DataGenerator();
+//        System.out.println(dg.generateData());
 //        Facade f = new Facade(Persistence.createEntityManagerFactory("pu"));
 //        Person p = f.findPersonById(1);
 //        System.out.println(p);

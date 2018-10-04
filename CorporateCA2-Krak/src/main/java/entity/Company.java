@@ -33,14 +33,18 @@ public class Company extends InfoEntity {
         this.numEmployees = companyDTO.numEmployees;
         this.marketValue = companyDTO.marketValue;
         this.id = companyDTO.id;
-        for(PhoneDTO phone : companyDTO.phoneList){
-            phones.add(new Phone(phone));
+        if (companyDTO.phoneList != null) {
+            for (PhoneDTO phone : companyDTO.phoneList) {
+                phones.add(new Phone(phone));
+            }
         }
-        for (AddressDTO addressDTO : companyDTO.addressList) {
-            addresses.add(new Address(addressDTO));
+        if (companyDTO.addressList != null) {
+            for (AddressDTO addressDTO : companyDTO.addressList) {
+                addresses.add(new Address(addressDTO));
+            }
         }
     }
-    
+
     public Company(String name, String description, int cvr, int marketValue, String email) {
         super(email);
         this.name = name;

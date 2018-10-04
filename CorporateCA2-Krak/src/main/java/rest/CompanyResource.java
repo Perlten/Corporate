@@ -68,6 +68,7 @@ public class CompanyResource {
     }
 
     @GET
+    @Path("count/{employeeCount}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response companyWithMoreThanXEmployees(@QueryParam("employeeCount") int count) throws KrakException {
         List<CompanyDTO> list = facade.companyWithMoreThanXEmployees(count);
@@ -115,5 +116,17 @@ public class CompanyResource {
         String json = gson.toJson(companyDTO);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
-
+    
+    @GET
+    @Path("name/{companyname}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findCompanyDtoByName(@PathParam ("companyname") String companyname) throws KrakException{
+        
+        List<CompanyDTO> companyDTO = facade.findCompanyDTOByName(companyname);
+        String json = gson.toJson(companyDTO);
+        
+        return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
+    }
+    
+   
 }

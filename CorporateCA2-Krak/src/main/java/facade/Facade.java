@@ -361,6 +361,7 @@ public class Facade implements FacadeInterface {
         return res;
     }
 
+    
     @Override
     public CompanyDTO addCompany(Company company) throws KrakException {
         if (company == null) {
@@ -483,7 +484,6 @@ public class Facade implements FacadeInterface {
             em.close();
         }
         return new HobbyDTO(hobby);
-
     }
 
     @Override

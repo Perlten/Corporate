@@ -7,6 +7,9 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dto.AddressDTO;
+import entity.Address;
+import exception.KrakException;
 import facade.Facade;
 import java.util.List;
 import javax.persistence.Persistence;
@@ -15,6 +18,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -40,4 +44,15 @@ public class AddressResource {
         String json = gson.toJson(list);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
+    
+    @GET
+    @Path("name/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findAddressByStreetName(@PathParam ("name") String name) throws KrakException{
+        AddressDTO a = facade.findAddressByStreetName(name);
+        String json = gson.toJson(a);
+        return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
+    }
+    
+
 }

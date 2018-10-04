@@ -76,6 +76,10 @@ public class HobbyResource {
         String json = gson.toJson(hobbyDTO);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
+    
+    public static void main(String[] args) {
+        Persistence.generateSchema("pu", null);
+    }
 
     
     

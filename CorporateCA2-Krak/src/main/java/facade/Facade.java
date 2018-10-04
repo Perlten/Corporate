@@ -163,7 +163,7 @@ public class Facade implements FacadeInterface {
         }
         EntityManager em = getEm();
         try {
-            TypedQuery<CompanyDTO> tq = em.createQuery("select new dto.CompanyDTO(c) FROM Company as c where c.numEmployees = :employeeCount", CompanyDTO.class);
+            TypedQuery<CompanyDTO> tq = em.createQuery("select new dto.CompanyDTO(c) FROM Company as c where c.numEmployees >= :employeeCount", CompanyDTO.class);
             tq.setParameter("employeeCount", employeeCount);
             return tq.getResultList();
         } finally {
@@ -279,10 +279,10 @@ public class Facade implements FacadeInterface {
             throw new KrakException("Id cant be less then 1", 400);
         }
         EntityManager em = getEm();
-        CompanyDTO res = null;
+        Company res = null;
         try {
             em.getTransaction().begin();
-            res = em.find(CompanyDTO.class, id);
+            res = em.find(Company.class, id);
             em.getTransaction().commit();
         } finally {
             em.close();
@@ -290,7 +290,7 @@ public class Facade implements FacadeInterface {
         if (res == null) {
             throw new KrakException("The company was not found!", 404);
         }
-        return res;
+        return new CompanyDTO(res);
     }
 
     @Override

@@ -8,7 +8,6 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import facade.Facade;
-import facade.FacadeInterface;
 import java.util.List;
 import javax.persistence.Persistence;
 import javax.ws.rs.core.Context;

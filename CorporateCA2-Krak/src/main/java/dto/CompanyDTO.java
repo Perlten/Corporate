@@ -5,7 +5,11 @@
  */
 package dto;
 
+import entity.Address;
 import entity.Company;
+import entity.Phone;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -19,9 +23,17 @@ public class CompanyDTO {
     public int numEmployees;
     public int marketValue;
     public String email;
+    public List<PhoneDTO> phoneList = new ArrayList<>();
+    public List<AddressDTO> addressList = new ArrayList<>();
 
     public CompanyDTO(Company c) {
         this(c.getId(), c.getName(), c.getDescription(), c.getCvr(), c.getNumEmployees(), c.getMarketValue(), c.getEmail());
+        for(Phone phone : c.getPhones()){
+            phoneList.add(new PhoneDTO(phone));
+        }
+        for (Address addresse : c.getAddresses()) {
+            addressList.add(new AddressDTO(addresse));
+        }
     }
 
     public CompanyDTO(String name, String description) {

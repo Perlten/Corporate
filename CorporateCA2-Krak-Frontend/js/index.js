@@ -1,16 +1,27 @@
 var search = document.getElementById("search")
 
 //change this to PROD
-var URLAPI = "https://adamlass.com/Krak/api/"
+var URLAPI = "https://corporategroup.dk/Krak/api/"
 
 var URLPERS = URLAPI + "person/"
+var URLCOMP = URLAPI + "company/"
 
 var results = document.getElementById("results")
 
 function personConverter(data) {
-
     var entity = {
         name: data.firstname + " " + data.lastname,
+        email: data.email,
+        phones: data.phones,
+        img: "pics/img_avatar3.png",
+        addresses: data.addresses
+    }
+    return entity
+}
+
+function companyConverter(data){
+    var entity ={
+        name: data.name,
         email: data.email,
         phones: data.phones,
         img: "pics/img_avatar3.png",
@@ -33,12 +44,11 @@ function entityLoader(data, converter) {
         html += '</p>'
     }
 
-    html += "<p><b>Tel:</b>"
     
     for(phone of e.phones){
-        html += " " + "<a href='tel:+45" + phone.number +  "'>" + phone.number +  "</a>"
+        html += "<b>Tel:</b>" + "<a href='tel:+45" + phone.number +  "'>" + phone.number +  " - </a>" + phone.description + "<br>"
     }
-    html += "</p>"
+
 
     html += '</div>'
     html += "</div>"
@@ -55,8 +65,11 @@ search.addEventListener("keyup", function (event) {
 
     //if is a number
     if (!isNaN(value) && value.length == 8) {
-        //make rest call on phone numbers
+        //make rest call on person phone numbers
         REST(URLPERS + "phone/" + value, entityLoader, personConverter)
+
+        //company
+        REST(URLCOMP + "phone/" + value, entityLoader,companyConverter)
     }
 
 

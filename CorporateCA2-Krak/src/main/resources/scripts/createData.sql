@@ -101,7 +101,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `PHONE` WRITE;
 /*!40000 ALTER TABLE `PHONE` DISABLE KEYS */;
-INSERT INTO `PHONE` VALUES (1,'A very nice phone',20681825,1),(2,'Very corporate, remember encryption!',32622145,2);
+INSERT INTO `PHONE` VALUES (1,'A very nice phone',20681825,1),(2,'Very corporate, remember encryption!',32622145,2),(3,'A very beautyful phone',12345678,1);
 /*!40000 ALTER TABLE `PHONE` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

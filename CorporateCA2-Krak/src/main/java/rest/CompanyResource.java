@@ -68,6 +68,7 @@ public class CompanyResource {
     }
 
     @GET
+    @Path("count/{employeeCount}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response companyWithMoreThanXEmployees(@QueryParam("employeeCount") int count) throws KrakException {
         List<CompanyDTO> list = facade.companyWithMoreThanXEmployees(count);

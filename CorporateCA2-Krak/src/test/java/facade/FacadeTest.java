@@ -12,10 +12,17 @@ import entity.Company;
 import entity.Hobby;
 import entity.Person;
 import exception.KrakException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -31,7 +38,7 @@ public class FacadeTest {
 
     Facade facade;
     Person person1;
-
+    
     public FacadeTest() {
         this.facade = new Facade(Persistence.createEntityManagerFactory("putest"));
     }
@@ -45,20 +52,87 @@ public class FacadeTest {
     public static void tearDownClass() {
     }
 
-    @Before
-    public void setUp() {
-        Persistence.generateSchema("putest", null);
-    }
+    private static Connection testConnection;
+    private static final String USER = "root";
+    private static final String USERPW = "toonage15";
+    private static final String DBNAME = "CorporateCA2-Krak-Test";
+    private static final String HOST = "localhost";
 
     @After
-    public void tearDown() {
+    public void setUp() {
+        
+
+        try {
+            // avoid making a new connection for each test
+            if (testConnection == null) {
+                String url = String.format("jdbc:mysql://%s:3306/%s", HOST, DBNAME);
+                Class.forName("com.mysql.jdbc.Driver");
+
+                testConnection = DriverManager.getConnection(url, USER, USERPW);
+                // Make mappers use test 
+                Connector.setConnection(testConnection);
+            }
+
+          
+            // reset test database
+            try (Statement stmt = testConnection.createStatement()) {
+                
+                stmt.execute("SET FOREIGN_KEY_CHECKS=0;");
+                stmt.execute("drop table if exists PERSON");
+                stmt.execute("create table PERSON like PERSONTEST");
+                stmt.execute("insert into PERSON select * from PERSONTEST");
+                
+                 stmt.execute("drop table if exists PHONE");
+                stmt.execute("create table PHONE like PHONETEST");
+                 stmt.execute("insert into PHONE select * from PHONETEST");
+//                
+                 stmt.execute("drop table if exists INFOENTITY");
+                stmt.execute("create table INFOENTITY like INFOENTITYTEST");
+                stmt.execute("insert into INFOENTITY select * from INFOENTITYTEST");
+                
+                 stmt.execute("drop table if exists HOBBY");
+                stmt.execute("create table HOBBY like HOBBYTEST");
+                stmt.execute("insert into HOBBY select * from HOBBYTEST");
+                
+                 stmt.execute("drop table if exists HOBBY_PERSON");
+                stmt.execute("create table HOBBY_PERSON like HOBBY_PERSONTEST");
+                stmt.execute("insert into HOBBY_PERSON select * from HOBBY_PERSONTEST");
+                
+                 stmt.execute("drop table if exists COMPANY");
+                stmt.execute("create table COMPANY like COMPANYTEST");
+                stmt.execute("insert into COMPANY select * from COMPANYTEST");
+                
+                 stmt.execute("drop table if exists CITYINFO");
+                stmt.execute("create table CITYINFO like CITYINFOTEST");
+                stmt.execute("insert into CITYINFO select * from CITYINFOTEST");
+                
+                 stmt.execute("drop table if exists ADDRESS");
+                stmt.execute("create table ADDRESS like ADDRESSTEST");
+                stmt.execute("insert into ADDRESS select * from ADDRESSTEST");
+                
+                 stmt.execute("drop table if exists ADDRESS_INFOENTITY");
+                stmt.execute("create table ADDRESS_INFOENTITY like ADDRESS_INFOENTITYTEST");
+                stmt.execute("insert into ADDRESS_INFOENTITY select * from ADDRESS_INFOENTITYTEST");
+                
+             
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            testConnection = null;
+            System.out.println("Could not open connection to database: " + ex.getMessage());
+        }
+            System.out.println(facade.getAllPersons().size());
+    }
+
+     @Test
+    public void testSetUpOK() {
+        assertNotNull(testConnection);
     }
 
     /**
      * Test of getInformation method, of class Facade.
      */
     @Test
-    public void testGetInformation() {
+    public void testGetInformation() throws KrakException{
         int expected = 20681825;
         int actual = facade.getInformation(expected).getPhones().get(0).getNumber();
         assertEquals(expected, actual);
@@ -68,7 +142,7 @@ public class FacadeTest {
      * Test of getContactInformation method, of class Facade.
      */
     @Test
-    public void testGetContactInformation() {
+    public void testGetContactInformation() throws KrakException{
         int expected = 20681825;
         int actual = facade.getContactInformation(expected).phoneDTOList.get(0).getNumber();
         assertEquals(expected, actual);
@@ -78,7 +152,7 @@ public class FacadeTest {
      * Test of companyInformationOnPhone method, of class Facade.
      */
     @Test
-    public void testCompanyInformationOnPhone() {
+    public void testCompanyInformationOnPhone() throws KrakException{
         int expected = 2;
         int phone = 32622145;
         int actual = facade.companyInformationOnPhone(phone).id;
@@ -89,7 +163,7 @@ public class FacadeTest {
      * Test of companyInformationOnCVR method, of class Facade.
      */
     @Test
-    public void testCompanyInformationOnCVR() {
+    public void testCompanyInformationOnCVR() throws KrakException{
         int expected = 2;
         int cvr = 39042110;
         int actual = facade.companyInformationOnCVR(cvr).id;
@@ -100,7 +174,7 @@ public class FacadeTest {
      * Test of getPersonsByHobby method, of class Facade.
      */
     @Test
-    public void testGetPersonsByHobby() {
+    public void testGetPersonsByHobby() throws KrakException{
         int expected = 1;
         String hobbyname = "Chess";
         int actual = facade.getPersonsByHobby(hobbyname).get(0).id;
@@ -111,7 +185,7 @@ public class FacadeTest {
      * Test of getPersonsInCity method, of class Facade.
      */
     @Test
-    public void testGetPersonsInCity() {
+    public void testGetPersonsInCity() throws KrakException{
         int expected = 1;
         int zip = 2400;
         int actual = facade.getPersonsInCity(zip).get(0).id;
@@ -122,7 +196,7 @@ public class FacadeTest {
      * Test of countOfPeopleByHobby method, of class Facade.
      */
     @Test
-    public void testCountOfPeopleByHobby() {
+    public void testCountOfPeopleByHobby() throws KrakException{
         int expected = 1;
 
         String hobbyname = "Chess";
@@ -134,7 +208,7 @@ public class FacadeTest {
      * Test of listOfAllZipcodes method, of class Facade.
      */
     @Test
-    public void testListOfAllZipcodes() {
+    public void testListOfAllZipcodes() throws KrakException{
         Integer[] array = {2400, 2900};
         List<Integer> expected = new ArrayList<>(Arrays.asList(array));
         List<Integer> actual = facade.listOfAllZipcodes();
@@ -145,7 +219,7 @@ public class FacadeTest {
      * Test of companyWithMoreThanXEmployees method, of class Facade.
      */
     @Test
-    public void testCompanyWithMoreThanXEmployees() {
+    public void testCompanyWithMoreThanXEmployees() throws KrakException{
         List<CompanyDTO> actual1 = facade.companyWithMoreThanXEmployees(4);
         assertTrue(actual1.size() == 1);
 
@@ -175,11 +249,11 @@ public class FacadeTest {
         facade.findPersonById(2);
     }
 
-    /**
-     * Test of addPerson method, of class Facade.
-     */
+//    /**
+//     * Test of addPerson method, of class Facade.
+//     */
     @Test
-    public void testAddPerson() {
+    public void testAddPerson() throws KrakException{
         Person personCreate = new Person("Kurt", "Wonnegut", "kurt.wonne@gmail.com");
         PersonDTO actual = facade.addPerson(personCreate);
 
@@ -187,19 +261,21 @@ public class FacadeTest {
         assertEquals("Wonnegut", actual.lastname);
         assertEquals("kurt.wonne@gmail.com", actual.email);
     }
-
-    /**
-     * Test of editPerson method, of class Facade.
-     */
+//
+//    /**
+//     * Test of editPerson method, of class Facade.
+//     */
     @Test
     public void testEditPerson() throws KrakException {
         Person person1 = facade.findPersonById(1);
         person1.setLastname("Lars");
-        String actual = facade.editPerson(person1).getLastname();
-        assertEquals(person1.getFirstname(), actual);
+        facade.editPerson(person1);
+        Person person2 = facade.findPersonById(1);
+        String actual = person2.getLastname();
+        assertEquals(person1.getLastname(), actual);
 
     }
-
+//
     /**
      * Test of deletePerson method, of class Facade.
      */
@@ -229,7 +305,7 @@ public class FacadeTest {
      * Test of addCompany method, of class Facade.
      */
     @Test
-    public void testAddCompany() {
+    public void testAddCompany() throws KrakException{
         Company comp1 = new Company("TestCorp", "This is a test corp", 23154124, 1000, "testcorp@gmail.com");
         CompanyDTO comp2 = facade.addCompany(comp1);
         assertEquals(comp1.getName(), comp2.name);
@@ -277,11 +353,10 @@ public class FacadeTest {
      * Test of addHobby method, of class Facade.
      */
     @Test
-    public void testAddHobby() {
+    public void testAddHobby() throws KrakException{
         Hobby hobby1 = new Hobby("Football", "Not American...");
         HobbyDTO hobby2 = facade.addHobby(hobby1);
         assertEquals(hobby1.getName(), hobby2.name);
-        assertEquals(hobby1.getDescription(), hobby2.description);
     }
 
     /**
@@ -309,7 +384,7 @@ public class FacadeTest {
      * Test of getAllPersons method, of class Facade.
      */
     @Test
-    public void testGetAllPersons() {
+    public void testGetAllPersons() throws KrakException{
         int expected = 1;
         int actual = facade.getAllPersons().size();
         assertEquals(expected, actual);
@@ -355,3 +430,13 @@ public class FacadeTest {
     
 
 }
+  /* HOW TO CREATE THE TEST TABLES
+            stmt.execute("create table INFOENTITYTEST like INFOENTITY");
+                stmt.execute("create table HOBBY_PERSONTEST like HOBBY_PERSON");
+                stmt.execute("create table HOBBYTEST like HOBBY");
+                stmt.execute("create table COMPANYTEST like COMPANY");
+                stmt.execute("create table CITYINFOTEST like CITYINFO");
+                stmt.execute("create table ADDRESS_INFOENTITYTEST like ADDRESS_INFOENTITY");
+                stmt.execute("create table ADDRESSTEST like ADDRESS");
+            */
+            

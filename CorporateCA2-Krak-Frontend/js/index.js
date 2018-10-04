@@ -8,11 +8,13 @@ var URLCOMP = URLAPI + "company/"
 
 var results = document.getElementById("results")
 
+var searchlogo = document.getElementById("searchlogo")
+
 var infoEntities = []
 
 
 function personConverter(data) {
-    var rnd = Math.floor((Math.random() * 2) + 1)
+    var rnd = (data.id % 2) + 1
     var entity = {
         id: data.id,
         name: data.firstname + " " + data.lastname,
@@ -59,7 +61,7 @@ function entityLoader(data, converter) {
         
         
         for (phone of e.phones) {
-            html += "<b>Tel: </b>" + "<a href='tel:+45" + phone.number + "'>" + phone.number + "</a> - " + phone.description + "<br>"
+            html += "<b>Tlf: </b>" + "<a href='tel:+45" + phone.number + "'>" + phone.number + "</a> - " + phone.description + "<br>"
         }
 
         html += '</div>'
@@ -85,17 +87,15 @@ function listLoader(data, converter) {
     }
 }
 
-
-
-search.addEventListener("keyup", function (event) {
+function searchRequest(event){
     event.preventDefault()
     results.innerHTML = ""
     var count = document.getElementById("count")
     count.innerHTML = 0
-    var value = this.value
+    var value = document.getElementById("search").value
     console.log(value)
     var found = document.getElementById("found")
-    found.style.display = "none"
+    found.style.display = "block"
     infoEntities = []
 
     //if is a number
@@ -117,6 +117,7 @@ search.addEventListener("keyup", function (event) {
         } else {
             //person
             REST(URLPERS + "hobby/" + value, listLoader, personConverter)
+            REST(URLPERS + "email/" + value, listLoader, personConverter)
             var names = value.split(" ")
             for (name of names) {
                 REST(URLPERS + "firstname/" + name, listLoader, personConverter)
@@ -125,15 +126,18 @@ search.addEventListener("keyup", function (event) {
 
             //company
             REST(URLCOMP + "name/" + value, listLoader, companyConverter)
+            REST(URLCOMP + "email/" + value, listLoader, companyConverter)
+
         }
+    } else{
+        found.style.display = "none"
     }
+}
 
-})
-
-
-
+search.addEventListener("keyup", searchRequest)
 
 
+searchlogo.addEventListener("click", searchRequest)
 
 function REST(URL, callback, converter, options) {
     fetch(URL, options)

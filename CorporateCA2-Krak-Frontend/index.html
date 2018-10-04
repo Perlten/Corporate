@@ -21,19 +21,24 @@
   #body {
     background-color: #c42927
   }
+  .center {
+    display: block;
+    margin: auto;
+   
+}
 </style>
 
 <body id="body">
 
-  <div id="error" style="color:white"></div>
+  <div id="error" style="color:white">Errors will be displayed here</div>
 
 
   <div class="container">
     <div class="row">
 
       <div class="col-sm-12">
-        <div style="margin: 0 auto">
-          <img src="pics/krak-logo.png" alt="krak-logo">
+        <div style="">
+          <img src="pics/krak-logo.png" alt="krak-logo" class="center" style="max-width: 60%">
           
 
         </div>
@@ -42,11 +47,11 @@
         <form>
           <div class="input-group mb-3">
             <input id="search" type="text" value="3262214" class="form-control" placeholder="Søg firma, person, telefon, hobby, postnummer">
-            <div class="input-group-append">
-              <button class="btn btn-dark" type="submit"><img src="pics/search.png"></button>
+            <div class="input-group-append" id="searchlogo">
+              <button class="btn btn-dark" type="button"><img src="pics/search.png"></button>
             </div>
           </div>
-          <div class="text text-white" id="found" style="display:">
+          <div class="text text-white" id="found" style="display: none">
             We found <a id="count">0</a> result(s)
           </div>
         </form>

@@ -340,6 +340,18 @@ public class Facade implements FacadeInterface {
             em.close();
         }
     }
+    
+    public List<CompanyDTO> findCompanyDTOByEmail(String email) throws KrakException {
+        EntityManager em = getEm();
+
+        try {
+            TypedQuery<CompanyDTO> q = em.createQuery("select new dto.CompanyDTO(c) from Company c where c.email = :email", CompanyDTO.class);
+            q.setParameter("email", email);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
 
     @Override
     public Company findCompanyByID(int id) throws KrakException {
@@ -515,6 +527,17 @@ public class Facade implements FacadeInterface {
             TypedQuery<AddressDTO> q = em.createQuery("SELECT new dto.AddressDTO(a) FROM Address a where a.street = :street", AddressDTO.class);
             q.setParameter("street", streetName);
             return q.getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<PersonDTO> getPersonDTOByEmail(String email) {
+         EntityManager em = getEm();
+        try {
+            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) from Person p WHERE p.email = :email", PersonDTO.class);
+            tq.setParameter("email", email);
+            return tq.getResultList();
         } finally {
             em.close();
         }

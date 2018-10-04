@@ -8,12 +8,9 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.CompanyDTO;
-import dto.PersonDTO;
 import entity.Company;
-import entity.Person;
 import exception.KrakException;
 import facade.Facade;
-import facade.FacadeInterface;
 import java.util.List;
 import javax.persistence.Persistence;
 import javax.ws.rs.Consumes;
@@ -123,6 +120,17 @@ public class CompanyResource {
     public Response findCompanyDtoByName(@PathParam ("companyname") String companyname) throws KrakException{
         
         List<CompanyDTO> companyDTO = facade.findCompanyDTOByName(companyname);
+        String json = gson.toJson(companyDTO);
+        
+        return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
+    }
+    
+    @GET
+    @Path("email/{email}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findCompanyDtoByEmail(@PathParam ("email") String email) throws KrakException{
+        
+        List<CompanyDTO> companyDTO = facade.findCompanyDTOByEmail(email);
         String json = gson.toJson(companyDTO);
         
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();

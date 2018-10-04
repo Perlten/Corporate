@@ -117,6 +117,15 @@ public class PersonRest {
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
     
+     @GET
+    @Path("email/{email}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findPersonDTOByEmail(@PathParam("email") String email) throws KrakException{
+        List<PersonDTO> person = facade.getPersonDTOByEmail(email);
+        String json = gson.toJson(person);
+        return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
+    }
+    
     
     
     @POST
@@ -149,6 +158,8 @@ public class PersonRest {
         String json = gson.toJson(personDTO);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
+    
+    
 
     
     

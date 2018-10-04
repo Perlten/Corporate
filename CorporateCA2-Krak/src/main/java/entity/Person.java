@@ -23,8 +23,6 @@ import javax.validation.constraints.NotNull;
 public class Person extends InfoEntity {
 
     
-   
-    
     @ManyToMany(mappedBy = "persons", cascade = CascadeType.MERGE)
     private List<Hobby> hobbies = new ArrayList<>();
 

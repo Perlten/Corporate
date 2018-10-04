@@ -1,6 +1,10 @@
 package testData;
 
+import entity.Person;
+import exception.KrakException;
+import facade.Facade;
 import java.util.Random;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -28,25 +32,25 @@ public class DataGenerator {
     //Person
     private final String[] fnames = {"Jesper", "Lars", "Jeppe", "Nikolai", "Adam", "Karen", "Elisa", "Benjamin", "Lotte"};
     private final String[] lnames = {"Hansen", "Larsen", "Andersen", "Perlt", "Strom", "Rasmussen", "Rusbjerg", "Helsgaun", "Lass"};
-    
+
     //Phone
     private final String[] phoneDesc = {"Good camera", "Long lasting battery", "10/10 quality", "4K videos", "Very fast", "Wireless charging", "Sends secret info to Google", "Beautiful looking", "No buttons.. All touch"};
 
     public String generateData() {
         String res = "";
-        res += generateAddress();
-        res += generateAddressCityInfo();
-        res += generateCityInfo();
-        res += generateCompany();
-        res += generateHobby();
-        res += generateHobbyPerson();
         res += generateInfoEntity();
         res += generatePerson();
+//        res += generateCompany();
+        res += generateCityInfo();
+        res += generateAddress();
+        res += generateAddressCityInfo();
+        res += generateHobby();
+        res += generateHobbyPerson();
         res += generatePhone();
         return res;
     }
-    
-    private String generatePhone(){
+
+    private String generatePhone() {
         String res = "";
         int phone = 12345678;
         for (int i = 1; i <= 500; i++) {
@@ -58,21 +62,33 @@ public class DataGenerator {
     }
 
     private String generatePerson() {
+        int cvr = 10000000;
+        int marketValue = 100000000;
+        int empCount = 10;
         String res = "";
-        for (int i = 1; i <= 500; i++) {
-            int fNameIndex = random.nextInt(9);
-            int lNameIndex = random.nextInt(9);
-            res += "INSERT INTO `PERSON` VALUES (" + i + ",'" + fnames[fNameIndex] + "','" + lnames[lNameIndex] + "');\n";
+        for (int i = 1; i <= 1000; i++) {
+            if (i % 2 != 0) {
+                int fNameIndex = random.nextInt(9);
+                int lNameIndex = random.nextInt(9);
+                res += "INSERT INTO PERSON VALUES (" + i + ",'" + fnames[fNameIndex] + "','" + lnames[lNameIndex] + "');\n";
+            } else {
+                int companyNameIndex = random.nextInt(9);
+                int companyDescIndex = random.nextInt(9);
+                res += "INSERT INTO `COMPANY` VALUES (" + i + "," + cvr + ",'" + companydesc[companyDescIndex] + "'," + marketValue + ",'" + companyName[companyNameIndex] + "'," + empCount + ");\n";
+                cvr += 123456;
+                marketValue += 125000;
+                empCount += 15;
+            }
         }
         return res;
     }
-    
+
     private String generateInfoEntity() {
         String res = "";
-        for (int i = 1; i <= 500; i++) {
+        for (int i = 1; i <= 1000; i++) {
             int nameIndex = random.nextInt(9);
             res += "INSERT INTO `INFOENTITY` VALUES (" + i + ",'P','" + fnames[nameIndex] + i + "@gmail.com" + "');\n";
-            res += "INSERT INTO `INFOENTITY` VALUES (" + i + ",'C','" + companyName[nameIndex] + i + "@" + companyName[nameIndex] + ".dk');\n";
+            res += "INSERT INTO `INFOENTITY` VALUES (" + ++i + ",'C','" + companyName[nameIndex] + i + "@" + companyName[nameIndex] + ".dk');\n";
         }
         return res;
     }
@@ -139,8 +155,12 @@ public class DataGenerator {
         return res;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws KrakException {
+        Persistence.createEntityManagerFactory("pu");
         DataGenerator dg = new DataGenerator();
         System.out.println(dg.generateData());
+//        Facade f = new Facade(Persistence.createEntityManagerFactory("pu"));
+//        Person p = f.findPersonById(1);
+//        System.out.println(p);
     }
 }

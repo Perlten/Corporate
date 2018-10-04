@@ -79,4 +79,5 @@ public class InfoEntity implements Serializable {
     public List<Phone> getPhones() {
         return phones;
     }
+    
 }

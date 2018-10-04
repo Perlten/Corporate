@@ -81,4 +81,7 @@ public class Address implements Serializable {
         return cityInfo;
     }
 
+    public List<InfoEntity> getInfoEntitys() {
+        return infoEntitys;
+    }
 }

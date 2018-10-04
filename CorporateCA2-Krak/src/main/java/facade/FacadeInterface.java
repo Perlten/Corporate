@@ -1,5 +1,6 @@
 package facade;
 
+import dto.AddressDTO;
 import dto.CompanyDTO;
 import dto.HobbyDTO;
 import dto.PersonContactDTO;
@@ -17,6 +18,10 @@ public interface FacadeInterface {
     public PersonDTO getInformation(int phonenumber) throws KrakException;
 
     public PersonContactDTO getContactInformation(int phonenumber) throws KrakException;
+    
+    public List<PersonDTO> getPersonDTOByFirstName(String firstName) throws KrakException;
+    
+    public List<PersonDTO> getPersonDTOByLastName(String lastName) throws KrakException;
 
     public CompanyDTO companyInformationOnPhone(int phonenumber) throws KrakException;
 
@@ -48,6 +53,8 @@ public interface FacadeInterface {
     public Company findCompanyByID(int id) throws KrakException;
 
     public CompanyDTO findCompanyDTOByID(int id) throws KrakException;
+    
+    public List<CompanyDTO> findCompanyDTOByName(String name) throws KrakException;
 
     public CompanyDTO addCompany(Company company) throws KrakException;
 
@@ -65,4 +72,7 @@ public interface FacadeInterface {
     public HobbyDTO editHobby(Hobby hobby) throws KrakException;
 
     public HobbyDTO deleteHobby(int id) throws KrakException;
+    
+    public AddressDTO findAddressByStreetName(String streetName) throws KrakException;
+    
 }

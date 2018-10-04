@@ -12,15 +12,19 @@ var searchlogo = document.getElementById("searchlogo")
 
 var infoEntities = []
 
+var startTime = 0
+
 
 function personConverter(data) {
-    var rnd = (data.id % 2) + 1
+    //get a picture id
+    var picid = (data.id % 2) + 1
+
     var entity = {
         id: data.id,
         name: data.firstname + " " + data.lastname,
         email: data.email,
         phones: data.phones,
-        img: "pics/man" + rnd + ".png",
+        img: "pics/man" + picid + ".png",
         addresses: data.addresses
     }
     return entity
@@ -41,9 +45,18 @@ function companyConverter(data) {
 
 function entityLoader(data, converter) {
     var e = converter(data)
-    if(!(infoEntities.indexOf(e.id) > -1)){
+    //if the id of the data is not already displayed
+    if (!(infoEntities.indexOf(e.id) > -1)) {
+        //counting up
         var count = document.getElementById("count")
         count.innerHTML = parseInt(count.innerHTML) + 1
+
+        //setting time
+        var currentTime = new Date().getTime()
+        var deltaTime = (currentTime - startTime) / 1000
+        document.getElementById("seconds").innerHTML = deltaTime
+
+        //setting html
         var html = '<div class="media border p-3" style="background-color: white">'
         html += '<img src="' + e.img + '" alt="type" class="mr-3 mt-3 rounded-circle" style="width:60px;">'
         html += '<div class="media-body">'
@@ -51,24 +64,25 @@ function entityLoader(data, converter) {
         if (e.cvr) {
             html += "<i>CVR: " + e.cvr + "</i><br>"
         }
-        
+
         for (address of e.addresses) {
             html += '<p href="#" data-toggle="tooltip" title="' + address.additionalInfo + '">'
             html += address.street + "<br>"
             html += address.zip + ", " + address.city
             html += '</p>'
         }
-        
-        
+
+
         for (phone of e.phones) {
             html += "<b>Tlf: </b>" + "<a href='tel:+45" + phone.number + "'>" + phone.number + "</a> - " + phone.description + "<br>"
         }
 
         html += '</div>'
         html += "</div><br>"
-        
+
         results.innerHTML += html
-        
+
+        //adding the id to the displayed list
         infoEntities.push(e.id)
     }
 }
@@ -87,16 +101,27 @@ function listLoader(data, converter) {
     }
 }
 
-function searchRequest(event){
+function searchRequest(event) {
     event.preventDefault()
-    results.innerHTML = ""
+
+    //reset time
+    startTime = new Date().getTime()
+    document.getElementById("seconds").innerHTML = 0
+
+    //reset count
     var count = document.getElementById("count")
     count.innerHTML = 0
-    var value = document.getElementById("search").value
-    console.log(value)
+
+    //showing found
     var found = document.getElementById("found")
     found.style.display = "block"
+
+    //clearing results
+    results.innerHTML = ""
     infoEntities = []
+
+    //getting value
+    var value = document.getElementById("search").value
 
     //if is a number
     if (value.length > 0) {
@@ -129,7 +154,7 @@ function searchRequest(event){
             REST(URLCOMP + "email/" + value, listLoader, companyConverter)
 
         }
-    } else{
+    } else {
         found.style.display = "none"
     }
 }

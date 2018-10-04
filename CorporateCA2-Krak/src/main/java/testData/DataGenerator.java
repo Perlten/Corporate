@@ -44,7 +44,7 @@ public class DataGenerator {
         res += generatePerson();
         res += generateCityInfo();
         res += generateAddress();
-        res += generateAddressCityInfo();
+        res += generateAddressEntityInfo();
         res += generateHobby();
         res += generateHobbyPerson();
         res += generatePhone();
@@ -127,7 +127,7 @@ public class DataGenerator {
         return res;
     }
 
-    private String generateAddressCityInfo() {
+    private String generateAddressEntityInfo() {
         String res = "";
         int addressCounter = 1;
         for (int i = 1; i <= TESTDATA; i++) {

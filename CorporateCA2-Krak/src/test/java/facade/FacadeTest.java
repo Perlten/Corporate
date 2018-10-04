@@ -90,7 +90,7 @@ public class FacadeTest {
                  stmt.execute("drop table if exists PHONE");
                 stmt.execute("create table PHONE like PHONETEST");
                  stmt.execute("insert into PHONE select * from PHONETEST");
-//                
+                 
                  stmt.execute("drop table if exists INFOENTITY");
                 stmt.execute("create table INFOENTITY like INFOENTITYTEST");
                 stmt.execute("insert into INFOENTITY select * from INFOENTITYTEST");

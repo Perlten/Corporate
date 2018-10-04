@@ -98,7 +98,27 @@ public class PersonRest {
         String json = gson.toJson(person);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
+    
+    @GET
+    @Path("firstname/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findPersonDTOByFirstName(@PathParam("name") String name) throws KrakException{
+        List<PersonDTO> person = facade.getPersonDTOByFirstName(name);
+        String json = gson.toJson(person);
+        return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
+    }
 
+     @GET
+    @Path("lastname/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findPersonDTOByLastName(@PathParam("name") String name) throws KrakException{
+        List<PersonDTO> person = facade.getPersonDTOByLastName(name);
+        String json = gson.toJson(person);
+        return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
+    }
+    
+    
+    
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -130,4 +150,6 @@ public class PersonRest {
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
 
+    
+    
 }

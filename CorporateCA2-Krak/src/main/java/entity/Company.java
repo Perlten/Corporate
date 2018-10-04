@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("C")
+
 public class Company extends InfoEntity {
 
     private String name;

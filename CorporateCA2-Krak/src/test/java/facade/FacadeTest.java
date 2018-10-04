@@ -78,6 +78,11 @@ public class FacadeTest {
             try (Statement stmt = testConnection.createStatement()) {
                 
                 stmt.execute("SET FOREIGN_KEY_CHECKS=0;");
+                
+                stmt.execute("drop table if exists HOBBY");
+                stmt.execute("create table HOBBY like HOBBYTEST");
+                stmt.execute("insert into HOBBY select * from HOBBYTEST");
+                
                 stmt.execute("drop table if exists PERSON");
                 stmt.execute("create table PERSON like PERSONTEST");
                 stmt.execute("insert into PERSON select * from PERSONTEST");
@@ -89,11 +94,7 @@ public class FacadeTest {
                  stmt.execute("drop table if exists INFOENTITY");
                 stmt.execute("create table INFOENTITY like INFOENTITYTEST");
                 stmt.execute("insert into INFOENTITY select * from INFOENTITYTEST");
-                
-                 stmt.execute("drop table if exists HOBBY");
-                stmt.execute("create table HOBBY like HOBBYTEST");
-                stmt.execute("insert into HOBBY select * from HOBBYTEST");
-                
+       
                  stmt.execute("drop table if exists HOBBY_PERSON");
                 stmt.execute("create table HOBBY_PERSON like HOBBY_PERSONTEST");
                 stmt.execute("insert into HOBBY_PERSON select * from HOBBY_PERSONTEST");
@@ -113,7 +114,7 @@ public class FacadeTest {
                  stmt.execute("drop table if exists ADDRESS_INFOENTITY");
                 stmt.execute("create table ADDRESS_INFOENTITY like ADDRESS_INFOENTITYTEST");
                 stmt.execute("insert into ADDRESS_INFOENTITY select * from ADDRESS_INFOENTITYTEST");
-                
+                stmt.execute("SET FOREIGN_KEY_CHECKS=1;");
              
             }
         } catch (SQLException | ClassNotFoundException ex) {
@@ -126,7 +127,7 @@ public class FacadeTest {
      @Test
     public void testSetUpOK() {
         assertNotNull(testConnection);
-    }
+    }   
 
     /**
      * Test of getInformation method, of class Facade.
@@ -339,7 +340,7 @@ public class FacadeTest {
      */
     @Test(expected = KrakException.class)
     public void testDeleteCompany() throws KrakException {
-        int id = 2;
+        int id = 1;
         facade.deleteCompany(id);
         facade.findCompanyByID(id);
     }
@@ -350,7 +351,7 @@ public class FacadeTest {
     @Test
     public void testFindHobbyByID() throws KrakException {
         String expected = "Chess";
-        String actual = facade.findCompanyByID(2).getName();
+        String actual = facade.findHobbyByID(1).getName();
         assertEquals(expected, actual);
     }
 
@@ -364,6 +365,16 @@ public class FacadeTest {
         assertEquals(hobby1.getName(), hobby2.name);
     }
 
+    /**
+     * Test of findHobbyDTOByID method, of class Facade.
+     */
+    @Test
+    public void testFindHobbyDTOByID() throws KrakException {
+        String expected = "Chess";
+        String actual = facade.findHobbyDTOByID(1).name;
+        assertEquals(expected, actual);
+    }
+    
     /**
      * Test of editHobby method, of class Facade.
      */
@@ -405,15 +416,7 @@ public class FacadeTest {
         assertEquals(expected, actual);
     }
 
-    /**
-     * Test of findHobbyDTOByID method, of class Facade.
-     */
-    @Test
-    public void testFindHobbyDTOByID() throws KrakException {
-        String expected = "Chess";
-        String actual = facade.findCompanyDTOByID(1).name;
-        assertEquals(expected, actual);
-    }
+    
 
     /**
      * Test of findPersonDTOById method, of class Facade.

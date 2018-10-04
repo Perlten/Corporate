@@ -5,6 +5,7 @@
  */
 package facade;
 
+import dto.AddressDTO;
 import dto.CompanyDTO;
 import dto.HobbyDTO;
 import dto.PersonContactDTO;
@@ -16,6 +17,7 @@ import exception.KrakException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 /**
@@ -69,13 +71,46 @@ public class Facade implements FacadeInterface {
     }
 
     @Override
+    public List<PersonDTO> getPersonDTOByFirstName(String firstName) throws KrakException {
+        EntityManager em = getEm();
+        try {
+            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) from Person p WHERE p.firstname = :firstName", PersonDTO.class);
+            tq.setParameter("firstName", firstName);
+            return tq.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<PersonDTO> getPersonDTOByLastName(String lastName) throws KrakException {
+        EntityManager em = getEm();
+        try {
+            TypedQuery<PersonDTO> tq = em.createQuery("select new dto.PersonDTO(p) from Person p WHERE p.lastname = :lastName", PersonDTO.class);
+            tq.setParameter("lastName", lastName);
+            return tq.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public static void main(String[] args) throws KrakException {
+        Facade facade = new Facade(Persistence.createEntityManagerFactory("pu"));
+        facade.addPerson(new Person("PErlt", "Lass", "email"));
+        List<PersonDTO> personList = facade.getPersonDTOByLastName("Lass");
+        for (PersonDTO personDTO : personList) {
+            System.out.println(personDTO.email);
+        }
+    }
+
+    @Override
     public CompanyDTO companyInformationOnPhone(int phonenumber) throws KrakException {
         EntityManager em = getEm();
         try {
             TypedQuery<CompanyDTO> tq = em.createQuery("select new dto.CompanyDTO(c) From Company as c join c.phones ph where ph.number = :phonenumber", CompanyDTO.class);
             tq.setParameter("phonenumber", phonenumber);
             CompanyDTO company = tq.getSingleResult();
-            if(company == null){
+            if (company == null) {
                 throw new KrakException("Cant find company", 404);
             }
             return company;
@@ -91,7 +126,7 @@ public class Facade implements FacadeInterface {
             TypedQuery<CompanyDTO> tq = em.createQuery("select new dto.CompanyDTO(c) From Company as c where c.cvr = :cvr", CompanyDTO.class);
             tq.setParameter("cvr", cvr);
             CompanyDTO company = tq.getSingleResult();
-            if(company == null){
+            if (company == null) {
                 throw new KrakException("Cant find company", 404);
             }
             return company;
@@ -184,7 +219,7 @@ public class Facade implements FacadeInterface {
 
     @Override
     public PersonDTO findPersonDTOById(int id) throws KrakException {
-        if(id < 1){
+        if (id < 1) {
             throw new KrakException("Id cant be less then 1", 404);
         }
         EntityManager em = getEm();
@@ -204,7 +239,7 @@ public class Facade implements FacadeInterface {
 
     @Override
     public Person findPersonById(int id) throws KrakException {
-        if(id < 1){
+        if (id < 1) {
             throw new KrakException("Id cant be less then 1", 400);
         }
         EntityManager em = getEm();
@@ -222,7 +257,7 @@ public class Facade implements FacadeInterface {
 
     @Override
     public PersonDTO addPerson(Person person) throws KrakException {
-        if(person == null){
+        if (person == null) {
             throw new KrakException("Could not add person", 400);
         }
         EntityManager em = getEm();
@@ -238,7 +273,7 @@ public class Facade implements FacadeInterface {
 
     @Override
     public PersonDTO editPerson(Person person) throws KrakException {
-        if(person == null){
+        if (person == null) {
             throw new KrakException("Could not edit person", 400);
         }
         EntityManager em = getEm();
@@ -254,7 +289,7 @@ public class Facade implements FacadeInterface {
 
     @Override
     public PersonDTO deletePerson(int id) throws KrakException {
-        if(id < 1){
+        if (id < 1) {
             throw new KrakException("Id cant be less then 1", 400);
         }
         EntityManager em = getEm();
@@ -275,7 +310,7 @@ public class Facade implements FacadeInterface {
 
     @Override
     public CompanyDTO findCompanyDTOByID(int id) throws KrakException {
-         if(id < 1){
+        if (id < 1) {
             throw new KrakException("Id cant be less then 1", 400);
         }
         EntityManager em = getEm();
@@ -294,8 +329,21 @@ public class Facade implements FacadeInterface {
     }
 
     @Override
+    public List<CompanyDTO> findCompanyDTOByName(String name) throws KrakException {
+        EntityManager em = getEm();
+
+        try {
+            TypedQuery<CompanyDTO> q = em.createQuery("select new dto.CompanyDTO(c) from Company c where c.name = :name", CompanyDTO.class);
+            q.setParameter("name", name);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
     public Company findCompanyByID(int id) throws KrakException {
-         if(id < 1){
+        if (id < 1) {
             throw new KrakException("Id cant be less then 1", 400);
         }
         EntityManager em = getEm();
@@ -316,7 +364,7 @@ public class Facade implements FacadeInterface {
     
     @Override
     public CompanyDTO addCompany(Company company) throws KrakException {
-        if(company == null){
+        if (company == null) {
             throw new KrakException("Cant add company", 400);
         }
         EntityManager em = getEm();
@@ -332,7 +380,7 @@ public class Facade implements FacadeInterface {
 
     @Override
     public CompanyDTO editCompany(Company company) throws KrakException {
-        if(company == null){
+        if (company == null) {
             throw new KrakException("Cant edit company", 400);
         }
         EntityManager em = getEm();
@@ -348,7 +396,7 @@ public class Facade implements FacadeInterface {
 
     @Override
     public CompanyDTO deleteCompany(int id) throws KrakException {
-         if(id < 1){
+        if (id < 1) {
             throw new KrakException("Id cant be less then 1", 400);
         }
         EntityManager em = getEm();
@@ -368,7 +416,7 @@ public class Facade implements FacadeInterface {
 
     @Override
     public HobbyDTO findHobbyDTOByID(int id) throws KrakException {
-         if(id < 1){
+        if (id < 1) {
             throw new KrakException("Id cant be less then 1", 400);
         }
         EntityManager em = getEm();
@@ -388,7 +436,7 @@ public class Facade implements FacadeInterface {
 
     @Override
     public Hobby findHobbyByID(int id) throws KrakException {
-         if(id < 1){
+        if (id < 1) {
             throw new KrakException("Id cant be less then 1", 400);
         }
         EntityManager em = getEm();
@@ -408,7 +456,7 @@ public class Facade implements FacadeInterface {
 
     @Override
     public HobbyDTO addHobby(Hobby hobby) throws KrakException {
-        if(hobby == null){
+        if (hobby == null) {
             throw new KrakException("Could not add hobby", 400);
         }
         EntityManager em = getEm();
@@ -424,7 +472,7 @@ public class Facade implements FacadeInterface {
 
     @Override
     public HobbyDTO editHobby(Hobby hobby) throws KrakException {
-         if(hobby == null){
+        if (hobby == null) {
             throw new KrakException("Could not edit hobby", 400);
         }
         EntityManager em = getEm();
@@ -440,7 +488,7 @@ public class Facade implements FacadeInterface {
 
     @Override
     public HobbyDTO deleteHobby(int id) throws KrakException {
-         if(id < 1){
+        if (id < 1) {
             throw new KrakException("Id cant be less then 1", 400);
         }
         EntityManager em = getEm();
@@ -458,6 +506,18 @@ public class Facade implements FacadeInterface {
         }
         return new HobbyDTO(res);
 
+    }
+
+    public AddressDTO findAddressByStreetName(String streetName) throws KrakException {
+        EntityManager em = getEm();
+
+        try {
+            TypedQuery<AddressDTO> q = em.createQuery("SELECT new dto.AddressDTO(a) FROM Address a where a.street = :street", AddressDTO.class);
+            q.setParameter("street", streetName);
+            return q.getSingleResult();
+        } finally {
+            em.close();
+        }
     }
 
 }

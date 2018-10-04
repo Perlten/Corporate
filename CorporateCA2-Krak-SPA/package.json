@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bootstrap": "^4.0.0"
+    "bootstrap": "^4.0.0",
+    "is-image": "^2.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

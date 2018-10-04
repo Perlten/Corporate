@@ -15,13 +15,17 @@ import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @DiscriminatorValue("P")
 public class Person extends InfoEntity {
 
-    @ManyToMany(mappedBy = "persons", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    
+   
+    
+    @ManyToMany(mappedBy = "persons", cascade = CascadeType.MERGE)
     private List<Hobby> hobbies = new ArrayList<>();
 
     @NotNull

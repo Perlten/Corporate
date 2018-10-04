@@ -7,7 +7,10 @@ package entity;
 
 import dto.AddressDTO;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,10 +31,11 @@ public class CityInfo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
+    @Column(unique = true)
     private int zip;
     private String city;
     
-    @OneToMany(mappedBy = "cityInfo")
+    @OneToMany(mappedBy = "cityInfo", cascade = CascadeType.ALL)
     private List<Address> addresss;
 
     public CityInfo(){
@@ -46,6 +50,7 @@ public class CityInfo implements Serializable {
     public CityInfo(AddressDTO addressDTO){
         this.zip = addressDTO.zip;
         this.city = addressDTO.city;
+        this.id = addressDTO.cityId;
     }
     
     public Integer getId() {

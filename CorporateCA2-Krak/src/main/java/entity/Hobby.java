@@ -8,6 +8,7 @@ package entity;
 import dto.HobbyDTO;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +28,7 @@ public class Hobby implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToMany
+    @ManyToMany()
     private List<Person> persons;
 
     @NotNull
@@ -48,6 +49,7 @@ public class Hobby implements Serializable {
         this.name = hobbyDTO.name;
         this.description = hobbyDTO.description;
         this.id = hobbyDTO.id;
+      
     }
 
     public Hobby(String name, String description) {
@@ -79,4 +81,9 @@ public class Hobby implements Serializable {
         this.description = description;
     }
 
+    public List<Person> getPersons() {
+        return persons;
+    }
+
+    
 }

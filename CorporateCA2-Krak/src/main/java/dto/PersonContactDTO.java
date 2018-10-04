@@ -7,25 +7,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PersonContactDTO {
-    
+
     public int id;
     public String firstName, lastName, email;
-    
+
     //Address
     public List<AddressDTO> addressDTOList = new ArrayList<>();
     //Phone
     public List<PhoneDTO> phoneDTOList = new ArrayList<>();
-    
-    public PersonContactDTO(Person person){
+
+    public PersonContactDTO(Person person) {
         this.id = person.getId();
         this.firstName = person.getFirstname();
         this.lastName = person.getLastname();
         this.email = person.getEmail();
-        for(Address address : person.getAddresses()){
+        for (Address address : person.getAddresses()) {
             addressDTOList.add(new AddressDTO(address));
         }
-        
-        for(Phone phone : person.getPhones()){
+
+        for (Phone phone : person.getPhones()) {
             phoneDTOList.add(new PhoneDTO(phone));
         }
     }
@@ -45,4 +45,5 @@ public class PersonContactDTO {
     public List<PhoneDTO> getPhoneDTOList() {
         return phoneDTOList;
     }
+
 }

@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,10 +30,10 @@ public class InfoEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
     
-    @ManyToMany(mappedBy = "infoEntitys")
+    @ManyToMany(mappedBy = "infoEntitys", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     protected List<Address> addresses = new ArrayList<>();
     
-    @OneToMany(mappedBy = "infoEntity")
+    @OneToMany(mappedBy = "infoEntity", cascade = {CascadeType.ALL})
     protected List<Phone> phones = new ArrayList<>();
     @NotNull
     protected String email;

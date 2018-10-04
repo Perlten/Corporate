@@ -28,7 +28,7 @@ public class Hobby implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany()
     private List<Person> persons;
 
     @NotNull
@@ -49,6 +49,7 @@ public class Hobby implements Serializable {
         this.name = hobbyDTO.name;
         this.description = hobbyDTO.description;
         this.id = hobbyDTO.id;
+      
     }
 
     public Hobby(String name, String description) {
@@ -80,4 +81,9 @@ public class Hobby implements Serializable {
         this.description = description;
     }
 
+    public List<Person> getPersons() {
+        return persons;
+    }
+
+    
 }

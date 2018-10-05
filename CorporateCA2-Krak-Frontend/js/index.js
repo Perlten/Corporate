@@ -1,7 +1,9 @@
 var search = document.getElementById("search")
 
 //change this to PROD
+
 var URLAPI = "http://localhost:8084/api/"
+
 
 var URLPERS = URLAPI + "person/"
 var URLCOMP = URLAPI + "company/"
@@ -61,7 +63,8 @@ function companyConverter(data) {
         phones: data.phoneList,
         img: "pics/reunion.png",
         addresses: data.addressList,
-        cvr: data.cvr
+        cvr: data.cvr,
+        employeecount: data.numEmployees
     }
     return entity
 }
@@ -112,18 +115,24 @@ function entityLoader(data, converter) {
 
 
         for (phone of e.phones) {
-            html += "<b>Tlf: </b>" + "<a href='tel:+45" + phone.number + "'>" + phone.number + "</a> - " + phone.description + "<br>"
+            html += "<b>Tlf: </b>" + "<a href='tel:+45" + phone.number + "'>" + phone.number + "</a> - " + phone.description + ""
         }
 
         if (e.hobbies) {
+
+            html += "<br>"
+
             if (e.hobbies.length > 0) {
                 console.log(e.hobbies)
                 html += "<b>Hobbies: <b>"
                 for (hobby of e.hobbies) {
-                    html += '<span class="badge badge-secondary">' + hobby.name + '</span> '
+                    html += '<a href="#" data-toggle="tooltip" title="' + hobby.description + '">'
+                    html += '<span class="badge badge-secondary">' + hobby.name + '</span>'
+                    html += '</a>'
                 }
             }
         }
+        html += "<img src='pics/edit.png'style='width: 25px; float: right'>"
         html += "</div>"
 
 
@@ -172,7 +181,7 @@ function searchRequest(event) {
     infoEntities = []
 
     //getting value
-    var value = document.getElementById("search").value
+    var value = "" + document.getElementById("search").value
 
     //if is a number
     if (value.length > 0) {
@@ -191,18 +200,33 @@ function searchRequest(event) {
             REST(URLPERS + value, listLoader, personConverter)
             REST(URLCOMP + value, listLoader, companyConverter)
         } else {
-            //person
-            REST(URLPERS + "hobby/" + value, listLoader, personConverter)
-            REST(URLPERS + "email/" + value, listLoader, personConverter)
-            var names = value.split(" ")
-            for (name of names) {
-                REST(URLPERS + "firstname/" + name, listLoader, personConverter)
-                REST(URLPERS + "lastname/" + name, listLoader, personConverter)
-            }
 
-            //company
-            REST(URLCOMP + "name/" + value, listLoader, companyConverter)
-            REST(URLCOMP + "email/" + value, listLoader, companyConverter)
+            if (value.charAt(0) === ">") {
+                console.log("Over!")
+                var array = value.split("")
+                array.shift()
+                var overValue = array.join("")
+                console.log(overValue)
+                if (overValue.length > 0) {
+                    if (!isNaN(overValue)) {
+                        REST(URLCOMP + "count/" + overValue, listLoader, companyConverter)
+                    }
+                }
+            } else {
+                //person
+                REST(URLPERS + "hobby/" + value, listLoader, personConverter)
+                REST(URLPERS + "email/" + value, listLoader, personConverter)
+                var names = value.split(" ")
+                for (name of names) {
+                    REST(URLPERS + "firstname/" + name, listLoader, personConverter)
+                    REST(URLPERS + "lastname/" + name, listLoader, personConverter)
+                }
+
+                //company
+                REST(URLCOMP + "name/" + value, listLoader, companyConverter)
+                REST(URLCOMP + "email/" + value, listLoader, companyConverter)
+
+            }
 
         }
     } else {

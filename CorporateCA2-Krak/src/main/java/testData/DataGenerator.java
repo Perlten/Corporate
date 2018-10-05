@@ -30,7 +30,7 @@ public class DataGenerator {
     private final String[] hobbydesc = {"Very relaxing", "Exciting and modern", "Possibly expensive", "Timeconsuming", "Exercise for the brain", "Will increase your IQ", "Fun with friends", "Group activities", "Will make your day!"};
 
     //Person
-    private final String[] fnames = {"Jesper", "Lars", "Jeppe", "Nikolai", "Adam", "Karen", "Elisa", "Benjamin", "Lotte"};
+    private final String[] fnames = {"Jesper", "Lars", "Jeppe", "Nikolai", "Adam", "Karen", "Elisa", "Benjamin", "Lotte", "Rasmus"};
     private final String[] lnames = {"Hansen", "Larsen", "Andersen", "Perlt", "Strom", "Rasmussen", "Rusbjerg", "Helsgaun", "Lass"};
 
     //Phone
@@ -41,7 +41,7 @@ public class DataGenerator {
     public String generateData() {
         String res = "";
         res += generateInfoEntity();
-        res += generatePerson();
+        res += generatePersonAndCompany();
         res += generateCityInfo();
         res += generateAddress();
         res += generateAddressEntityInfo();
@@ -54,7 +54,7 @@ public class DataGenerator {
     private String generatePhone() {
         String res = "";
         int phone = 12345678;
-        for (int i = 1; i <= TESTDATA; i++) {
+        for (int i = 1; i <= TESTDATA * 2; i++) {
             int descIndex = random.nextInt(9);
             res += "INSERT INTO `PHONE` VALUES (" + i + ",'" + phoneDesc[descIndex] + "'," + phone + "," + i + ");\n";
             phone += 123456;
@@ -62,14 +62,14 @@ public class DataGenerator {
         return res;
     }
 
-    private String generatePerson() {
+    private String generatePersonAndCompany() {
         int cvr = 10000000;
         int marketValue = 100000000;
         int empCount = 10;
         String res = "";
         for (int i = 1; i <= TESTDATA * 2; i++) {
             if (i % 2 != 0) {
-                int fNameIndex = random.nextInt(9);
+                int fNameIndex = random.nextInt(10);
                 int lNameIndex = random.nextInt(9);
                 res += "INSERT INTO PERSON VALUES (" + i + ",'" + fnames[fNameIndex] + "','" + lnames[lNameIndex] + "');\n";
             } else {
@@ -87,9 +87,11 @@ public class DataGenerator {
     private String generateInfoEntity() {
         String res = "";
         for (int i = 1; i <= TESTDATA * 2; i++) {
-            int nameIndex = random.nextInt(9);
+            
+            int nameIndex = random.nextInt(10);
+            int compIndex = random.nextInt(9);
             res += "INSERT INTO `INFOENTITY` VALUES (" + i + ",'P','" + fnames[nameIndex] + i + "@gmail.com" + "');\n";
-            res += "INSERT INTO `INFOENTITY` VALUES (" + ++i + ",'C','" + companyName[nameIndex] + i + "@" + companyName[nameIndex] + ".dk');\n";
+            res += "INSERT INTO `INFOENTITY` VALUES (" + ++i + ",'C','" + companyName[compIndex] + i + "@" + companyName[compIndex] + ".dk');\n";
         }
         return res;
     }
@@ -130,7 +132,7 @@ public class DataGenerator {
     private String generateAddressEntityInfo() {
         String res = "";
         int addressCounter = 1;
-        for (int i = 1; i <= TESTDATA; i++) {
+        for (int i = 1; i <= TESTDATA * 2; i++) {
             if (addressCounter == 0 || addressCounter == 101) {
                 addressCounter = 1;
             }

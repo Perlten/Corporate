@@ -39,9 +39,7 @@ public class Phone implements Serializable {
         this.id = phoneDTO.id;
     }
     
-    @ManyToOne
-    private InfoEntity infoEntity;
-    
+   
     public Integer getId() {
         return id;
     }

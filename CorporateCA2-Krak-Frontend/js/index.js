@@ -1,7 +1,7 @@
 var search = document.getElementById("search")
 
 //change this to PROD
-var URLAPI = "http://localhost:8084/api/"
+var URLAPI = "http://localhost:8080/api/"
 
 var URLPERS = URLAPI + "person/"
 var URLCOMP = URLAPI + "company/"

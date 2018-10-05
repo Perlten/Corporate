@@ -25,8 +25,10 @@ public class HobbyDTO {
         this.name = hobby.getName();
         this.description = hobby.getDescription();
         this.personIds = new ArrayList<>();
+        if(personIds != null){
         for (Person person : hobby.getPersons()) {
             personIds.add(person.getId());
+        }
         }
     }
 }

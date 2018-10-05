@@ -28,11 +28,15 @@ public class CompanyDTO {
 
     public CompanyDTO(Company c) {
         this(c.getId(), c.getName(), c.getDescription(), c.getCvr(), c.getNumEmployees(), c.getMarketValue(), c.getEmail());
+        if(phoneList != null){
         for(Phone phone : c.getPhones()){
             phoneList.add(new PhoneDTO(phone));
         }
+        }
+        if(addressList != null){
         for (Address addresse : c.getAddresses()) {
             addressList.add(new AddressDTO(addresse));
+        }
         }
     }
 

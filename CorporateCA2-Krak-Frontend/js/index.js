@@ -1,10 +1,11 @@
 var search = document.getElementById("search")
 
 //change this to PROD
-var URLAPI = "http://localhost:8084/CorporateCA2-Krak/api/"
+var URLAPI = "http://localhost:8084/api/"
 
 var URLPERS = URLAPI + "person/"
 var URLCOMP = URLAPI + "company/"
+var URLHOBBY = URLAPI + "hobby/"
 
 var results = document.getElementById("results")
 
@@ -30,6 +31,9 @@ function loadChar() {
 
 this.onload = function () {
     timer = setInterval(loadChar, 40)
+
+    document.getElementById("submitPost").style.display = "none"
+    document.getElementById("selectPost").style.display = "none"
 }
 
 function personConverter(data) {
@@ -62,15 +66,15 @@ function companyConverter(data) {
     return entity
 }
 
-function show(id){
+function show(id) {
     console.log("showing " + id)
     var info = document.getElementById("info_" + id)
     var h4 = document.getElementById("h4_" + id)
-    if(info.style.display == "none"){
+    if (info.style.display == "none") {
         info.style.display = "block"
         h4.style.paddingTop = "0px"
-    } else{
-        info.style.display = "none" 
+    } else {
+        info.style.display = "none"
         h4.style.paddingTop = paddingTop
     }
 }
@@ -92,27 +96,27 @@ function entityLoader(data, converter) {
         var html = '<div onclick="show(' + e.id + ')" class="media border p-3" style="background-color: white">'
         html += '<img src="' + e.img + '" alt="type" class="mr-3 mt-3 rounded-circle" style="width:60px;">'
         html += '<div class="media-body">'
-        
+
         html += "<h4 id='h4_" + e.id + "' style='padding-top: " + paddingTop + "'>" + e.name + " <small><i>" + e.email + "</i></small></h4>"
         html += "<div style='display: none' id='info_" + e.id + "'>"
         if (e.cvr) {
             html += "<i>CVR: " + e.cvr + "</i><br>"
         }
-        
+
         for (address of e.addresses) {
             html += '<p href="#" data-toggle="tooltip" title="' + address.additionalInfo + '">'
             html += address.street + "<br>"
             html += address.zip + ", " + address.city
             html += '</p>'
         }
-        
-        
+
+
         for (phone of e.phones) {
             html += "<b>Tlf: </b>" + "<a href='tel:+45" + phone.number + "'>" + phone.number + "</a> - " + phone.description + "<br>"
         }
-        
+
         if (e.hobbies) {
-            if(e.hobbies.length > 0){
+            if (e.hobbies.length > 0) {
                 console.log(e.hobbies)
                 html += "<b>Hobbies: <b>"
                 for (hobby of e.hobbies) {
@@ -224,7 +228,7 @@ function errorCheck(res) {
     } else {
         Promise.reject({
             httpError: res.status,
-            fullError: res.join()
+            fullError: res.json()
         })
     }
 }
@@ -244,3 +248,183 @@ function errorHandler(err) {
         errordisplay(err)
     }
 }
+
+
+document.addEventListener('modal', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems, options);
+  });
+
+
+//Used to display correctly
+var showPostInfo = false
+document.getElementById("showPostInfo").addEventListener("click", function () {
+    if (!showPostInfo) {
+        postOptionVal = postOption.options[postOption.selectedIndex].value;
+        if (postOptionVal == "person") {
+            document.getElementById("postForm").innerHTML = namePost()
+        }
+        if (postOptionVal == "company") {
+            document.getElementById("postForm").innerHTML = companyPost()
+        } if (postOptionVal == "hobby") {
+            document.getElementById("postForm").innerHTML = hobbyPost()
+        }
+        document.getElementById("submitPost").style.display = "block"
+        document.getElementById("selectPost").style.display = "block"
+        showPostInfo = true
+    } else {
+        document.getElementById("submitPost").style.display = "none"
+        document.getElementById("selectPost").style.display = "none"
+        document.getElementById("postForm").innerHTML = ""
+        showPostInfo = false
+    }
+})
+
+//Select options updating
+var postOption = document.getElementById("selectPost");
+postOption.addEventListener("change", function () {
+    postOptionVal = postOption.options[postOption.selectedIndex].value;
+    if (postOptionVal == "person") {
+        document.getElementById("postForm").innerHTML = namePost()
+    }
+    if (postOptionVal == "company") {
+        document.getElementById("postForm").innerHTML = companyPost()
+    } if (postOptionVal == "hobby") {
+        document.getElementById("postForm").innerHTML = hobbyPost()
+    }
+
+})
+
+
+//Submit the post
+document.getElementById("submitPost").addEventListener("click", function () {
+    if (postOptionVal == "person") {
+        var fname = document.getElementById("fname").value
+        var lname = document.getElementById("lname").value
+        var emailToUse = document.getElementById("email").value
+        if (fname != "" && lname != "" && email != "") {
+
+            var person = {
+                firstname: fname,
+                lastname: lname,
+                email: emailToUse
+            }
+
+            for (let index = 0; index < 1; index++) {
+                REST(URLPERS, function (data) { console.log(data) }, function () { }, makeOptions("POST", person))
+            }
+        } else {
+            //GIVE ERROR!!!
+            console.log("error, give inputs")
+        }
+
+    }
+    if (postOptionVal == "company") {
+        var cname = document.getElementById("cname").value
+        var desc = document.getElementById("desc").value
+        var cvr = document.getElementById("cvr").value
+        var numOfEmp = document.getElementById("empNumber").value
+        var marketValue = document.getElementById("cvr").value
+        var emailToUse = document.getElementById("email").value
+        if (cname != "" && desc != "" && cvr != "" && numOfEmp != "" && marketValue != "" && email != "") {
+
+            var company = {
+                cname: name,
+                description: desc,
+                cvr: cvr,
+                numEmployees: numOfEmp,
+                marketValue: marketValue,
+                email: emailToUse
+            }
+
+            REST(URLCOMP, function (data) { console.log(data) }, function () { }, makeOptions("POST", company))
+
+        } else {
+            //GIVE ERROR!!!
+            console.log("error, give inputs")
+        }
+
+    } if (postOptionVal == "hobby") {
+        var hname = document.getElementById("hname").value
+        var desc = document.getElementById("desc").value
+        if (hname != "" && desc != "") {
+
+            var hobby = {
+                name: hname,
+                description: desc,
+                personIds: [ 1, 41]
+            }
+
+
+
+
+            REST(URLHOBBY, function (data) { console.log(data) }, function () { }, makeOptions("POST", hobby))
+
+        } else {
+            //GIVE ERROR!!!
+            console.log("error, give inputs")
+        }
+    }
+
+
+})
+
+
+//post name inner html
+function namePost() {
+    var res = ""
+    res += "<br>First name:<br>"
+    res += "<input id=\"fname\" class='form-control' type=\"text\"><br>"
+    res += "Last name:<br>"
+    res += "<input id=\"lname\" class='form-control' type=\"text\"><br>"
+    res += "Email:<br>"
+    res += "<input id=\"email\" class='form-control' type=\"text\">"
+    return res;
+}
+
+//post hobbyinnerhtml
+function hobbyPost() {
+    var res = ""
+    res += "<br>Hobby name:<br>"
+    res += "<input id=\"hname\" class='form-control' type=\"text\"><br>"
+    res += "Description:<br>"
+    res += "<input id=\"desc\" class='form-control' type=\"text\"><br>"
+    return res;
+}
+
+//post company inner html
+function companyPost() {
+    var res = ""
+    res += "<br>Company name:<br>"
+    res += "<input id=\"cname\" class='form-control' type=\"text\"><br>"
+    res += "Description name:<br>"
+    res += "<input id=\"desc\" class='form-control' type=\"text\"><br>"
+    res += "CVR:<br>"
+    res += "<input id=\"cvr\" class='form-control' type=\"number\"><br>"
+    res += "Number of Emp.:<br>"
+    res += "<input id=\"empNumber\" class='form-control' type=\"number\"><br>"
+    res += "Market Value:<br>"
+    res += "<input id=\"marketValue\" class='form-control' type=\"number\"><br>"
+    res += "Email:<br>"
+    res += "<input id=\"email\" class='form-control' type=\"text\"><br>"
+    return res;
+}
+
+
+//smart make options func
+function makeOptions(method, body) {
+    var opts = {
+        method: method,
+        headers: {
+            "Content-type": "application/json"
+        }
+    }
+    if (body) {
+        var Jsonbody = JSON.stringify(body)
+        console.log(Jsonbody)
+        opts.body = Jsonbody
+    }
+    return opts;
+}
+
+

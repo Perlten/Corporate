@@ -145,8 +145,8 @@ public class PersonRest {
     public Response editPerson(String json) throws KrakException {
         PersonDTO personDTO = gson.fromJson(json, PersonDTO.class);
         Person person = new Person(personDTO);
-        facade.editPerson(person);
-        String responseJson = gson.toJson(person);
+        personDTO = facade.editPerson(person);
+        String responseJson = gson.toJson(personDTO);
         return Response.ok().entity(responseJson).type(MediaType.APPLICATION_JSON).build();
     }
 

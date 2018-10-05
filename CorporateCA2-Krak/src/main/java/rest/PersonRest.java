@@ -98,36 +98,34 @@ public class PersonRest {
         String json = gson.toJson(person);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
-    
+
     @GET
     @Path("firstname/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findPersonDTOByFirstName(@PathParam("name") String name) throws KrakException{
+    public Response findPersonDTOByFirstName(@PathParam("name") String name) throws KrakException {
         List<PersonDTO> person = facade.getPersonDTOByFirstName(name);
         String json = gson.toJson(person);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
 
-     @GET
+    @GET
     @Path("lastname/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findPersonDTOByLastName(@PathParam("name") String name) throws KrakException{
+    public Response findPersonDTOByLastName(@PathParam("name") String name) throws KrakException {
         List<PersonDTO> person = facade.getPersonDTOByLastName(name);
         String json = gson.toJson(person);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
-    
-     @GET
+
+    @GET
     @Path("email/{email}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findPersonDTOByEmail(@PathParam("email") String email) throws KrakException{
+    public Response findPersonDTOByEmail(@PathParam("email") String email) throws KrakException {
         List<PersonDTO> person = facade.getPersonDTOByEmail(email);
         String json = gson.toJson(person);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
-    
-    
-    
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -150,17 +148,14 @@ public class PersonRest {
         return Response.ok().entity(responseJson).type(MediaType.APPLICATION_JSON).build();
     }
 
-    @DELETE
+//    @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deletePerson(@PathParam("id") int id) throws KrakException {
+    public Response deletePerson(@PathParam("id") int id) throws KrakException, InterruptedException {
+        Thread.sleep(1000);
         PersonDTO personDTO = facade.deletePerson(id);
         String json = gson.toJson(personDTO);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();
     }
-    
-    
 
-    
-    
 }

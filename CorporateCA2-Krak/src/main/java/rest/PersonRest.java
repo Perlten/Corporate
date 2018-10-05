@@ -148,11 +148,11 @@ public class PersonRest {
         return Response.ok().entity(responseJson).type(MediaType.APPLICATION_JSON).build();
     }
 
-//    @DELETE
+    @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deletePerson(@PathParam("id") int id) throws KrakException, InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(4000);
         PersonDTO personDTO = facade.deletePerson(id);
         String json = gson.toJson(personDTO);
         return Response.ok().entity(json).type(MediaType.APPLICATION_JSON).build();

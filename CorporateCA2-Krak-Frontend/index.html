@@ -21,27 +21,56 @@
 
 
 <style>
-  #body { 
+  body { 
     -webkit-user-select: text;
     background-color: rgb(206, 22, 22)
   }
   .center {
     display: block;
     margin: auto;
-   
+  }
+
+@-webkit-keyframes error {
+  from {
+    -webkit-transform: scale(1.0);
+    opacity: 1.0;
+  }
+  50% {
+    -webkit-transform: scale(1.015);
+    opacity: 1.0;
+  }
+  to { 
+    -webkit-transform: scale(1.0);
+    opacity: 1.0;
+  }
 }
+
+
+.error { 
+  opacity: 1; 
+  -webkit-animation-name: error; 
+  -webkit-animation-duration: 4.5s; 
+  -webkit-animation-iteration-count: 10000; 
+}
+
 </style>
 
 <body id="body">
 
   <div id="error" style="color:white; display: none"> </div>
 
+  <div class="row">
+    <div class="col-sm-12">
+      <img src="pics/plus.png" style="margin:auto;display:block;float:right" id="showPostInfo">
 
-  <div class=" container-fluid">
+    </div>
+  </div>
+
+  <div class="container container-fluid">
     <div class="row">
       <div class="col-sm-12" style="max-width: 600px; margin: auto">
 
-        <br><br>
+
         <div>
 
           <img src="pics/krak-logo.png" alt="krak-logo" class="center" style="max-width: 60%; width: 160px">
@@ -67,40 +96,23 @@
 
 
         </div>
-        <div class="media border p-3">
-          <img src="pics/plus.png" style="margin:auto;display:block">
-        </div>
+
       </div>
-
-
-
-
-
-
-
+      <div class="col-sm-12" style="max-width: 600px; margin: auto; padding-top: 200px'"> 
+          <select id="selectPost" class='form-control'>
+            <option value="person" selected="selected">Person</option>
+            <option value="company">Company</option>
+            <option value="hobby">Hobby</option>
+          </select>
+          <div class="card col-sm-12" id="postForm" style="background-color: white;display: none">
+      
+          </div>
+          <button id="submitPost" class="btn btn-success" style="width:100%">Add Object</button>
+        </div>
     </div>
-
-
-    <div style="background-color: white" class="col-sm-12">
-
-
-    </div>
-
   </div>
 
-  <button id="showPostInfo" type="button" class="btn btn-primary">
-    Post MadN3SS!!!
-  </button>
-
-
-  <select id="selectPost" class='form-control'>
-    <option value="person" selected="selected">Person</option>
-    <option value="company">Company</option>
-    <option value="hobby">Hobby</option>
-  </select>
-
-  <form id="postForm"></form>
-  <button id="submitPost" type="button" data-dismiss="modal" class="btn btn-primary">Post!</button>
+  
 
 
 
@@ -108,8 +120,7 @@
 
 
 
-  </div>
- 
+
   <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
   <div>Icons made by <a href="https://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market</a>
 

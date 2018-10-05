@@ -219,7 +219,7 @@ function entityLoader(data, converter) {
         document.getElementById("seconds").innerHTML = deltaTime
 
         //setting html
-        var html = '<div id="ENT' + e.id + '" class="media border p-3 :ENT_' + e.id + '" style="background-color: white">'
+        var html = '<div id="ENT' + e.id + '" class="media border p-3 error :ENT_' + e.id + '" style="background-color: white">'
         html += '<img src="' + e.img + '" alt="type" class="mr-3 mt-3 rounded-circle" style="width:60px;">'
         html += '<div class="media-body contents" id="div_' + e.id + '">'
 
@@ -419,24 +419,28 @@ document.addEventListener('modal', function() {
 
 //Used to display correctly
 var showPostInfo = false
+var postForm = document.getElementById("postForm")
+
 document.getElementById("showPostInfo").addEventListener("click", function () {
     if (!showPostInfo) {
         postOptionVal = postOption.options[postOption.selectedIndex].value;
         if (postOptionVal == "person") {
-            document.getElementById("postForm").innerHTML = namePost()
+            postForm.innerHTML = namePost()
         }
         if (postOptionVal == "company") {
-            document.getElementById("postForm").innerHTML = companyPost()
+            postForm.innerHTML = companyPost()
         } if (postOptionVal == "hobby") {
-            document.getElementById("postForm").innerHTML = hobbyPost()
+            postForm.innerHTML = hobbyPost()
         }
         document.getElementById("submitPost").style.display = "block"
+        document.getElementById("postForm").style.display = "block"
         document.getElementById("selectPost").style.display = "block"
         showPostInfo = true
     } else {
         document.getElementById("submitPost").style.display = "none"
+        document.getElementById("postForm").style.display = "none"
         document.getElementById("selectPost").style.display = "none"
-        document.getElementById("postForm").innerHTML = ""
+        postForm.innerHTML = ""
         showPostInfo = false
     }
 })
@@ -446,12 +450,12 @@ var postOption = document.getElementById("selectPost");
 postOption.addEventListener("change", function () {
     postOptionVal = postOption.options[postOption.selectedIndex].value;
     if (postOptionVal == "person") {
-        document.getElementById("postForm").innerHTML = namePost()
+        postForm.innerHTML = namePost()
     }
     if (postOptionVal == "company") {
-        document.getElementById("postForm").innerHTML = companyPost()
+        postForm.innerHTML = companyPost()
     } if (postOptionVal == "hobby") {
-        document.getElementById("postForm").innerHTML = hobbyPost()
+        postForm.innerHTML = hobbyPost()
     }
 
 })

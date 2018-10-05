@@ -157,9 +157,9 @@ public class DataGenerator {
     }
 
     public static void main(String[] args) throws KrakException {
-        Persistence.createEntityManagerFactory("pu");
-//        DataGenerator dg = new DataGenerator();
-//        System.out.println(dg.generateData());
+//        Persistence.createEntityManagerFactory("pu");
+        DataGenerator dg = new DataGenerator();
+        System.out.println(dg.generatePhone());
 //        Facade f = new Facade(Persistence.createEntityManagerFactory("pu"));
 //        Person p = f.findPersonById(1);
 //        System.out.println(p);

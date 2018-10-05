@@ -54,7 +54,7 @@ public class DataGenerator {
     private String generatePhone() {
         String res = "";
         int phone = 12345678;
-        for (int i = 1; i <= TESTDATA; i++) {
+        for (int i = 1; i <= TESTDATA * 2; i++) {
             int descIndex = random.nextInt(9);
             res += "INSERT INTO `PHONE` VALUES (" + i + ",'" + phoneDesc[descIndex] + "'," + phone + "," + i + ");\n";
             phone += 123456;
@@ -157,9 +157,9 @@ public class DataGenerator {
     }
 
     public static void main(String[] args) throws KrakException {
-        Persistence.createEntityManagerFactory("pu");
-//        DataGenerator dg = new DataGenerator();
-//        System.out.println(dg.generateData());
+//        Persistence.createEntityManagerFactory("pu");
+        DataGenerator dg = new DataGenerator();
+        System.out.println(dg.generateData());
 //        Facade f = new Facade(Persistence.createEntityManagerFactory("pu"));
 //        Person p = f.findPersonById(1);
 //        System.out.println(p);

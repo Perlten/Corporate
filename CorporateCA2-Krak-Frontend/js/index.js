@@ -31,6 +31,8 @@ function loadChar() {
     }
 }
 
+
+
 this.onload = function () {
     timer = setInterval(loadChar, 40)
 
@@ -70,6 +72,7 @@ function companyConverter(data) {
 }
 
 function show(id) {
+
     console.log("showing " + id)
     var info = document.getElementById("info_" + id)
     var h4 = document.getElementById("h4_" + id)
@@ -80,7 +83,127 @@ function show(id) {
         info.style.display = "none"
         h4.style.paddingTop = paddingTop
     }
+
 }
+
+
+function edit(id) {
+    var nonWantedObjs = ["id", "personIds", "cityId"]
+    console.log("edit: " + id)
+    var content = document.getElementById("div_" + id)
+
+    var allEdit = document.getElementsByClassName("edit")
+    var contents = document.getElementsByClassName("contents")
+    for (elm of allEdit) {
+        elm.style.display = "none"
+    }
+    for (elm of contents) {
+        elm.style.display = "block"
+    }
+
+    var edit = document.getElementById("edit_" + id)
+    content.style.display = "none"
+    edit.style.display = "block"
+
+    edit.innerHTML += "<img class=':CLS_" + id + "' src='pics/close.png'style='width: 25px; float: right'>"
+    edit.innerHTML += "<img class=':DEL_" + id + "' src='pics/delete.png'style='width: 25px; float: right'>"
+    edit.innerHTML += "<img class=':SAVE_" + id + "' src='pics/save.png'style='width: 25px; float: right'>"
+
+    edit.innerHTML += "<b>GENERAL INFORMATION</b><br>"
+
+    function pasteEnt(data) {
+        for (obj in data) {
+            var isNotWanted = !(nonWantedObjs.indexOf(obj) > -1)
+            if (typeof data[obj] == "object") {
+                if (isNotWanted) {
+                    var lastchar = obj.charAt(obj.length - 1)
+                    var substr = obj.substring(0, obj.length - 1) + lastchar
+                    edit.innerHTML += "<br><b>" + substr.toLocaleUpperCase() + "#</b><br>"
+                    pasteEnt(data[obj])
+                }
+
+            } else {
+                if (isNotWanted) {
+                    var type = typeof x
+                    if (!isNaN(data[obj])) {
+                        type = "number"
+                    }
+
+                    edit.innerHTML += obj.toUpperCase() + ":<input type='" + type + "' class='form-control editfield' value='" + data[obj] + "' id='edit_" + obj + "_" + id + "' >"
+                }
+            }
+        }
+    }
+
+    REST2(URLPERS + id, pasteEnt)
+    REST2(URLCOMP + id, pasteEnt)
+}
+
+
+
+function deleteEntity(id) {
+    var opts = {
+        method: "DELETE"
+    }
+
+    var element = document.getElementById("ENT" + id)
+    element.innerHTML = "<img src='pics/loader.gif' style='margin: auto; display:block; max-width: 100%'>"
+
+    function whenDeleted() {
+        element.parentNode.removeChild(element)
+    }
+    
+    REST2(URLPERS + id, whenDeleted, opts)
+    REST2(URLCOMP + id, whenDeleted, opts)
+}
+
+function closeEdit(id){
+    var content = document.getElementById("div_" + id)
+    var edit = document.getElementById("edit_" + id)
+    content.style.display = "block"
+    edit.style.display = "none"
+}
+
+function direct(cname) {
+    var array1 = cname.split(":")
+    var array2 = array1[1].split("_")
+    var operation = array2[0]
+    var value = array2[1]
+    console.log(operation + " of " + value)
+
+    switch (operation) {
+        case "ENT":
+            show(value)
+            break;
+        case "EDT":
+            edit(value)
+            break;
+        case "DEL":
+            deleteEntity(value)
+            break;
+        case "CLS":
+            closeEdit(value)
+            break;
+    }
+}
+
+results.addEventListener("click", function (event) {
+    function hasClassName(target) {
+        var cname = "" + target.className
+        if (cname === "") {
+            console.log("The thing was empty")
+            hasClassName(target.parentElement)
+        } else {
+            console.log(cname.indexOf(":") > -1)
+            if (cname.indexOf(":") > -1) {
+                direct(cname)
+            } else {
+                hasClassName(target.parentElement)
+            }
+        }
+    }
+    hasClassName(event.target)
+})
 
 function entityLoader(data, converter) {
     var e = converter(data)
@@ -96,9 +219,9 @@ function entityLoader(data, converter) {
         document.getElementById("seconds").innerHTML = deltaTime
 
         //setting html
-        var html = '<div onclick="show(' + e.id + ')" class="media border p-3" style="background-color: white">'
+        var html = '<div id="ENT' + e.id + '" class="media border p-3 :ENT_' + e.id + '" style="background-color: white">'
         html += '<img src="' + e.img + '" alt="type" class="mr-3 mt-3 rounded-circle" style="width:60px;">'
-        html += '<div class="media-body">'
+        html += '<div class="media-body contents" id="div_' + e.id + '">'
 
         html += "<h4 id='h4_" + e.id + "' style='padding-top: " + paddingTop + "'>" + e.name + " <small><i>" + e.email + "</i></small></h4>"
         html += "<div style='display: none' id='info_" + e.id + "'>"
@@ -106,17 +229,22 @@ function entityLoader(data, converter) {
             html += "<i>CVR: " + e.cvr + "</i><br>"
         }
 
-        for (address of e.addresses) {
-            html += '<p href="#" data-toggle="tooltip" title="' + address.additionalInfo + '">'
-            html += address.street + "<br>"
-            html += address.zip + ", " + address.city
-            html += '</p>'
+        if (e.addresses) {
+            for (address of e.addresses) {
+                html += '<i><p href="#" data-toggle="tooltip" title="' + address.additionalInfo + '">'
+                html += address.street + "<br>"
+                html += address.zip + ", " + address.city
+                html += '</p></i>'
+            }
         }
 
-
-        for (phone of e.phones) {
-            html += "<b>Tlf: </b>" + "<a href='tel:+45" + phone.number + "'>" + phone.number + "</a> - " + phone.description + ""
+        if (e.phones) {
+            html += "<b>Tlf: </b>"
+            for (phone of e.phones) {
+                html += "<a data-toggle='tooltip' title='" + phone.description + "' href='tel:+45" + phone.number + "'>" + phone.number + "</a> "
+            }
         }
+
 
         if (e.hobbies) {
 
@@ -132,11 +260,12 @@ function entityLoader(data, converter) {
                 }
             }
         }
-        html += "<img src='pics/edit.png'style='width: 25px; float: right'>"
+        html += "<img class=':EDT_" + e.id + "' src='pics/edit.png'style='width: 25px; float: right'>"
+
         html += "</div>"
 
-
-
+        html += '</div>'
+        html += '<div class="media-body edit" style="display: none" id="edit_' + e.id + '">'
         html += '</div>'
         html += "</div><br>"
 
@@ -152,6 +281,9 @@ function isArray(what) {
 }
 
 function listLoader(data, converter) {
+    if (infoEntities.length < 1) {
+        results.innerHTML = ""
+    }
     if (isArray(data)) {
         for (element of data) {
             entityLoader(element, converter)
@@ -161,8 +293,8 @@ function listLoader(data, converter) {
     }
 }
 
-function searchRequest(event) {
-    event.preventDefault()
+function searchRequest() {
+
 
     //reset time
     startTime = new Date().getTime()
@@ -177,8 +309,10 @@ function searchRequest(event) {
     found.style.display = "block"
 
     //clearing results
-    results.innerHTML = ""
     infoEntities = []
+
+    //setting loader
+    results.innerHTML = "<img src='pics/loader1.gif' style='margin: auto; display:block; max-width: 30%'>"
 
     //getting value
     var value = "" + document.getElementById("search").value
@@ -230,6 +364,7 @@ function searchRequest(event) {
 
         }
     } else {
+        results.innerHTML = ""
         found.style.display = "none"
     }
 }
@@ -243,6 +378,13 @@ function REST(URL, callback, converter, options) {
     fetch(URL, options)
         .then(errorCheck)
         .then(data => callback(data, converter))
+        .catch(errorHandler)
+}
+
+function REST2(URL, callback, options) {
+    fetch(URL, options)
+        .then(errorCheck)
+        .then(data => callback(data))
         .catch(errorHandler)
 }
 

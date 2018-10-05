@@ -242,25 +242,20 @@ function errorCheck(res) {
     if (res.ok) {
         return res.json()
     } else {
-        Promise.reject({
+       return Promise.reject({
             httpError: res.status,
-            fullError: res.join()
+            fullError: res.json()
         })
     }
 }
 
 function errorHandler(err) {
-    function errordisplay(err) {
-        var error = document.getElementById("error")
-        error.innerText = err
-    }
     if (err.httpError) {
-        err.fullError.then(json => {
-            errordisplay(json.httpError)
+        err.fullError.then(errjson => {
+            document.getElementById("error").innerText = "Error: " + errjson.code + " - " + errjson.message
+            console.log(errjson)
         })
-        console.log("error")
     } else {
         console.log("Network Error " + err)
-        errordisplay(err)
     }
 }

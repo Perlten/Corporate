@@ -105,6 +105,8 @@ function edit(id) {
     content.style.display = "none"
     edit.style.display = "block"
 
+    edit.innerHTML = ""
+
     edit.innerHTML += "<img class=':CLS_" + id + "' src='pics/close.png'style='width: 25px; float: right'>"
     edit.innerHTML += "<img class=':DEL_" + id + "' src='pics/delete.png'style='width: 25px; float: right'>"
     edit.innerHTML += "<img class=':SAVE_" + id + "' src='pics/save.png'style='width: 25px; float: right'>"
